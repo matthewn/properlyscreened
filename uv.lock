@@ -385,6 +385,7 @@ source = { virtual = "." }
 dependencies = [
     { name = "django-extensions" },
     { name = "wagtail" },
+    { name = "wagtailmedia" },
     { name = "werkzeug" },
 ]
 
@@ -392,6 +393,7 @@ dependencies = [
 requires-dist = [
     { name = "django-extensions", specifier = ">=4.1" },
     { name = "wagtail", specifier = ">=7.4.1" },
+    { name = "wagtailmedia", specifier = ">=0.17.2" },
     { name = "werkzeug", specifier = ">=3.1.8" },
 ]
 
@@ -491,6 +493,19 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/81/da/c060bd9ec00335336e04a610cd1d6762e459ade9c4983f7ecddae15af36d/wagtail-7.4.1.tar.gz", hash = "sha256:c7232cbe16afa5842c236e069b2baead3b3e87e9dc90a7493330b54b69e18b83", size = 6944979, upload-time = "2026-05-19T17:26:18.762Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/53/c8/162fff3c5ef9e158127c9f4aa1f0d38edd8d1fa242629ae1d8af3b6306c7/wagtail-7.4.1-py3-none-any.whl", hash = "sha256:a42dc18b0fb818649c0d704ea50a2dea06d1b75614abdf837e90766263645c76", size = 9597601, upload-time = "2026-05-19T17:26:12.53Z" },
+]
+
+[[package]]
+name = "wagtailmedia"
+version = "0.17.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+    { name = "wagtail" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/29/4d/b4a3ef902b25100bd60a02bd13904cc242fba4fcc6c04a5f7af3df2c62a3/wagtailmedia-0.17.2.tar.gz", hash = "sha256:4457e267fc53d8db4c9eb9a48d27f4b47b0823a9f7d0820f2dd98f1ba5d58600", size = 54744, upload-time = "2025-10-18T11:25:12.552Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e6/bc/ae731d7583e2c1c1416c789714ce8703a75a04a0475384a8ec7fb645990b/wagtailmedia-0.17.2-py3-none-any.whl", hash = "sha256:abe10c6341fbc41ebc30d2955fff00abf6160bc473a5f9f1106d69111045c202", size = 89753, upload-time = "2025-10-18T11:25:10.923Z" },
 ]
 
 [[package]]

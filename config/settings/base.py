@@ -24,8 +24,6 @@ BASE_DIR = PROJECT_DIR.parent
 # Application definition
 
 INSTALLED_APPS = [
-    'django_extensions',
-
     'properlyscreened',
     'search',
 
@@ -49,6 +47,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'django_extensions',
+    'wagtailmedia',
+
 ]
 
 MIDDLEWARE = [
@@ -164,6 +166,10 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 10_000
 # Wagtail settings
 
 WAGTAIL_SITE_NAME = 'properlyscreened'
+WAGTAILEMBEDS_RESPONSIVE_HTML = True
+WAGTAILIMAGES_IMAGE_MODEL = 'properlyscreened.CustomImage'
+WAGTAILIMAGES_INDEX_PAGE_SIZE = 300
+WAGTAILMEDIA_MEDIA_MODEL = 'properlyscreened.CustomMedia'
 
 # Search
 # https://docs.wagtail.org/en/stable/topics/search/backends.html

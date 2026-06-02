@@ -7,5 +7,6 @@ requires-python = ">=3.14"
 dependencies = [
     "django-extensions>=4.1",
     "wagtail>=7.4.1",
+    "wagtailmedia>=0.17.2",
     "werkzeug>=3.1.8",
 ]
