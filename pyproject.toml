@@ -1,0 +1,11 @@
+[project]
+name = "properlyscreened"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "django-extensions>=4.1",
+    "wagtail>=7.4.1",
+    "werkzeug>=3.1.8",
+]
