@@ -192,7 +192,7 @@ class Review(BasePage):
             prefix = f'#{critics.rank}'
         else:
             directors = self.film.rankings.filter(list_id=settings.BFI_DIRECTORS_100_LIST_ID).first()
-            prefix = f"#{directors.rank} (Directors' list)" if directors else ''
+            prefix = f"[Directors'] #{directors.rank}" if directors else ''
         directors_short = self.film.director_short_override or _last_names(self.film.director)
         title = f'{self.film.title} ({directors_short}) at {self.theater.name}'
         return f'{prefix} {title}'.strip()
