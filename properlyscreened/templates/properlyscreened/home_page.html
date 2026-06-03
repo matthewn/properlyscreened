@@ -4,8 +4,9 @@
 {% block extra_css %}
 <style>
     .teaser { overflow: hidden; margin-bottom: 1.5em; }
-    .teaser-image { float: left; margin: 0 1em 0.5em 0; }
     .teaser h2 { margin-top: 0; }
+    .teaser-body { overflow: hidden; }
+    .teaser-image { float: left; margin: 0 1em 0.5em 0; }
 </style>
 {% endblock %}
 
@@ -19,12 +20,15 @@
     <section class="review-teasers">
         {% for review in review_teasers %}
         <article class="teaser">
-            {% if review.image %}
-            {% image review.image fill-150x150 class="teaser-image" %}
-            {% endif %}
             <h2><a href="{{ review.url }}">{{ review.display_title }}</a></h2>
-            <p>{{ review.teaser }}{% if review.teaser_truncated %}...{% endif %}
-                <a href="{{ review.url }}">read more</a></p>
+            <p class="date-screened">{{ review.date_screened|date:"F j, Y" }}</p>
+            <div class="teaser-body">
+                {% if review.image %}
+                {% image review.image fill-150x150 class="teaser-image" %}
+                {% endif %}
+                <p>{{ review.teaser }}{% if review.teaser_truncated %}...{% endif %}
+                    <a href="{{ review.url }}">read more</a></p>
+            </div>
         </article>
         {% endfor %}
     </section>

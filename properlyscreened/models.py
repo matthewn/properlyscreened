@@ -56,6 +56,14 @@ def _sort_headers(columns, active, direction, default_key):
     return headers
 
 
+def _last_names(names):
+    """
+    Reduce a comma-separated list of full names to surnames only, e.g.
+    'Buster Keaton, Clyde Bruckman' -> 'Keaton, Bruckman'.
+    """
+    return ', '.join(part.split()[-1] for part in names.split(',') if part.split())
+
+
 def _review_urls_by_film(film_ids):
     """
     Map film id -> URL of a live Review for that film, where one exists.
@@ -184,7 +192,8 @@ class Review(BasePage):
         else:
             directors = self.film.rankings.filter(list_id=settings.BFI_DIRECTORS_100_LIST_ID).first()
             prefix = f"#{directors.rank} (Directors' list)" if directors else ''
-        title = f'{self.film.title} ({self.film.director}) at {self.theater.name}'
+        directors_short = self.film.director_short_override or _last_names(self.film.director)
+        title = f'{self.film.title} ({directors_short}) at {self.theater.name}'
         return f'{prefix} {title}'.strip()
 
 
@@ -365,11 +374,19 @@ class Film(ClusterableModel):
     title = models.CharField(max_length=128)
     year = models.CharField(max_length=16, verbose_name='Year(s)')
     director = models.CharField(max_length=128, verbose_name='Director(s)')
+    director_short_override = models.CharField(
+        max_length=128,
+        blank=True,
+        verbose_name='Shortened director(s) override',
+        help_text='This can be left blank if the director surname comes last '
+                  'in the previous field.',
+    )
 
     panels = [
         FieldPanel('title'),
         FieldPanel('year'),
         FieldPanel('director'),
+        FieldPanel('director_short_override'),
         InlinePanel('rankings', label='Ranking'),
     ]
 
