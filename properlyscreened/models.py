@@ -1,3 +1,4 @@
+import html
 import unicodedata
 from urllib.parse import urlencode
 
@@ -6,6 +7,7 @@ from django.conf import settings
 from django.db import models
 from django.db.models.functions import Lower
 from django.utils import timezone
+from django.utils.html import strip_tags
 
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
@@ -89,6 +91,32 @@ class FlexiblePage(BasePage):
     ]
 
 
+class HomePage(BasePage):
+    body = StreamField(
+        LoadedStreamBlock(),
+        blank=True,
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel('body'),
+    ]
+
+    max_count = 1
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        reviews = list(
+            Review.objects.live()
+            .select_related('image', 'film', 'theater')
+            .prefetch_related('film__rankings')
+            .order_by('-date_screened', '-id')
+        )
+        for review in reviews:
+            review.teaser, review.teaser_truncated = review.excerpt()
+        context['review_teasers'] = reviews
+        return context
+
+
 class Review(BasePage):
     use_manual_page_title = models.BooleanField(
         default=False,
@@ -131,6 +159,17 @@ class Review(BasePage):
         FieldPanel('image'),
         FieldPanel('body'),
     ]
+
+    def excerpt(self, max_words=75):
+        """
+        Return (text, truncated): the first `max_words` of the body's prose,
+        cut on a word boundary, and whether anything was dropped.
+        """
+        prose = ' '.join(
+            str(block.value) for block in self.body if block.block_type == 'rich_text'
+        )
+        words = html.unescape(strip_tags(prose)).split()
+        return ' '.join(words[:max_words]), len(words) > max_words
 
     @property
     def display_title(self):
