@@ -1,4 +1,6 @@
 from wagtail import hooks
+from wagtail.admin.rich_text.converters.html_to_contentstate import InlineStyleElementHandler
+from wagtail.admin.rich_text.editors.draftail.features import InlineStyleFeature
 from wagtail.admin.search import SearchArea
 from wagtail.snippets.models import register_snippet
 from wagtail.snippets.views.snippets import IndexView, SnippetViewSet
@@ -10,9 +12,36 @@ from django.utils.html import format_html
 from .models import Film
 
 
+@hooks.register('register_rich_text_features')
+def register_small_feature(features):
+    """Add a toolbar button that wraps the selection in <small></small>."""
+    feature_name = 'small'
+    type_ = 'SMALL'
+
+    features.register_editor_plugin(
+        'draftail',
+        feature_name,
+        InlineStyleFeature({
+            'type': type_,
+            'icon': 'small',
+            'description': 'Small',
+            'style': {'fontSize': '0.8em'},
+        }),
+    )
+    features.register_converter_rule('contentstate', feature_name, {
+        'from_database_format': {'small': InlineStyleElementHandler(type_)},
+        'to_database_format': {'style_map': {type_: 'small'}},
+    })
+
+
 @hooks.register('insert_global_admin_css')
 def global_admin_css():
     return format_html('<link rel="stylesheet" href="{}">', static('css/wagtail_admin.css'))
+
+
+@hooks.register('register_icons')
+def register_icons(icons):
+    return icons + ['properlyscreened/icons/small.svg']
 
 
 @hooks.register('register_admin_search_area')
