@@ -7,6 +7,8 @@
 <article>
     <h1>{{ page.display_title }}</h1>
 
+    <p class="date-screened">{{ page.date_screened|date:"F j, Y" }}</p>
+
     {% if page.image %}
     {% image page.image width-1200 %}
     {% endif %}
@@ -14,4 +16,4 @@
     {{ page.body }}
 </article>
 {% endblock %}
-{# TODO: flesh out review markup (theater, date_screened, styling) #}
+{# TODO: flesh out review markup (theater, styling) #}
