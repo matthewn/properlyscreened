@@ -7,6 +7,12 @@
 
     {{ page.body }}
 
+    <ul>
+        {% for lst in published_lists %}
+        <li><a href="{{ lst.url }}">{{ lst.short_name }}</a></li>
+        {% endfor %}
+    </ul>
+
     <table border="1">
         <thead>
             <tr>

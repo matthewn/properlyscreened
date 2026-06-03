@@ -271,6 +271,7 @@ class ListIndexPage(BasePage):
 
         lists = list(ListPage.objects.child_of(self))
         columns = [(f'list{lst.id}', lst.short_name) for lst in lists] + self.FILM_COLUMNS
+        context['published_lists'] = [lst for lst in lists if lst.live]
 
         sort = request.GET.get('sort')
         direction = request.GET.get('dir')
