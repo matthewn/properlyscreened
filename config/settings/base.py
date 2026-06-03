@@ -50,6 +50,7 @@ INSTALLED_APPS = [
 
     'django_extensions',
     'wagtailmedia',
+    'wagtailautocomplete',
 
 ]
 
@@ -202,3 +203,11 @@ WAGTAILDOCS_EXTENSIONS = [
 
 # Maximum upload size for documents in bytes.
 WAGTAILDOCS_MAX_UPLOAD_SIZE = 10 * 1024 * 1024  # 10MB
+
+
+# properlyscreened-specific settings
+
+# PKs of the canonical BFI `List` snippets used to compute a Review's
+# `display_title`.
+BFI_250_LIST_ID = 1            # BFI 250 Critics' list
+BFI_DIRECTORS_100_LIST_ID = 2  # BFI Directors' 100 list

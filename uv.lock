@@ -385,6 +385,7 @@ source = { virtual = "." }
 dependencies = [
     { name = "django-extensions" },
     { name = "wagtail" },
+    { name = "wagtail-autocomplete" },
     { name = "wagtailmedia" },
     { name = "werkzeug" },
 ]
@@ -393,6 +394,7 @@ dependencies = [
 requires-dist = [
     { name = "django-extensions", specifier = ">=4.1" },
     { name = "wagtail", specifier = ">=7.4.1" },
+    { name = "wagtail-autocomplete", specifier = ">=0.12.0" },
     { name = "wagtailmedia", specifier = ">=0.17.2" },
     { name = "werkzeug", specifier = ">=3.1.8" },
 ]
@@ -493,6 +495,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/81/da/c060bd9ec00335336e04a610cd1d6762e459ade9c4983f7ecddae15af36d/wagtail-7.4.1.tar.gz", hash = "sha256:c7232cbe16afa5842c236e069b2baead3b3e87e9dc90a7493330b54b69e18b83", size = 6944979, upload-time = "2026-05-19T17:26:18.762Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/53/c8/162fff3c5ef9e158127c9f4aa1f0d38edd8d1fa242629ae1d8af3b6306c7/wagtail-7.4.1-py3-none-any.whl", hash = "sha256:a42dc18b0fb818649c0d704ea50a2dea06d1b75614abdf837e90766263645c76", size = 9597601, upload-time = "2026-05-19T17:26:12.53Z" },
+]
+
+[[package]]
+name = "wagtail-autocomplete"
+version = "0.12.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "wagtail" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/d8/32/839ebf2c6754905efadf27c9bc214bdac47f4a4f0586ccaf04bb1677b6d8/wagtail_autocomplete-0.12.0.tar.gz", hash = "sha256:d1cd315475e8c776c85a75ba5eb76ceb2eb680c18334e7e9424040d7faa9b538", size = 62799, upload-time = "2025-03-03T20:02:29.994Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/38/32/463a123af303046aab96b95eb5edc18578ae4772026c149e7bfe8aea35de/wagtail_autocomplete-0.12.0-py3-none-any.whl", hash = "sha256:17be82c7e2ab2714b01a2a3edbf29f56ba37ad72f2bebcded560c5ead9b482df", size = 66447, upload-time = "2025-03-03T20:02:28.885Z" },
 ]
 
 [[package]]

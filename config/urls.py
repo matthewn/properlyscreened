@@ -6,10 +6,16 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
+from wagtailautocomplete.urls.admin import urlpatterns as autocomplete_admin_urls
+
 from search import views as search_views
 
 urlpatterns = [
     path('dja/', admin.site.urls),
+    # Must precede the `cms/` Wagtail admin include below. The autocomplete
+    # widget derives its API base from `wagtailadmin_home` (here `/cms/`),
+    # so its endpoints have to live under that same prefix.
+    path('cms/autocomplete/', include(autocomplete_admin_urls)),
     path('cms/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
     path('search/', search_views.search, name='search'),
