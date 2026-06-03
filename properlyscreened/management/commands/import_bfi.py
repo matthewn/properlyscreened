@@ -6,7 +6,7 @@ from django.db import transaction
 from properlyscreened.models import Film, List, Ranking
 
 
-# Maps a CSV ranking column to the exact List.list_name_internal it populates.
+# Maps a CSV ranking column to the exact List.short_name it populates.
 COLUMN_TO_LIST_NAME = {
     'BFI_250': 'BFI 250 (2022)',
     'BFI_100': "BFI Directors' 100 (2022)",
@@ -33,7 +33,7 @@ class Command(BaseCommand):
         lists_by_column = {}
         for column, list_name in COLUMN_TO_LIST_NAME.items():
             try:
-                lists_by_column[column] = List.objects.get(list_name_internal=list_name)
+                lists_by_column[column] = List.objects.get(short_name=list_name)
             except List.DoesNotExist:
                 raise CommandError(
                     f'No List found with name {list_name!r} '

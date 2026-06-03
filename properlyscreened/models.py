@@ -151,13 +151,13 @@ class Theater(models.Model):
 
 
 class List(BasePage):
-    list_name_internal = models.CharField(
+    short_name = models.CharField(
         max_length=128,
-        help_text='Internal name for this list (appears only in the admin).',
+        help_text='Short name for the list (appears on Lists index and here in the admin).',
     )
 
     content_panels = Page.content_panels + [
-        FieldPanel('list_name_internal'),
+        FieldPanel('short_name'),
     ]
 
     subpage_types = []
@@ -171,7 +171,7 @@ class List(BasePage):
     ]
 
     def __str__(self):
-        return self.list_name_internal
+        return self.short_name
 
     def get_context(self, request):
         context = super().get_context(request)
