@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block title %}{{ page.display_title }}{% endblock %}
+
+{% block content %}
+<article>
+    <h1>{{ page.display_title }}</h1>
+
+    {% if page.image %}
+    {% image page.image width-1200 %}
+    {% endif %}
+
+    {{ page.body }}
+</article>
+{% endblock %}
+{# TODO: flesh out review markup (theater, date_screened, styling) #}
