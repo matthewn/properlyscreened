@@ -80,7 +80,6 @@ class MediaBlock(AbstractMediaChooserBlock):
 class LoadedStreamBlock(StreamBlock):
     rich_text = RichTextBlock(
         features=[
-            'h2',
             'h3',
             'h4',
             'h5',
@@ -89,13 +88,8 @@ class LoadedStreamBlock(StreamBlock):
             'blockquote',
             'bold',
             'italic',
-            'superscript',
-            'subscript',
             'strikethrough',
-            'kbd',
-            'code',
             'link',
-            'image',
             'document-link',
         ],
     )
