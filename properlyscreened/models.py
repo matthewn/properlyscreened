@@ -16,6 +16,7 @@ from modelcluster.models import ClusterableModel
 from wagtail.admin.panels import FieldPanel, FieldRowPanel, InlinePanel, TitleFieldPanel
 from wagtail.fields import StreamField
 from wagtail.models import Page, RevisionMixin
+from wagtail.search import index
 from wagtail.images import get_image_model_string
 from wagtail.images.models import Image, AbstractImage, AbstractRendition
 from wagtail.snippets.models import register_snippet
@@ -371,7 +372,7 @@ class ListIndexPage(BasePage):
         return context
 
 
-class Film(RevisionMixin, ClusterableModel):
+class Film(index.Indexed, RevisionMixin, ClusterableModel):
     title = models.CharField(max_length=128)
     year = models.CharField(max_length=16, verbose_name='Year(s)')
     director = models.CharField(max_length=128, verbose_name='Director(s)')
@@ -383,6 +384,13 @@ class Film(RevisionMixin, ClusterableModel):
                   'in the previous field.',
     )
     _revisions = GenericRelation('wagtailcore.Revision', related_query_name='film')
+
+    search_fields = [
+        index.SearchField('title'),
+        index.AutocompleteField('title'),
+        index.SearchField('director'),
+        index.SearchField('year'),
+    ]
 
     panels = [
         FieldPanel('title'),
