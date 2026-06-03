@@ -1,3 +1,6 @@
+import unicodedata
+from urllib.parse import urlencode
+
 from django import forms
 from django.conf import settings
 from django.db import models
@@ -19,6 +22,14 @@ from wagtailautocomplete.edit_handlers import AutocompletePanel
 from wagtailmedia.models import Media, AbstractMedia
 
 from .blocks import LoadedStreamBlock
+
+
+def _sort_key(value):
+    """
+    Accent- and case-insensitive sort key, so e.g. 'À' sorts with 'A'.
+    """
+    decomposed = unicodedata.normalize('NFKD', value)
+    return ''.join(c for c in decomposed if not unicodedata.combining(c)).casefold()
 
 
 # ···························································
@@ -151,8 +162,62 @@ class List(BasePage):
 
     subpage_types = []
 
+    # (query value, column heading) for the sortable rankings table.
+    SORT_COLUMNS = [
+        ('rank', 'Ranking'),
+        ('title', 'Title'),
+        ('year', 'Year(s)'),
+        ('director', 'Director(s)'),
+    ]
+
     def __str__(self):
         return self.list_name_internal
+
+    def get_context(self, request):
+        context = super().get_context(request)
+
+        sort = request.GET.get('sort')
+        direction = request.GET.get('dir')
+        if sort not in {key for key, _ in self.SORT_COLUMNS}:
+            sort, direction = 'rank', 'asc'
+        elif direction not in ('asc', 'desc'):
+            direction = 'asc'
+
+        # Sort in Python: SQLite orders text by code point and ignores
+        # non-ASCII case/accents, which buries titles like "À bout de souffle".
+        # The text columns use an accent-/case-folded key (see _sort_key).
+        sort_keys = {
+            'rank': lambda r: r.rank,
+            'title': lambda r: _sort_key(r.film.title),
+            'year': lambda r: r.film.year,
+            'director': lambda r: _sort_key(r.film.director),
+        }
+        rankings = list(self.rankings.select_related('film'))
+        # Ties fall back to rank, except a rank sort falls back to title.
+        # A stable two-pass sort keeps the tie-break ascending even when the
+        # primary column is reversed.
+        tiebreak = (lambda r: _sort_key(r.film.title)) if sort == 'rank' else (lambda r: r.rank)
+        rankings.sort(key=tiebreak)
+        rankings.sort(key=sort_keys[sort], reverse=(direction == 'desc'))
+        context['rankings'] = rankings
+
+        # Header links: clicking the active column reverses it; any other
+        # column sorts ascending. The default (rank asc) gets a clean URL.
+        headers = []
+        for key, label in self.SORT_COLUMNS:
+            active = key == sort
+            next_dir = ('desc' if direction == 'asc' else 'asc') if active else 'asc'
+            if key == 'rank' and next_dir == 'asc':
+                query = ''
+            else:
+                query = '?' + urlencode({'sort': key, 'dir': next_dir})
+            headers.append({
+                'label': label,
+                'query': query,
+                'arrow': ('▲' if direction == 'asc' else '▼') if active else '',
+            })
+        context['sort_headers'] = headers
+        return context
 
 
 class Film(ClusterableModel):

@@ -5,11 +5,25 @@
 <article>
     <h1>{{ page.title }}</h1>
 
-    <ol>
-        {% for ranking in page.rankings.all %}
-        <li value="{{ ranking.rank }}">{{ ranking.film }}</li>
-        {% endfor %}
-    </ol>
+    <table border="1">
+        <thead>
+            <tr>
+                {% for col in sort_headers %}
+                <th><a href="{{ page.url }}{{ col.query }}">{{ col.label }}</a> {{ col.arrow }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for ranking in rankings %}
+            <tr>
+                <td>{{ ranking.rank }}</td>
+                <td>{{ ranking.film.title }}</td>
+                <td>{{ ranking.film.year }}</td>
+                <td>{{ ranking.film.director }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </article>
 {% endblock %}
 {# TODO: flesh out page markup and styling #}
