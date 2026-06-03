@@ -2,18 +2,15 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
 {% block title %}{{ page.display_title }}{% endblock %}
+{% block heading %}{{ page.display_title }}{% endblock %}
 
-{% block content %}
-<article>
-    <h1>{{ page.display_title }}</h1>
+{% block main %}
+<p class="date-screened">{{ page.date_screened|date:"F j, Y" }}</p>
 
-    <p class="date-screened">{{ page.date_screened|date:"F j, Y" }}</p>
+{% if page.image %}
+{% image page.image width-1200 %}
+{% endif %}
 
-    {% if page.image %}
-    {% image page.image width-1200 %}
-    {% endif %}
-
-    {{ page.body }}
-</article>
+{{ page.body }}
 {% endblock %}
 {# TODO: flesh out review markup (theater, styling) #}

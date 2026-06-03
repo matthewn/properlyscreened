@@ -4,10 +4,9 @@
 {% block body_class %}template-searchresults{% endblock %}
 
 {% block title %}Search{% endblock %}
+{% block heading %}Search{% endblock %}
 
-{% block content %}
-<h1>Search</h1>
-
+{% block main %}
 <form action="{% url 'search' %}" method="get">
     <input type="text" name="query"{% if search_query %} value="{{ search_query }}"{% endif %}>
     <input type="submit" value="Search" class="button">

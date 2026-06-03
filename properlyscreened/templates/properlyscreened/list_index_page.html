@@ -1,39 +1,35 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags %}
 
-{% block content %}
-<article>
-    <h1>{{ page.title }}</h1>
+{% block main %}
+{{ page.body }}
 
-    {{ page.body }}
+<ul>
+    {% for lst in published_lists %}
+    <li><a href="{{ lst.url }}">{{ lst.short_name }}</a></li>
+    {% endfor %}
+</ul>
 
-    <ul>
-        {% for lst in published_lists %}
-        <li><a href="{{ lst.url }}">{{ lst.short_name }}</a></li>
-        {% endfor %}
-    </ul>
-
-    <table border="1">
-        <thead>
-            <tr>
-                {% for col in table_headers %}
-                <th><a href="{{ page.url }}{{ col.query }}">{{ col.label }}</a> {{ col.arrow }}</th>
-                {% endfor %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in rows %}
-            <tr>
-                {% for rank in row.ranks %}
-                <td>{{ rank|default_if_none:'' }}</td>
-                {% endfor %}
-                <td>{% if row.review_url %}<a href="{{ row.review_url }}">{{ row.film.title }}</a>{% else %}{{ row.film.title }}{% endif %}</td>
-                <td>{{ row.film.year }}</td>
-                <td>{{ row.film.director }}</td>
-            </tr>
+<table border="1">
+    <thead>
+        <tr>
+            {% for col in table_headers %}
+            <th><a href="{{ page.url }}{{ col.query }}">{{ col.label }}</a> {{ col.arrow }}</th>
             {% endfor %}
-        </tbody>
-    </table>
-</article>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in rows %}
+        <tr>
+            {% for rank in row.ranks %}
+            <td>{{ rank|default_if_none:'' }}</td>
+            {% endfor %}
+            <td>{% if row.review_url %}<a href="{{ row.review_url }}">{{ row.film.title }}</a>{% else %}{{ row.film.title }}{% endif %}</td>
+            <td>{{ row.film.year }}</td>
+            <td>{{ row.film.director }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
 {# TODO: flesh out page markup and styling #}

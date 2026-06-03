@@ -34,7 +34,15 @@
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar 'bottom-left' %}
 
-        {% block content %}{% endblock %}
+        {% block content %}
+        <article>
+            <h1>{% block heading %}{{ page.title }}{% endblock %}</h1>
+
+            {% include "properlyscreened/site_nav.html" %}
+
+            {% block main %}{% endblock %}
+        </article>
+        {% endblock %}
 
         {# Global javascript #}
         <script type="text/javascript" src="{% static 'js/properlyscreened.js' %}"></script>
