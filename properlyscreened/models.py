@@ -4,6 +4,7 @@ from urllib.parse import urlencode
 
 from django import forms
 from django.conf import settings
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models.functions import Lower
 from django.utils import timezone
@@ -14,7 +15,7 @@ from modelcluster.models import ClusterableModel
 
 from wagtail.admin.panels import FieldPanel, FieldRowPanel, InlinePanel, TitleFieldPanel
 from wagtail.fields import StreamField
-from wagtail.models import Page
+from wagtail.models import Page, RevisionMixin
 from wagtail.images import get_image_model_string
 from wagtail.images.models import Image, AbstractImage, AbstractRendition
 from wagtail.snippets.models import register_snippet
@@ -370,7 +371,7 @@ class ListIndexPage(BasePage):
         return context
 
 
-class Film(ClusterableModel):
+class Film(RevisionMixin, ClusterableModel):
     title = models.CharField(max_length=128)
     year = models.CharField(max_length=16, verbose_name='Year(s)')
     director = models.CharField(max_length=128, verbose_name='Director(s)')
@@ -381,6 +382,7 @@ class Film(ClusterableModel):
         help_text='This can be left blank if the director surname comes last '
                   'in the previous field.',
     )
+    _revisions = GenericRelation('wagtailcore.Revision', related_query_name='film')
 
     panels = [
         FieldPanel('title'),
@@ -389,6 +391,10 @@ class Film(ClusterableModel):
         FieldPanel('director_short_override'),
         InlinePanel('rankings', label='Ranking'),
     ]
+
+    @property
+    def revisions(self):
+        return self._revisions
 
     def __str__(self):
         return self.title
