@@ -139,19 +139,20 @@ class Theater(models.Model):
         return self.name
 
 
-@register_snippet
-class List(models.Model):
-    name = models.CharField(max_length=128)
+class List(BasePage):
+    list_name_internal = models.CharField(
+        max_length=128,
+        help_text='Internal name for this list (appears only in the admin).',
+    )
 
-    panels = [
-        FieldPanel('name'),
+    content_panels = Page.content_panels + [
+        FieldPanel('list_name_internal'),
     ]
 
-    class Meta:
-        ordering = ['name']
+    subpage_types = []
 
     def __str__(self):
-        return self.name
+        return self.list_name_internal
 
 
 class Film(ClusterableModel):

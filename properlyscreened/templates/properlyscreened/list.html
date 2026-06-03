@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+<article>
+    <h1>{{ page.title }}</h1>
+
+    <ol>
+        {% for ranking in page.rankings.all %}
+        <li value="{{ ranking.rank }}">{{ ranking.film }}</li>
+        {% endfor %}
+    </ol>
+</article>
+{% endblock %}
+{# TODO: flesh out page markup and styling #}
