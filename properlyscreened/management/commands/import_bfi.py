@@ -3,7 +3,7 @@ import csv
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
-from properlyscreened.models import Film, List, Ranking
+from properlyscreened.models import Film, ListPage, Ranking
 
 
 # Maps a CSV ranking column to the exact List.short_name it populates.
@@ -33,8 +33,8 @@ class Command(BaseCommand):
         lists_by_column = {}
         for column, list_name in COLUMN_TO_LIST_NAME.items():
             try:
-                lists_by_column[column] = List.objects.get(short_name=list_name)
-            except List.DoesNotExist:
+                lists_by_column[column] = ListPage.objects.get(short_name=list_name)
+            except ListPage.DoesNotExist:
                 raise CommandError(
                     f'No List found with name {list_name!r} '
                     f'(needed for the {column!r} column).'

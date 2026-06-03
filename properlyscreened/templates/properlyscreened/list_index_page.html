@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+<article>
+    <h1>{{ page.title }}</h1>
+
+    {{ page.body }}
+
+    <table border="1">
+        <thead>
+            <tr>
+                {% for col in table_headers %}
+                <th><a href="{{ page.url }}{{ col.query }}">{{ col.label }}</a> {{ col.arrow }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+            <tr>
+                {% for rank in row.ranks %}
+                <td>{{ rank|default_if_none:'' }}</td>
+                {% endfor %}
+                <td>{% if row.review_url %}<a href="{{ row.review_url }}">{{ row.film.title }}</a>{% else %}{{ row.film.title }}{% endif %}</td>
+                <td>{{ row.film.year }}</td>
+                <td>{{ row.film.director }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</article>
+{% endblock %}
+{# TODO: flesh out page markup and styling #}

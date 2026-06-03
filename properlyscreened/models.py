@@ -32,6 +32,39 @@ def _sort_key(value):
     return ''.join(c for c in decomposed if not unicodedata.combining(c)).casefold()
 
 
+def _sort_headers(columns, active, direction, default_key):
+    """
+    Build the header link/indicator data for a sortable table. Clicking the
+    active column reverses it; any other column sorts ascending. The default
+    column+ascending gets a clean (query-string-free) URL.
+    """
+    headers = []
+    for key, label in columns:
+        is_active = key == active
+        next_dir = ('desc' if direction == 'asc' else 'asc') if is_active else 'asc'
+        if key == default_key and next_dir == 'asc':
+            query = ''
+        else:
+            query = '?' + urlencode({'sort': key, 'dir': next_dir})
+        headers.append({
+            'label': label,
+            'query': query,
+            'arrow': ('▲' if direction == 'asc' else '▼') if is_active else '',
+        })
+    return headers
+
+
+def _review_urls_by_film(film_ids):
+    """
+    Map film id -> URL of a live Review for that film, where one exists.
+    (If a film has several, the first by tree order wins.)
+    """
+    urls = {}
+    for review in Review.objects.live().filter(film_id__in=film_ids):
+        urls.setdefault(review.film_id, review.url)
+    return urls
+
+
 # ···························································
 # CUSTOM BASE PAGE MODEL AND MISC PAGES/SNIPPETS
 # ···························································
@@ -150,7 +183,7 @@ class Theater(models.Model):
         return self.name
 
 
-class List(BasePage):
+class ListPage(BasePage):
     short_name = models.CharField(
         max_length=128,
         help_text='Short name for the list (appears on Lists index and here in the admin).',
@@ -160,6 +193,7 @@ class List(BasePage):
         FieldPanel('short_name'),
     ]
 
+    parent_page_types = ['properlyscreened.ListIndexPage']
     subpage_types = []
 
     # (query value, column heading) for the sortable rankings table.
@@ -193,6 +227,9 @@ class List(BasePage):
             'director': lambda r: _sort_key(r.film.director),
         }
         rankings = list(self.rankings.select_related('film'))
+        review_urls = _review_urls_by_film([r.film_id for r in rankings])
+        for r in rankings:
+            r.review_url = review_urls.get(r.film_id)
         # Ties fall back to rank, except a rank sort falls back to title.
         # A stable two-pass sort keeps the tie-break ascending even when the
         # primary column is reversed.
@@ -201,22 +238,86 @@ class List(BasePage):
         rankings.sort(key=sort_keys[sort], reverse=(direction == 'desc'))
         context['rankings'] = rankings
 
-        # Header links: clicking the active column reverses it; any other
-        # column sorts ascending. The default (rank asc) gets a clean URL.
-        headers = []
-        for key, label in self.SORT_COLUMNS:
-            active = key == sort
-            next_dir = ('desc' if direction == 'asc' else 'asc') if active else 'asc'
-            if key == 'rank' and next_dir == 'asc':
-                query = ''
-            else:
-                query = '?' + urlencode({'sort': key, 'dir': next_dir})
-            headers.append({
-                'label': label,
-                'query': query,
-                'arrow': ('▲' if direction == 'asc' else '▼') if active else '',
-            })
-        context['sort_headers'] = headers
+        context['sort_headers'] = _sort_headers(self.SORT_COLUMNS, sort, direction, 'rank')
+        return context
+
+
+class ListIndexPage(BasePage):
+    """
+    Parents the List pages and shows every ranked film in one sortable table,
+    with a Ranking column per child List (headed by its short_name).
+    """
+    body = StreamField(
+        LoadedStreamBlock(),
+        blank=True,
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel('body'),
+    ]
+
+    subpage_types = ['properlyscreened.ListPage']
+
+    # The film columns; a Ranking column per child List is prepended at
+    # runtime (keyed 'list<id>'), so the rankings sit to the left.
+    FILM_COLUMNS = [
+        ('title', 'Title'),
+        ('year', 'Year(s)'),
+        ('director', 'Director(s)'),
+    ]
+
+    def get_context(self, request):
+        context = super().get_context(request)
+
+        lists = list(ListPage.objects.child_of(self))
+        columns = [(f'list{lst.id}', lst.short_name) for lst in lists] + self.FILM_COLUMNS
+
+        sort = request.GET.get('sort')
+        direction = request.GET.get('dir')
+        if sort not in {key for key, _ in columns}:
+            sort, direction = 'title', 'asc'
+        elif direction not in ('asc', 'desc'):
+            direction = 'asc'
+
+        # One row per film, holding its rank on each list (absent if unranked).
+        rows_by_film = {}
+        for ranking in Ranking.objects.filter(list__in=lists).select_related('film'):
+            row = rows_by_film.setdefault(
+                ranking.film_id, {'film': ranking.film, 'ranks': {}}
+            )
+            row['ranks'][ranking.list_id] = ranking.rank
+        rows = list(rows_by_film.values())
+
+        # Baseline tie-break: title ascending, preserved by later stable sorts.
+        rows.sort(key=lambda row: _sort_key(row['film'].title))
+        reverse = direction == 'desc'
+        if sort in ('title', 'year', 'director'):
+            text_keys = {
+                'title': lambda row: _sort_key(row['film'].title),
+                'year': lambda row: row['film'].year,
+                'director': lambda row: _sort_key(row['film'].director),
+            }
+            rows.sort(key=text_keys[sort], reverse=reverse)
+        else:
+            # A Ranking column. Unranked films sort to the bottom either way.
+            list_id = int(sort[len('list'):])
+            ranked = [row for row in rows if list_id in row['ranks']]
+            unranked = [row for row in rows if list_id not in row['ranks']]
+            ranked.sort(key=lambda row: row['ranks'][list_id], reverse=reverse)
+            rows = ranked + unranked
+
+        # Flatten each row's ranks into the list-column order for the template.
+        list_ids = [lst.id for lst in lists]
+        review_urls = _review_urls_by_film([row['film'].id for row in rows])
+        context['rows'] = [
+            {
+                'film': row['film'],
+                'ranks': [row['ranks'].get(lid) for lid in list_ids],
+                'review_url': review_urls.get(row['film'].id),
+            }
+            for row in rows
+        ]
+        context['table_headers'] = _sort_headers(columns, sort, direction, 'title')
         return context
 
 
@@ -246,7 +347,7 @@ class Ranking(models.Model):
         related_name='rankings',
     )
     list = models.ForeignKey(
-        List,
+        ListPage,
         on_delete=models.CASCADE,
         related_name='rankings',
     )

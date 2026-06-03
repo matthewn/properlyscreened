@@ -17,7 +17,7 @@
             {% for ranking in rankings %}
             <tr>
                 <td>{{ ranking.rank }}</td>
-                <td>{{ ranking.film.title }}</td>
+                <td>{% if ranking.review_url %}<a href="{{ ranking.review_url }}">{{ ranking.film.title }}</a>{% else %}{{ ranking.film.title }}{% endif %}</td>
                 <td>{{ ranking.film.year }}</td>
                 <td>{{ ranking.film.director }}</td>
             </tr>
