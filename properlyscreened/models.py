@@ -68,11 +68,11 @@ def _last_names(names):
 
 def _review_urls_by_film(film_ids):
     """
-    Map film id -> URL of a live Review for that film, where one exists.
+    Map film id -> URL of a live ReviewPage for that film, where one exists.
     (If a film has several, the first by tree order wins.)
     """
     urls = {}
-    for review in Review.objects.live().filter(film_id__in=film_ids):
+    for review in ReviewPage.objects.live().filter(film_id__in=film_ids):
         urls.setdefault(review.film_id, review.url)
     return urls
 
@@ -116,7 +116,7 @@ class HomePage(BasePage):
     def get_context(self, request):
         context = super().get_context(request)
         reviews = list(
-            Review.objects.live()
+            ReviewPage.objects.live()
             .select_related('image', 'film', 'theater')
             .prefetch_related('film__rankings')
             .order_by('-date_screened', '-id')
@@ -127,7 +127,7 @@ class HomePage(BasePage):
         return context
 
 
-class Review(BasePage):
+class ReviewPage(BasePage):
     use_manual_page_title = models.BooleanField(
         default=False,
     )

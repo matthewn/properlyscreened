@@ -208,6 +208,6 @@ WAGTAILDOCS_MAX_UPLOAD_SIZE = 10 * 1024 * 1024  # 10MB
 # properlyscreened-specific settings
 
 # Page IDs of the current/active BFI 'List' pages used
-# to compute a Review's display_title`.
+# to compute a ReviewPage's display_title`.
 BFI_250_LIST_ID = 39            # BFI 250 Critics' list
 BFI_DIRECTORS_100_LIST_ID = 40  # BFI Directors' 100 list

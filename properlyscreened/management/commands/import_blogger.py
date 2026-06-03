@@ -1,7 +1,7 @@
 """
 Import Reviews from a Google Takeout dump of the old Blogger blog.
 
-Reads the Atom feed of posts and, for every LIVE post, creates a Review whose
+Reads the Atom feed of posts and, for every LIVE post, creates a ReviewPage whose
 title is the film's name, links the (pre-existing) Film and a get-or-created
 Theater, sets the screening date from the post date, attaches the post's hero
 image from the Takeout photo album, and stores a cleaned-up version of the
@@ -31,7 +31,7 @@ from properlyscreened.models import (
     CustomImage,
     Film,
     FlexiblePage,
-    Review,
+    ReviewPage,
     Theater,
 )
 
@@ -174,7 +174,7 @@ class Command(BaseCommand):
 
         image = self._resolve_image(content, raw_title, film.title, stats)
 
-        review = Review(
+        review = ReviewPage(
             title=film.title,
             slug=slug,
             use_manual_page_title=False,
