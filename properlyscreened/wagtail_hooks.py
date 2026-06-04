@@ -39,6 +39,11 @@ def global_admin_css():
     return format_html('<link rel="stylesheet" href="{}">', static('css/wagtail_admin.css'))
 
 
+@hooks.register('insert_global_admin_js')
+def global_admin_js():
+    return format_html('<script src="{}"></script>', static('js/review_film_autofill.js'))
+
+
 @hooks.register('register_icons')
 def register_icons(icons):
     return icons + ['properlyscreened/icons/small.svg']
