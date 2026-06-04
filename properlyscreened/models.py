@@ -7,6 +7,7 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models.functions import Lower
+from django.shortcuts import redirect
 from django.utils import timezone
 from django.utils.html import format_html, mark_safe, strip_tags
 from django.utils.text import Truncator
@@ -166,7 +167,20 @@ class HomePage(BasePage):
         return context
 
 
+class ReviewIndexPage(BasePage):
+    """Container that parents the ReviewPages; not meant to be viewed."""
+    parent_page_types = ['properlyscreened.HomePage']
+    subpage_types = ['properlyscreened.ReviewPage']
+    max_count = 1
+
+    def serve(self, request, *args, **kwargs):
+        return redirect('/')
+
+
 class ReviewPage(BasePage):
+    parent_page_types = ['properlyscreened.ReviewIndexPage']
+    subpage_types = []
+
     use_manual_page_title = models.BooleanField(
         default=False,
     )
