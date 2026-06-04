@@ -1,22 +1,25 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags wagtailimages_tags %}
 
-{% block title %}{{ page.display_title }}{% endblock %}
-{% block heading %}{{ page.display_title }}{% endblock %}
+{% block title %}{{ page.film.title }}{% endblock %}
+{% block heading %}<h2 class="review-display-title">{{ page.display_title }}</h2>{% endblock %}
 
 {% block main %}
+
 <p class="date-screened">{{ page.date_screened|date:"F j, Y" }}</p>
 
 {% if page.image %}
-{% image page.image width-1200 %}
+<div id="film-image">
+    {% image page.image width-1200 %}
+</div>
 {% endif %}
 
 {{ page.body }}
 
 {% if page.letterboxd_url %}
 <p class="letterboxd-link">
-  <a href="{{ page.letterboxd_url }}" rel="noopener">{{ page.film.title }} on Letterboxd</a>
+  <a href="{{ page.letterboxd_url }}">{{ page.film.title }} on Letterboxd</a>
 </p>
 {% endif %}
+
 {% endblock %}
-{# TODO: flesh out review markup (theater, styling) #}

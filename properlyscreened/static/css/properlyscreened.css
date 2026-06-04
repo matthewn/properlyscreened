@@ -59,10 +59,6 @@ article.teaser {
 .letterboxd-link {
   font-weight: 600;
   margin-top: 2rem;
-
-  a {
-    color: var(--accent-color);
-  }
 }
 
 body > footer {
@@ -70,6 +66,7 @@ body > footer {
 }
 
 a {
+  color: var(--accent-color);
   text-decoration: none;
 }
 a:hover {
@@ -93,13 +90,6 @@ h2 {
   margin-bottom: 1.5rem;
 }
 
-#home-body {
-  color: var(--header-fg-color);
-  font-size: 1.5rem;
-  margin: 2rem auto 3rem;
-  text-align: center;
-}
-
 .hero-image {
     height: auto;
     left: 0;
@@ -110,12 +100,52 @@ h2 {
 }
 
 body.homepage {
+  #home-body {
+    color: var(--header-fg-color);
+    font-size: 1.5rem;
+    margin: 2rem auto 3rem;
+    text-align: center;
+  }
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: .5rem;
+  }
+  .dirlist {
+    display: block;
+    margin-bottom: .25rem;
+  }
+  .ranking {
+    font-size: 3rem;
+    font-weight: 800;
+  }
+  .title {
+    font-size: 2.25rem;
+    font-style: italic;
+    font-weight: 600;
+    padding: 0 .35rem;
+  }
+  .director {
+    font-size: 1.75rem;
+  }
+  .theater {
+    font-size: 1.75rem;
+    font-variant: small-caps;
+  }
+  .date-screened {
+    font-weight: 600;
+  }
   .teaser {
     margin-bottom: 1.5rem;
   }
   .teaser-image {
     float: left;
     margin: 0 1rem .5rem 0;
+  }
+  .readmore {
+    font-weight: 500;
+    text-transform: uppercase;
   }
 }
 
@@ -139,7 +169,7 @@ body.listpage {
 body.listindexpage,
 body.listpage {
   h2 {
-    margin: 1.5rem auto 2rem;
+    margin: 1rem auto 2rem;
     text-align: center;
   }
   table {
@@ -190,3 +220,50 @@ body.listpage {
   }
 }
 
+body.reviewpage {
+  .review-display-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: .5rem;
+    .ranking {
+      font-size: 3.5rem;
+      font-weight: 800;
+    }
+    .title {
+      font-size: 3rem;
+      font-style: italic;
+      font-weight: 600;
+      padding: 0 .5rem;
+    }
+    .dirlist {
+      display: block;
+      margin-bottom: .25rem;
+    }
+    .director::after {
+      /* line break */
+      content: "\A";
+      white-space: pre;
+    }
+    .director {
+      font-size: 2rem;
+      font-weight: 600;
+    }
+    .theater {
+      font-size: 2rem;
+      font-weight: 600;
+      font-variant: small-caps;
+    }
+  }
+
+  .date-screened {
+    font-weight: 600;
+  }
+
+  #film-image {
+    margin: 2.5rem auto;
+    img {
+      margin: 0 auto;
+    }
+  }
+}

@@ -17,8 +17,10 @@
             {% if review.image %}
             {% image review.image fill-150x150 class="teaser-image" %}
             {% endif %}
-            <p>{{ review.teaser }}{% if review.teaser_truncated %}...{% endif %}
-                <a href="{{ review.url }}">read more</a></p>
+            <p>
+                {{ review.teaser }}{% if review.teaser_truncated %}...{% endif %}
+                <span class="readmore"><a href="{{ review.url }}">read&nbsp;more</a></span>
+            </p>
         </div>
     </article>
     {% endfor %}

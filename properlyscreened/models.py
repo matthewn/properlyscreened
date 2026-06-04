@@ -1,4 +1,4 @@
-import html
+import re
 import unicodedata
 from urllib.parse import urlencode
 
@@ -8,7 +8,10 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models.functions import Lower
 from django.utils import timezone
-from django.utils.html import strip_tags
+from django.utils.html import format_html, mark_safe, strip_tags
+from django.utils.text import Truncator
+
+from bs4 import BeautifulSoup
 
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
@@ -64,6 +67,20 @@ def _last_names(names):
     'Buster Keaton, Clyde Bruckman' -> 'Keaton, Bruckman'.
     """
     return ', '.join(part.split()[-1] for part in names.split(',') if part.split())
+
+
+# Block-level tags whose boundaries collapse to spaces in teasers; inline tags
+# (em, strong, a, ...) are left in place so styling flows through.
+_TEASER_BLOCK_TAGS = ['p', 'blockquote', 'ul', 'ol', 'li', 'h2', 'h3', 'h4', 'h5', 'br']
+
+
+def _flow_inline(markup):
+    """Flatten block structure to single spaces, keeping inline styling."""
+    soup = BeautifulSoup(markup, 'html.parser')
+    for tag in soup.find_all(_TEASER_BLOCK_TAGS):
+        tag.insert_after(' ')
+        tag.unwrap()
+    return re.sub(r'\s+', ' ', str(soup)).strip()
 
 
 def _review_urls_by_film(film_ids):
@@ -197,16 +214,18 @@ class ReviewPage(BasePage):
         FieldPanel('body'),
     ]
 
-    def excerpt(self, max_words=75):
+    def excerpt(self, max_words=100):
         """
-        Return (text, truncated): the first `max_words` of the body's prose,
-        cut on a word boundary, and whether anything was dropped.
+        Return (html, truncated): the body's prose cut to `max_words` on a word
+        boundary, with paragraph breaks flattened to spaces but inline styling
+        (italics, links, ...) preserved.
         """
         prose = ' '.join(
             str(block.value) for block in self.body if block.block_type == 'rich_text'
         )
-        words = html.unescape(strip_tags(prose)).split()
-        return ' '.join(words[:max_words]), len(words) > max_words
+        flowed = _flow_inline(prose)
+        truncated = len(strip_tags(flowed).split()) > max_words
+        return mark_safe(Truncator(flowed).words(max_words, truncate='', html=True)), truncated
 
     @property
     def display_title(self):
@@ -217,13 +236,18 @@ class ReviewPage(BasePage):
             return self.title
         critics = self.film.rankings.filter(list_id=settings.BFI_250_LIST_ID).first()
         if critics:
-            prefix = f'#{critics.rank}'
+            prefix = format_html('<span class="ranking">#{}</span> ', critics.rank)
         else:
             directors = self.film.rankings.filter(list_id=settings.BFI_DIRECTORS_100_LIST_ID).first()
-            prefix = f"[Directors'] #{directors.rank}" if directors else ''
+            prefix = format_html('<span class="dirlist">[Directors\' list]</span><span class="ranking">#{}</span> ', directors.rank) if directors else ''
         directors_short = self.film.director_short_override or _last_names(self.film.director)
-        title = f'{self.film.title} ({directors_short}) at {self.theater.name}'
-        return f'{prefix} {title}'.strip()
+        joiner = 'at the' if self.theater.name.endswith(('Theater', 'Theatre')) else 'at'
+        return format_html(
+            '{}<span class="title">{}</span>'
+            ' <span class="director">({})</span> '
+            '{} <span class="theater">{}</span>',
+            prefix, self.film.title, directors_short, joiner, self.theater.name,
+        )
 
 
 @register_snippet
