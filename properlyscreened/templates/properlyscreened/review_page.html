@@ -12,5 +12,11 @@
 {% endif %}
 
 {{ page.body }}
+
+{% if page.letterboxd_url %}
+<p class="letterboxd-link">
+  <a href="{{ page.letterboxd_url }}" rel="noopener">{{ page.film.title }} on Letterboxd</a>
+</p>
+{% endif %}
 {% endblock %}
 {# TODO: flesh out review markup (theater, styling) #}

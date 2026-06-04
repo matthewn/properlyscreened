@@ -5,6 +5,12 @@ from wagtail.models import Site
 register = template.Library()
 
 
+@register.filter
+def page_type(page):
+    # Lowercase model name of the page's specific type, e.g. 'listpage'.
+    return page.specific_class._meta.model_name
+
+
 @register.simple_tag(takes_context=True)
 def get_site_root(context):
     # Returns a core.Page (not the specific model) — the site's root page.

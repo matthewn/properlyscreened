@@ -1,4 +1,4 @@
-{% load static wagtailcore_tags wagtailuserbar navigation_tags %}
+{% load static wagtailcore_tags wagtailimages_tags wagtailuserbar navigation_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -31,19 +31,30 @@
         {% endblock %}
     </head>
 
-    <body class="{% block body_class %}{% endblock %}">
-        {% wagtailuserbar 'bottom-left' %}
+    <body class="{{ page|page_type }}">
+        {% if page.hero %}
+            {% image page.hero original class="hero-image" %}
+        {% endif %}
 
-        {% block content %}
-        <article>
-            <h1>{% block heading %}{{ page.title }}{% endblock %}</h1>
+        <header>
+            <h1><a href="/">Properly Screened</a></h1>
 
             {% get_site_root as site_root %}
             {% top_menu parent=site_root calling_page=page %}
+        </header>
 
+        {% block content %}
+        <main>
+            {% if page.slug != 'home' %}
+                <h2>{% block heading %}{{ page.title }}{% endblock %}</h2>
+            {% endif %}
             {% block main %}{% endblock %}
-        </article>
+        </main>
         {% endblock %}
+
+        <footer>
+            (footer goes here)
+        </footer>
 
         {# Global javascript #}
         <script type="text/javascript" src="{% static 'js/properlyscreened.js' %}"></script>
@@ -51,5 +62,7 @@
         {% block extra_js %}
         {# Override this in templates to add extra javascript #}
         {% endblock %}
+
+        {% wagtailuserbar 'bottom-left' %}
     </body>
 </html>

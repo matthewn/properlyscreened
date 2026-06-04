@@ -82,6 +82,28 @@ def _review_urls_by_film(film_ids):
 # ···························································
 
 class BasePage(Page):
+    hero_image = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+
+    promote_panels = Page.promote_panels + [
+        FieldPanel('hero_image'),
+    ]
+
+    @property
+    def hero(self):
+        """
+        This page's hero_image, or the nearest ancestor's that has one set.
+        """
+        for page in [self, *reversed(list(self.get_ancestors().specific()))]:
+            if getattr(page, 'hero_image', None):
+                return page.hero_image
+        return None
+
     def get_context(self, request):
         context = super().get_context(request)
         # extras go here
@@ -152,6 +174,10 @@ class ReviewPage(BasePage):
         blank=True,
         related_name='+',
     )
+    letterboxd_url = models.URLField(
+        'Letterboxd URL',
+        blank=True,
+    )
     body = StreamField(
         LoadedStreamBlock(),
     )
@@ -167,6 +193,7 @@ class ReviewPage(BasePage):
         AutocompletePanel('theater'),
         FieldPanel('date_screened'),
         FieldPanel('image'),
+        FieldPanel('letterboxd_url'),
         FieldPanel('body'),
     ]
 

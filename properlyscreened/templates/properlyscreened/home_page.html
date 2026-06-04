@@ -1,20 +1,14 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags wagtailimages_tags %}
 
-{% block extra_css %}
-<style>
-    .teaser { overflow: hidden; margin-bottom: 1.5em; }
-    .teaser h2 { margin-top: 0; }
-    .teaser-body { overflow: hidden; }
-    .teaser-image { float: left; margin: 0 1em 0.5em 0; }
-</style>
-{% endblock %}
-
 {% block main %}
-{{ page.body }}
+
+<section id="home-body">
+    {{ page.body }}
+</section>
 
 {% if review_teasers %}
-<section class="review-teasers">
+<section id="home-teasers">
     {% for review in review_teasers %}
     <article class="teaser">
         <h2><a href="{{ review.url }}">{{ review.display_title }}</a></h2>
@@ -30,5 +24,5 @@
     {% endfor %}
 </section>
 {% endif %}
+
 {% endblock %}
-{# TODO: flesh out home page markup and styling #}

@@ -2,7 +2,7 @@
 <nav class="site-nav">
     <ul>
         {% for menuitem in menuitems %}
-        <li class="{% if menuitem.active %}active{% endif %}">
+        <li {% if menuitem.active %}class="active"{% endif %}>
             <a href="{% pageurl menuitem %}">{{ menuitem.title }}</a>
         </li>
         {% endfor %}

@@ -4,7 +4,7 @@
 {% block main %}
 {{ page.body }}
 
-<ul>
+<ul class="lists-list">
     {% for lst in published_lists %}
     <li><a href="{{ lst.url }}">{{ lst.short_name }}</a></li>
     {% endfor %}
