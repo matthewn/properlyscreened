@@ -176,6 +176,7 @@ body.listindexpage {
     font-size: 1.5rem;
     font-weight: 600;
     margin: 2rem 0;
+    padding: 0;
     text-align: center;
     li {
       display: inline-block;
