@@ -45,13 +45,17 @@ body > header {
 }
 
 body:not(.homepage) > main,
-article.teaser {
+body.homepage article.teaser {
   background-color: var(--main-bg-color);
   border-radius: 5px;
+  margin: 1rem auto;
   padding: 2rem;
+  width: calc(100% - 2rem);
 
-  p {
+  p, li {
     font-size: 1.15rem;
+  }
+  p {
     margin-bottom: 1rem;
   }
 }
@@ -76,7 +80,7 @@ a:hover {
 h1 {
   color: var(--header-fg-color);
   font-family: PermanentMarker, sans-serif;
-  font-size: 6rem;
+  font-size: clamp(2.0000rem, 0.5455rem + 7.2727vw, 6.0000rem);
   line-height: 1.1;
   margin-top: 2rem;
 
@@ -88,6 +92,7 @@ h1 {
 h2 {
   font-size: 2rem;
   font-weight: 600;
+  line-height: 1.2;
   margin-bottom: 1.5rem;
 }
 
@@ -110,8 +115,11 @@ body.homepage {
   #home-body {
     color: var(--header-fg-color);
     font-size: 1.5rem;
-    margin: 2rem auto 3rem;
+    margin: 2rem .75rem 3rem;
     text-align: center;
+    p {
+      margin-bottom: 1rem;
+    }
   }
   h2 {
     font-size: 1.5rem;
@@ -156,6 +164,13 @@ body.homepage {
   }
 }
 
+body.flexiblepage {
+  h2 {
+    margin: 1rem auto 2rem;
+    text-align: center;
+  }
+}
+
 body.listindexpage {
   ul.lists-list {
     font-size: 1.5rem;
@@ -170,22 +185,27 @@ body.listindexpage {
   }
 }
 
-body.listpage {
-  /* empty */
-}
-
 body.listindexpage,
 body.listpage {
   h2 {
     margin: 1rem auto 2rem;
     text-align: center;
   }
+  .block-rich_text {
+    text-align: center;
+  }
+  table, th, td {
+    border: 1px solid black;
+  }
+  .table-scroll {
+    margin: 2rem auto;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
   table {
-    border: none;
     border-collapse: collapse;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgb(0 0 0 / .12), 0 1px 2px rgb(0 0 0 / .08);
-    margin: 0 auto;
     overflow: hidden;
     width: 100%;
   }
@@ -271,6 +291,7 @@ body.reviewpage {
   #film-image {
     margin: 2.5rem auto;
     img {
+      height: auto;
       margin: 0 auto;
     }
   }

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags %}
+{% load typefixes %}
 
 {% block main %}
-{{ page.body }}
+{{ page.body|typefixes }}
 {% endblock %}
-{# TODO: flesh out page markup and styling #}
