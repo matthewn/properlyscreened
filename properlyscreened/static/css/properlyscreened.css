@@ -63,7 +63,7 @@ body.homepage article.teaser {
   p, li {
     font-size: 1.15rem;
   }
-  p {
+  p, ol, ul, blockquote {
     margin-bottom: 1rem;
   }
 }
