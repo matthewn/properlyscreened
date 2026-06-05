@@ -304,8 +304,14 @@ class ListPage(BasePage):
         help_text='Short name for the list (appears on Lists index and here in the admin).',
     )
 
+    body = StreamField(
+        LoadedStreamBlock(),
+        blank=True,
+    )
+
     content_panels = Page.content_panels + [
         FieldPanel('short_name'),
+        FieldPanel('body'),
     ]
 
     parent_page_types = ['properlyscreened.ListIndexPage']
