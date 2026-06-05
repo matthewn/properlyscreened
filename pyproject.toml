@@ -6,6 +6,8 @@ readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
     "django-extensions>=4.1",
+    "jinja2>=3.1.6",
+    "typogrify>=2.1.0",
     "wagtail>=7.4.1",
     "wagtail-autocomplete>=0.12.0",
     "wagtailmedia>=0.17.2",

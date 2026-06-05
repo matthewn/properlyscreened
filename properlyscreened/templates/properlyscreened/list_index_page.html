@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags %}
+{% load typefixes %}
 
 {% block main %}
-{{ page.body }}
+
+{{ page.body|typefixes }}
 
 <ul class="lists-list">
     {% for lst in published_lists %}
@@ -24,12 +26,12 @@
             {% for rank in row.ranks %}
             <td>{{ rank|default_if_none:'' }}</td>
             {% endfor %}
-            <td>{% if row.review_url %}<a href="{{ row.review_url }}">{{ row.film.title }}</a>{% else %}{{ row.film.title }}{% endif %}</td>
+            <td>{% if row.review_url %}<a href="{{ row.review_url }}">{{ row.film.title }}</a>{% else %}{{ row.film.title|typefixes }}{% endif %}</td>
             <td>{{ row.film.year }}</td>
-            <td>{{ row.film.director }}</td>
+            <td>{{ row.film.director|typefixes }}</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+
 {% endblock %}
-{# TODO: flesh out page markup and styling #}

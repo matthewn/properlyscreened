@@ -1,5 +1,7 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+{% load typefixes %}
 
 {% block title %}{{ page.film.title }}{% endblock %}
 {% block heading %}<h2 class="review-display-title">{{ page.display_title }}</h2>{% endblock %}
@@ -14,11 +16,11 @@
 </div>
 {% endif %}
 
-{{ page.body }}
+{{ page.body|typefixes }}
 
 {% if page.letterboxd_url %}
 <p class="letterboxd-link">
-  <a href="{{ page.letterboxd_url }}">{{ page.film.title }} on Letterboxd</a>
+  ➙ <a href="{{ page.letterboxd_url }}">{{ page.film.title }} on Letterboxd</a>
 </p>
 {% endif %}
 
