@@ -4,6 +4,7 @@
 :root {
   --accent-color: #c42300;
   --header-fg-color: #fff;
+  --header-hover-color: #fcd395;
   --main-bg-color: #fff;
   --sans-stack: 'Proza Libre', sans-serif;
 }
@@ -39,8 +40,15 @@ body > header {
   a {
     color: var(--header-fg-color);
   }
+  a:hover {
+    color: var(--header-hover-color) !important;
+    text-decoration: none;
+  }
   a:visited {
     color: var(--header-fg-color);
+  }
+  .active a {
+    color: var(--header-hover-color) !important;
   }
 }
 
@@ -83,10 +91,6 @@ h1 {
   font-size: clamp(2.0000rem, 0.5455rem + 7.2727vw, 6.0000rem);
   line-height: 1.1;
   margin-top: 2rem;
-
-  a:hover {
-    text-decoration: none;
-  }
 }
 
 h2 {
