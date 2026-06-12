@@ -7,6 +7,9 @@
   --header-hover-color: #fcd395;
   --main-bg-color: #fff;
   --sans-stack: 'Proza Libre', sans-serif;
+  --serif-stack: 'Cormorant Garamond', serif;
+  --headline-stack: 'Bebas Neue', sans-serif;
+  --numbers-stack: 'Limelight', sans-serif;
 }
 
 body {
@@ -87,7 +90,7 @@ a:hover {
 
 h1 {
   color: var(--header-fg-color);
-  font-family: PermanentMarker, sans-serif;
+  font-family: var(--headline-stack);
   font-size: clamp(2.0000rem, 0.5455rem + 7.2727vw, 6.0000rem);
   line-height: 1.1;
   margin-top: 2rem;
