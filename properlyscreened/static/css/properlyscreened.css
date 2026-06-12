@@ -2,10 +2,13 @@
 @import '/static/css/reset.css';
 
 :root {
-  --accent-color: #c42300;
-  --header-fg-color: #fff;
-  --header-hover-color: #fcd395;
-  --main-bg-color: #fff;
+  --black: #111;
+  --white: #f4f2ed;
+  --purple: #a98ce0;
+  --darkpurple: #7c5cc4;
+  --grey: #6b6b6b;
+  --dust: #e4e1da;
+
   --sans-stack: 'Proza Libre', sans-serif;
   --serif-stack: 'Cormorant Garamond', serif;
   --headline-stack: 'Bebas Neue', sans-serif;
@@ -41,23 +44,23 @@ body > header {
     }
   }
   a {
-    color: var(--header-fg-color);
+    color: var(--white);
   }
   a:hover {
-    color: var(--header-hover-color) !important;
+    color: var(--purple) !important;
     text-decoration: none;
   }
   a:visited {
-    color: var(--header-fg-color);
+    color: var(--white);
   }
   .active a {
-    color: var(--header-hover-color) !important;
+    color: var(--purple) !important;
   }
 }
 
 body:not(.homepage) > main,
 body.homepage article.teaser {
-  background-color: var(--main-bg-color);
+  background-color: var(--white);
   border-radius: 5px;
   margin: 1rem auto;
   padding: 2rem;
@@ -81,7 +84,7 @@ body > footer {
 }
 
 a {
-  color: var(--accent-color);
+  color: var(--darkpurple);
   text-decoration: none;
 }
 a:hover {
@@ -89,7 +92,7 @@ a:hover {
 }
 
 h1 {
-  color: var(--header-fg-color);
+  color: var(--white);
   font-family: var(--headline-stack);
   font-size: clamp(2.0000rem, 0.5455rem + 7.2727vw, 6.0000rem);
   line-height: 1.1;
@@ -120,7 +123,7 @@ h3 {
 
 body.homepage {
   #home-body {
-    color: var(--header-fg-color);
+    color: var(--white);
     font-size: 1.5rem;
     margin: 2rem .75rem 3rem;
     text-align: center;
@@ -218,11 +221,11 @@ body.listpage {
     width: 100%;
   }
   thead {
-    background-color: var(--accent-color);
+    background-color: var(--purple);
   }
   th {
     border: none;
-    color: var(--header-fg-color);
+    color: var(--white);
     font-weight: 600;
     letter-spacing: .03em;
     padding: .85rem 1rem;
@@ -231,7 +234,7 @@ body.listpage {
   }
   th a,
   th a:visited {
-    color: var(--header-fg-color);
+    color: var(--white);
     text-decoration: none;
   }
   td {
@@ -243,11 +246,11 @@ body.listpage {
     background-color: #fafafa;
   }
   tbody tr:hover {
-    background-color: color-mix(in srgb, var(--accent-color) 8%, transparent);
+    background-color: color-mix(in srgb, var(--purple) 8%, transparent);
   }
   td a,
   td a:visited {
-    color: var(--accent-color);
+    color: var(--darkpurple);
     font-weight: 600;
     text-decoration: none;
   }
