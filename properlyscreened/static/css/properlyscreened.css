@@ -28,12 +28,28 @@ body > footer {
 }
 
 body > header {
-  text-align: center;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  h1 {
+    color: var(--white);
+    font-family: var(--headline-stack);
+    font-size: 4rem;
+    line-height: 1;
+    a {
+      display: inline-grid;  /* single column sizes to the wider word */
+    }
+    div {
+      text-align-last: justify;  /* spread each word to fill that width */
+      text-justify: inter-character;  /* distribute space between letters, not words */
+    }
+  }
   nav {
+    font-family: var(--sans-stack);
     ul {
       font-size: 2rem;
-      font-weight: 800;
-      margin: 2.5rem auto;
+      margin: 0;
       padding: 0;
       text-transform: uppercase;
       li {
@@ -91,14 +107,6 @@ a:hover {
   text-decoration: underline;
 }
 
-h1 {
-  color: var(--white);
-  font-family: var(--headline-stack);
-  font-size: clamp(2.0000rem, 0.5455rem + 7.2727vw, 6.0000rem);
-  line-height: 1.1;
-  margin-top: 2rem;
-}
-
 h2 {
   font-size: 2rem;
   font-weight: 600;
@@ -126,7 +134,6 @@ body.homepage {
     color: var(--white);
     font-size: 1.5rem;
     margin: 2rem .75rem 3rem;
-    text-align: center;
     p {
       margin-bottom: 1rem;
     }
