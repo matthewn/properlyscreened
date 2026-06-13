@@ -74,8 +74,9 @@ body > header {
   }
 }
 
-body:not(.homepage) > main,
-body.homepage article.teaser {
+body:not(.homepage, .blogindexpage) > main,
+body.homepage article.teaser,
+body.blogindexpage article.teaser {
   background-color: var(--white);
   border-radius: 5px;
   margin: 1rem auto;
@@ -129,7 +130,8 @@ h3 {
     z-index: -1;
 }
 
-body.homepage {
+body.homepage,
+body.blogindexpage {
   #home-body {
     color: var(--white);
     font-size: 1.5rem;

@@ -8,24 +8,4 @@
     {{ page.body }}
 </section>
 
-{% if review_teasers %}
-<section id="home-teasers">
-    {% for review in review_teasers %}
-    <article class="teaser">
-        <h2><a href="{{ review.url }}">{{ review.display_title }}</a></h2>
-        <p class="date-screened">{{ review.date_screened|date:"F j, Y" }}</p>
-        <div class="teaser-body">
-            {% if review.image %}
-            {% image review.image fill-170x170 class="teaser-image" %}
-            {% endif %}
-            <p>
-                {{ review.teaser|typefixes }}{% if review.teaser_truncated %}...{% endif %}
-                <span class="readmore"><a href="{{ review.url }}">read&nbsp;more</a></span>
-            </p>
-        </div>
-    </article>
-    {% endfor %}
-</section>
-{% endif %}
-
 {% endblock %}

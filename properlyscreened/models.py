@@ -7,7 +7,6 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models.functions import Lower
-from django.shortcuts import redirect
 from django.utils import timezone
 from django.utils.html import format_html, mark_safe, strip_tags
 from django.utils.text import Truncator
@@ -141,7 +140,24 @@ class FlexiblePage(BasePage):
     ]
 
 
-class HomePage(BasePage):
+class ReviewTeasersMixin:
+    """Adds the reverse-chron list of review teasers to the page context."""
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        reviews = list(
+            ReviewPage.objects.live()
+            .select_related('image', 'film', 'theater')
+            .prefetch_related('film__rankings')
+            .order_by('-date_screened', '-id')
+        )
+        for review in reviews:
+            review.teaser, review.is_truncated = review.excerpt()
+        context['review_teasers'] = reviews
+        return context
+
+
+class HomePage(ReviewTeasersMixin, BasePage):
     body = StreamField(
         LoadedStreamBlock(),
         blank=True,
@@ -153,32 +169,25 @@ class HomePage(BasePage):
 
     max_count = 1
 
-    def get_context(self, request):
-        context = super().get_context(request)
-        reviews = list(
-            ReviewPage.objects.live()
-            .select_related('image', 'film', 'theater')
-            .prefetch_related('film__rankings')
-            .order_by('-date_screened', '-id')
-        )
-        for review in reviews:
-            review.teaser, review.teaser_truncated = review.excerpt()
-        context['review_teasers'] = reviews
-        return context
 
-
-class ReviewIndexPage(BasePage):
-    """Container that parents the ReviewPages; not meant to be viewed."""
+class BlogIndexPage(ReviewTeasersMixin, BasePage):
+    """Container that parents the ReviewPages and lists them."""
     parent_page_types = ['properlyscreened.HomePage']
     subpage_types = ['properlyscreened.ReviewPage']
     max_count = 1
 
-    def serve(self, request, *args, **kwargs):
-        return redirect('/')
+    body = StreamField(
+        LoadedStreamBlock(),
+        blank=True,
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel('body'),
+    ]
 
 
 class ReviewPage(BasePage):
-    parent_page_types = ['properlyscreened.ReviewIndexPage']
+    parent_page_types = ['properlyscreened.BlogIndexPage']
     subpage_types = []
 
     use_manual_page_title = models.BooleanField(
@@ -230,7 +239,7 @@ class ReviewPage(BasePage):
 
     def excerpt(self, max_words=100):
         """
-        Return (html, truncated): the body's prose cut to `max_words` on a word
+        Return (html, is_truncated): the body's prose cut to `max_words` on a word
         boundary, with paragraph breaks flattened to spaces but inline styling
         (italics, links, ...) preserved.
         """
@@ -238,8 +247,8 @@ class ReviewPage(BasePage):
             str(block.value) for block in self.body if block.block_type == 'rich_text'
         )
         flowed = _flow_inline(prose)
-        truncated = len(strip_tags(flowed).split()) > max_words
-        return mark_safe(Truncator(flowed).words(max_words, truncate='', html=True)), truncated
+        is_truncated = len(strip_tags(flowed).split()) > max_words
+        return mark_safe(Truncator(flowed).words(max_words, truncate='', html=True)), is_truncated
 
     @property
     def display_title(self):
