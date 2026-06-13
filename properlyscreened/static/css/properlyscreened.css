@@ -230,7 +230,7 @@ body.listpage {
     width: 100%;
   }
   thead {
-    background-color: var(--purple);
+    background-color: var(--darkpurple);
   }
   th {
     border: none;
