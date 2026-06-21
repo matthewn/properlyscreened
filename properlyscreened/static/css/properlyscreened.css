@@ -37,7 +37,7 @@ body > header {
     color: var(--white);
     font-family: var(--headline-stack);
     font-size: 4rem;
-    line-height: 1;
+    line-height: .85;
     a {
       display: inline-grid;  /* single column sizes to the wider word */
     }
@@ -56,7 +56,7 @@ body > header {
       li {
         display: inline-block;
         list-style: none;
-        margin: 0 2rem;
+        margin: 0 1.25rem;
       }
     }
   }
@@ -122,13 +122,25 @@ h3 {
   margin: 1rem 0;
 }
 
-.hero-image {
-    height: auto;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    z-index: -1;
+#hero-image {
+  height: auto;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: -1;
+}
+
+#hero-wrapper::after {
+  background: linear-gradient(to bottom, rgb(0 0 0 / 75%), rgb(0 0 0 / 0%));
+  content: "";
+  height: 100%;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: -1;
 }
 
 body.homepage {
@@ -144,6 +156,8 @@ body.homepage {
       font-family: var(--serif-stack);
       font-size: 1.75rem;
       font-weight: 600;
+      line-height: 1.2;
+      margin: 1rem 0;
       text-transform: uppercase;
       span { display: block; }
     }

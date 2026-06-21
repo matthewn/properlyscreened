@@ -35,7 +35,7 @@
 
     <body class="{{ page|page_type }}">
         {% if page.hero %}
-            {% image page.hero original class="hero-image" %}
+            <div id="hero-wrapper">{% image page.hero original id="hero-image" %}</div>
         {% endif %}
 
         <header>

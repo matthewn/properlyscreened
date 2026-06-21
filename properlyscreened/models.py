@@ -160,7 +160,13 @@ class ReviewTeasersMixin:
 class HomePage(ReviewTeasersMixin, BasePage):
     blurb = RichTextField(blank=True)
     link_text = models.CharField(max_length=64, blank=True)
-    link_url = models.URLField(blank=True)
+    link_page = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
     body = StreamField(
         LoadedStreamBlock(),
         blank=True,
@@ -170,7 +176,7 @@ class HomePage(ReviewTeasersMixin, BasePage):
         FieldPanel('blurb'),
         FieldRowPanel([
             FieldPanel('link_text'),
-            FieldPanel('link_url'),
+            FieldPanel('link_page'),
         ]),
         FieldPanel('body'),
     ]
