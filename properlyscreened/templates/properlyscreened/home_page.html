@@ -2,9 +2,18 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 {% load typefixes %}
 
+{% block header_content %}
+
+<h1><a href="/"><div>Properly</div><div>Screened</div></a></h1>
+<p class="site-slogan"><span>The greatest films ever made —</span> as they were meant to be seen.</div>
+{% if page.blurb %}<div class="blurb">{{ page.blurb|richtext|typefixes }}</div>{% endif %}
+{% if page.link_url and page.link_text %}<a class="buttonesque" href="{{ page.link_url }}">{{ page.link_text }} &rarr;</a>{% endif %}
+
+{% endblock %}
+
 {% block main %}
 
-<section id="home-body">
+<section class="home-body">
     {{ page.body }}
 </section>
 

@@ -17,7 +17,7 @@ from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 
 from wagtail.admin.panels import FieldPanel, FieldRowPanel, InlinePanel, TitleFieldPanel
-from wagtail.fields import StreamField
+from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page, RevisionMixin
 from wagtail.search import index
 from wagtail.images import get_image_model_string
@@ -107,7 +107,7 @@ class BasePage(Page):
         related_name='+',
     )
 
-    promote_panels = Page.promote_panels + [
+    content_panels = Page.content_panels + [
         FieldPanel('hero_image'),
     ]
 
@@ -135,7 +135,7 @@ class FlexiblePage(BasePage):
         LoadedStreamBlock(),
     )
 
-    content_panels = Page.content_panels + [
+    content_panels = BasePage.content_panels + [
         FieldPanel('body'),
     ]
 
@@ -158,12 +158,20 @@ class ReviewTeasersMixin:
 
 
 class HomePage(ReviewTeasersMixin, BasePage):
+    blurb = RichTextField(blank=True)
+    link_text = models.CharField(max_length=64, blank=True)
+    link_url = models.URLField(blank=True)
     body = StreamField(
         LoadedStreamBlock(),
         blank=True,
     )
 
-    content_panels = Page.content_panels + [
+    content_panels = BasePage.content_panels + [
+        FieldPanel('blurb'),
+        FieldRowPanel([
+            FieldPanel('link_text'),
+            FieldPanel('link_url'),
+        ]),
         FieldPanel('body'),
     ]
 
@@ -181,7 +189,7 @@ class BlogIndexPage(ReviewTeasersMixin, BasePage):
         blank=True,
     )
 
-    content_panels = Page.content_panels + [
+    content_panels = BasePage.content_panels + [
         FieldPanel('body'),
     ]
 
