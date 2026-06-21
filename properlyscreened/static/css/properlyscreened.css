@@ -368,7 +368,7 @@ body.reviewpage {
 
 .buttonesque {
   border: 1px solid var(--purple);
-  color: var(--purple);
+  color: var(--purple) !important;
   display: inline-block;
   font-family: var(--sans-stack);
   font-size: 1.25rem;
