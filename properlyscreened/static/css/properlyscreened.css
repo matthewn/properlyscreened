@@ -34,10 +34,14 @@ body > header {
   justify-content: space-between;
   margin-top: 2rem;
   h1 {
+    --scale: 1.4;
     color: var(--white);
     font-family: var(--headline-stack);
-    font-size: 4rem;
+    font-size: 3rem;
     line-height: .85;
+    padding-bottom: calc((var(--scale) - 1) * 1em);
+    padding-top: 1rem;
+    transform: scaleY(var(--scale));
     a {
       display: inline-grid;  /* single column sizes to the wider word */
     }
@@ -150,7 +154,7 @@ body.homepage {
     position: relative;
     h1 {
       font-size: 8rem;
-      padding-top: 6rem;
+      padding-top: 5.75rem;
     }
     .site-slogan {
       font-family: var(--serif-stack);
