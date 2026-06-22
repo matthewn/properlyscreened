@@ -82,9 +82,9 @@ body > header {
   }
 }
 
-body:not(.homepage, .blogindexpage) > main,
+body:not(.homepage, .reviewsindexpage) > main,
 body.homepage article.teaser,
-body.blogindexpage article.teaser {
+body.reviewsindexpage article.teaser {
   background-color: var(--white);
   border-radius: 5px;
   margin: 1rem auto;
@@ -204,7 +204,7 @@ body.homepage {
 }
 
 body.homepage,
-body.blogindexpage {
+body.reviewsindexpage {
   h2 {
     font-size: 1.5rem;
     font-weight: 500;
@@ -248,7 +248,7 @@ body.blogindexpage {
   }
 }
 
-#blog-teasers {
+#reviews-teasers {
   @media (width >= 768px) {
     display: grid;
     gap: 0;

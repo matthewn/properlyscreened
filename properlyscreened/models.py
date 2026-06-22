@@ -184,7 +184,7 @@ class HomePage(ReviewTeasersMixin, BasePage):
     max_count = 1
 
 
-class BlogIndexPage(ReviewTeasersMixin, BasePage):
+class ReviewsIndexPage(ReviewTeasersMixin, BasePage):
     """Container that parents the ReviewPages and lists them."""
     parent_page_types = ['properlyscreened.HomePage']
     subpage_types = ['properlyscreened.ReviewPage']
@@ -201,7 +201,7 @@ class BlogIndexPage(ReviewTeasersMixin, BasePage):
 
 
 class ReviewPage(BasePage):
-    parent_page_types = ['properlyscreened.BlogIndexPage']
+    parent_page_types = ['properlyscreened.ReviewsIndexPage']
     subpage_types = []
 
     use_manual_page_title = models.BooleanField(
