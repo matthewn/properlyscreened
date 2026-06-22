@@ -39,10 +39,12 @@
         {% endif %}
 
         <header>
-            {% block header_content %}<h1><a href="/"><div>Properly</div><div>Screened</div></a></h1>{% endblock %}
+        {% block header %}
+            <h1><a href="/"><div>Properly</div><div>Screened</div></a></h1>
 
             {% get_site_root as site_root %}
             {% top_menu parent=site_root calling_page=page %}
+        {% endblock %}
         </header>
 
         {% block content %}

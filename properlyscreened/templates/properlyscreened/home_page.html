@@ -1,20 +1,20 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags navigation_tags %}
 {% load typefixes %}
 
-{% block header_content %}
+{% block header %}
+    {% get_site_root as site_root %}
+    {% top_menu parent=site_root calling_page=page %}
 
-<h1><a href="/"><div>Properly</div><div>Screened</div></a></h1>
-<p class="site-slogan"><span>The greatest films ever made —</span> as they were meant to be seen.</div>
-{% if page.blurb %}<div class="blurb">{{ page.blurb|richtext|typefixes }}</div>{% endif %}
-{% if page.link_page and page.link_text %}<a class="buttonesque" href="{% pageurl page.link_page %}">{{ page.link_text }} &rarr;</a>{% endif %}
-
+    <h1><a href="/"><div>Properly</div><div>Screened</div></a></h1>
+    <p class="site-slogan"><span>The greatest films ever made&nbsp;—</span> as they were meant to be seen.</div>
+    {% if page.blurb %}<div class="blurb">{{ page.blurb|richtext|typefixes }}</div>{% endif %}
+    {% if page.link_page and page.link_text %}<a class="buttonesque" href="{% pageurl page.link_page %}">{{ page.link_text }} &rarr;</a>{% endif %}
 {% endblock %}
 
-{% block main %}
 
+{% block main %}
 <section class="home-body">
     {{ page.body }}
 </section>
-
 {% endblock %}
