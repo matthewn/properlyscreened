@@ -466,6 +466,7 @@ class ListIndexPage(BasePage):
         return context
 
 
+# this snippet gets registered in wagtail_hooks.py
 class Film(index.Indexed, RevisionMixin, ClusterableModel):
     title = models.CharField(max_length=128)
     year = models.CharField(max_length=16, verbose_name='Year(s)')
@@ -539,6 +540,57 @@ class Ranking(models.Model):
 
     def __str__(self):
         return f'{self.film} — #{self.rank} on {self.list}'
+
+
+class ScreeningManager(models.Manager):
+    def forthcoming(self):
+        """Screenings whose screening_datetime is still in the future."""
+        return self.filter(screening_datetime__gt=timezone.localtime().replace(tzinfo=None))
+
+
+@register_snippet
+class Screening(index.Indexed, RevisionMixin, ClusterableModel):
+    objects = ScreeningManager()
+
+    film = models.ForeignKey(
+        Film,
+        on_delete=models.PROTECT,
+        related_name='screenings',
+    )
+    screening_datetime = models.DateTimeField(verbose_name='Screening date & time')
+    theater = models.ForeignKey(
+        'Theater',
+        on_delete=models.PROTECT,
+        related_name='screenings',
+    )
+    tickets_link = models.URLField(blank=True)
+    is_hosted = models.BooleanField(default=False)
+
+    _revisions = GenericRelation('wagtailcore.Revision', related_query_name='screening')
+
+    search_fields = [
+        index.RelatedFields('film', [
+            index.SearchField('title'),
+        ]),
+        index.RelatedFields('theater', [
+            index.SearchField('name'),
+        ]),
+    ]
+
+    panels = [
+        AutocompletePanel('film'),
+        FieldPanel('screening_datetime'),
+        AutocompletePanel('theater'),
+        FieldPanel('tickets_link'),
+        FieldPanel('is_hosted', heading='This is a hosted screening'),
+    ]
+
+    @property
+    def revisions(self):
+        return self._revisions
+
+    def __str__(self):
+        return f'{self.film} at {self.theater} on {self.screening_datetime}'
 
 
 # ···························································
