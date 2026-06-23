@@ -82,12 +82,10 @@ body > header {
   }
 }
 
-body:not(.homepage, .reviewsindexpage) > main,
-body.homepage article.teaser,
-body.reviewsindexpage article.teaser {
+body:not(.homepage) > main {
   background-color: var(--white);
   border-radius: 5px;
-  margin: 0;
+  margin: 0 auto;
   width: calc(100% - 2rem);
 
   p, li {
@@ -96,11 +94,6 @@ body.reviewsindexpage article.teaser {
   p, ol, ul, blockquote {
     margin-bottom: 1rem;
   }
-}
-
-.letterboxd-link {
-  font-weight: 600;
-  margin-top: 2rem;
 }
 
 body > footer {
@@ -149,6 +142,28 @@ h3 {
   width: 100%;
   z-index: -1;
 }
+
+.buttonesque {
+  border: 1px solid var(--purple);
+  color: var(--purple) !important;
+  display: inline-block;
+  font-family: var(--sans-stack);
+  font-size: 1.25rem;
+  padding: 1rem;
+  text-transform: uppercase;
+  &:hover {
+    color: var(--white) !important;
+  }
+}
+
+.letterboxd-link {
+  font-weight: 600;
+  margin-top: 2rem;
+}
+
+/***********************************
+ * PAGE-SPECIFIC STUFF BEGINS HERE *
+ ***********************************/
 
 body.homepage {
   > header {
@@ -200,45 +215,6 @@ body.homepage {
     color: red;
     font-size: 1.5rem;
     margin: 2rem 0 3rem;
-  }
-}
-
-body.homepage,
-body.reviewsindexpage {
-  .dirlist {
-    display: block;
-    margin-bottom: .25rem;
-  }
-  .ranking {
-    font-size: 3rem;
-    font-weight: 800;
-  }
-  .title {
-    font-size: 2.25rem;
-    font-style: italic;
-    font-weight: 600;
-    padding: 0 .35rem;
-  }
-  .director {
-    font-size: 1.75rem;
-  }
-  .theater {
-    font-size: 1.75rem;
-    font-variant: small-caps;
-  }
-  .date-screened {
-    font-weight: 600;
-  }
-  .teaser {
-    margin-bottom: 1.5rem;
-  }
-  .teaser-image {
-    float: left;
-    margin: .5rem 1.5rem .5rem 0;
-  }
-  .readmore {
-    font-weight: 500;
-    text-transform: uppercase;
   }
 }
 
@@ -335,63 +311,11 @@ body.listpage {
 }
 
 body.reviewpage {
-  .review-display-title {
-    font-size: 1.5rem;
-    font-weight: 500;
-    line-height: 1.2;
-    margin-bottom: .5rem;
-    .ranking {
-      font-size: 3.5rem;
-      font-weight: 800;
-    }
-    .title {
-      font-size: 3rem;
-      font-style: italic;
-      font-weight: 600;
-      padding: 0 .5rem;
-    }
-    .dirlist {
-      display: block;
-      margin-bottom: .25rem;
-    }
-    .director::after {
-      /* line break */
-      content: "\A";
-      white-space: pre;
-    }
-    .director {
-      font-size: 2rem;
-      font-weight: 600;
-    }
-    .theater {
-      font-size: 2rem;
-      font-variant: small-caps;
-      font-weight: 600;
-    }
-  }
-
-  .date-screened {
-    font-weight: 600;
-  }
-
   #film-image {
     margin: 2.5rem auto;
     img {
       height: auto;
       margin: 0 auto;
     }
-  }
-}
-
-.buttonesque {
-  border: 1px solid var(--purple);
-  color: var(--purple) !important;
-  display: inline-block;
-  font-family: var(--sans-stack);
-  font-size: 1.25rem;
-  padding: 1rem;
-  text-transform: uppercase;
-  &:hover {
-    color: var(--white) !important;
   }
 }
