@@ -3,7 +3,7 @@
     <ul>
         {% for menuitem in menuitems %}
         <li {% if menuitem.active %}class="active"{% endif %}>
-            <a href="{% pageurl menuitem %}">{% if menuitem.seo_title %}{{ menuitem.seo_title }}{% else %}{{ menuitem.title }}{% endif %}</a>
+            <a href="{% pageurl menuitem %}">{% if menuitem.menu_title %}{{ menuitem.menu_title }}{% else %}{{ menuitem.title }}{% endif %}</a>
         </li>
         {% endfor %}
     </ul>

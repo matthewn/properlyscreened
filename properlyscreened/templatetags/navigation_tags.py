@@ -22,7 +22,7 @@ def top_menu(context, parent, calling_page=None):
     """
     Top-level menu items: live children of 'parent' with 'Show in menus' set.
     """
-    menuitems = parent.get_children().live().in_menu()
+    menuitems = parent.get_children().live().in_menu().specific()
     for menuitem in menuitems:
         # An item is active if the page being rendered is it or one of its descendants.
         menuitem.active = (

@@ -1,14 +1,14 @@
+import copy
 import re
 import unicodedata
 from urllib.parse import urlencode
 
 from django import forms
-from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models.functions import Lower
 from django.utils import timezone
-from django.utils.html import format_html, mark_safe, strip_tags
+from django.utils.html import mark_safe, strip_tags
 from django.utils.text import Truncator
 
 from bs4 import BeautifulSoup
@@ -106,10 +106,25 @@ class BasePage(Page):
         on_delete=models.SET_NULL,
         related_name='+',
     )
+    menu_title = models.CharField(
+        max_length=24,
+        blank=True,
+        help_text='Overrides the page title in site menus.',
+    )
 
     content_panels = Page.content_panels + [
         FieldPanel('hero_image'),
     ]
+
+    # Add menu_title to Wagtail's existing "For site menus" group on the
+    # "Promote" pane. deepcopy so we mutate our copy, not the shared
+    # Page.promote_panels; next() over a genexpr (vs. a for loop) so the loop
+    # var doesn't leak as a class attr.
+    promote_panels = copy.deepcopy(Page.promote_panels)
+    next(
+        group for group in promote_panels
+        if group.args and 'show_in_menus' in group.args[0]
+    ).args[0].append('menu_title')
 
     @property
     def hero(self):
