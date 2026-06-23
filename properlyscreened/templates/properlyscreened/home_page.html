@@ -17,4 +17,15 @@
 <section class="home-body">
     {{ page.body }}
 </section>
+
+{% with quotation=page.quotation %}
+{% if quotation %}
+<div class="quotation-wrapper">
+    <figure>
+        <blockquote>{{ quotation.what|richtext|typefixes }}</blockquote>
+        <figcaption>{{ quotation.who }}</figcaption>
+    </figure>
+</div>
+{% endif %}
+{% endwith %}
 {% endblock %}

@@ -198,6 +198,10 @@ class HomePage(ReviewTeasersMixin, BasePage):
 
     max_count = 1
 
+    def quotation(self):
+        """A randomly chosen Quotation, or None if there are none."""
+        return Quotation.objects.order_by('?').first()
+
 
 class ReviewsIndexPage(ReviewTeasersMixin, BasePage):
     """Container that parents the ReviewPages and lists them."""
@@ -547,7 +551,9 @@ class Ranking(models.Model):
 
 class ScreeningManager(models.Manager):
     def forthcoming(self):
-        """Screenings whose screening_datetime is still in the future."""
+        """
+        Screenings whose screening_datetime is still in the future.
+        """
         return self.filter(screening_datetime__gt=timezone.localtime().replace(tzinfo=None))
 
 
@@ -594,6 +600,31 @@ class Screening(index.Indexed, RevisionMixin, ClusterableModel):
 
     def __str__(self):
         return f'{self.film} at {self.theater} on {self.screening_datetime}'
+
+
+@register_snippet
+class Quotation(index.Indexed, RevisionMixin, ClusterableModel):
+    who = models.CharField(max_length=128, verbose_name='Who said it')
+    what = RichTextField(verbose_name='What they said')
+
+    _revisions = GenericRelation('wagtailcore.Revision', related_query_name='quotation')
+
+    search_fields = [
+        index.SearchField('who'),
+        index.SearchField('what'),
+    ]
+
+    panels = [
+        FieldPanel('who'),
+        FieldPanel('what'),
+    ]
+
+    @property
+    def revisions(self):
+        return self._revisions
+
+    def __str__(self):
+        return self.who
 
 
 # ···························································
