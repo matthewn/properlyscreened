@@ -271,20 +271,8 @@ class ReviewPage(BasePage):
         """
         if self.use_manual_page_title:
             return self.title
-        critics = self.film.rankings.filter(list_id=settings.BFI_250_LIST_ID).first()
-        if critics:
-            prefix = format_html('<span class="ranking">#{}</span> ', critics.rank)
         else:
-            directors = self.film.rankings.filter(list_id=settings.BFI_DIRECTORS_100_LIST_ID).first()
-            prefix = format_html('<span class="dirlist">[Directors\' list]</span><span class="ranking">#{}</span> ', directors.rank) if directors else ''
-        directors_short = self.film.director_short_override or _last_names(self.film.director)
-        joiner = 'at the' if self.theater.name.endswith(('Theater', 'Theatre')) else 'at'
-        return format_html(
-            '{}<span class="title">{}</span>'
-            ' <span class="director">({})</span> '
-            '{} <span class="theater">{}</span>',
-            prefix, self.film.title, directors_short, joiner, self.theater.name,
-        )
+            return self.film.title
 
 
 @register_snippet

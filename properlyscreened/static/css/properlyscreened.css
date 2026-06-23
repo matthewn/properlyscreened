@@ -32,7 +32,7 @@ body > header {
   align-items: center;
   display: flex;
   justify-content: space-between;
-  margin-top: 2rem;
+  margin: 2rem auto;
   h1 {
     --scale: 1.4;
     color: var(--white);
@@ -87,8 +87,7 @@ body.homepage article.teaser,
 body.reviewsindexpage article.teaser {
   background-color: var(--white);
   border-radius: 5px;
-  margin: 1rem auto;
-  padding: 2rem;
+  margin: 0;
   width: calc(100% - 2rem);
 
   p, li {
@@ -117,10 +116,11 @@ a:hover {
 }
 
 h2 {
-  font-size: 2rem;
+  font-size: 4rem;
   font-weight: 600;
   line-height: 1.2;
   margin-bottom: 1.5rem;
+  text-transform: uppercase;
 }
 
 h3 {
@@ -205,12 +205,6 @@ body.homepage {
 
 body.homepage,
 body.reviewsindexpage {
-  h2 {
-    font-size: 1.5rem;
-    font-weight: 500;
-    line-height: 1.2;
-    margin-bottom: .5rem;
-  }
   .dirlist {
     display: block;
     margin-bottom: .25rem;
@@ -248,11 +242,10 @@ body.reviewsindexpage {
   }
 }
 
-#reviews-teasers {
-  @media (width >= 768px) {
-    display: grid;
-    gap: 0;
-    grid-template-columns: 1fr 1fr;
+body.reviewsindexpage {
+  > main {
+    background-color: var(--white);
+    padding: 2rem;
   }
 }
 
