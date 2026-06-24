@@ -230,6 +230,10 @@ body.homepage {
   nav {
     position: relative;
     z-index: 1;
+    @media (width <= 512px) {
+      margin: 0 auto;
+      max-width: 372px; /* prevent one solo menu item on a line of its own */
+    }
     @media (width >= 768px) {
       position: absolute;
       right: .75rem;
