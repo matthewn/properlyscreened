@@ -95,7 +95,7 @@ body:not(.homepage) > main {
   background-color: var(--white);
   border-radius: 5px;
   margin: 0 auto;
-  padding: 1rem 2rem;
+  padding: 2rem;
   width: calc(100% - 2rem);
 
   p, ol, ul, blockquote {
@@ -303,11 +303,201 @@ body.homepage {
   }
 }
 
-body.reviewsindexpage {
-  > main {
-    background-color: var(--white);
-    padding: 2rem;
+body.screeningspage {
+
+  #hosted-screenings,
+  #other-screenings {
+    ul {
+      font-family: var(--sans-stack);
+      font-weight: 400;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .title,
+    .director,
+    .time,
+    .date,
+    .theater-name,
+    .theater-location {
+      text-transform: uppercase;
+    }
+    .time,
+    .date {
+      align-items: center;
+      display: flex;
+      gap: .4em;
+    }
+    .theater-and-location {
+      align-items: flex-start;
+      display: flex;
+      gap: .4em;
+    }
+
+    /* icon sits inline with the text, sized to match it, and the location
+       indicator aligns with the theater name (not the location line) */
+    .icon {
+      flex-shrink: 0;
+      svg {
+        display: block;
+        height: 1em;
+        width: 1em;
+      }
+    }
   }
+
+  #hosted-screenings {
+    margin: 0 0 3rem;
+    li {
+      align-items: flex-start;
+      display: flex;
+      gap: 1.5rem;
+      @media (width < 768px) {
+        flex-direction: column;
+      }
+    }
+    .title {
+      font-size: 1.85rem;
+      font-weight: 600;
+    }
+    .director {
+      font-size: 1.55rem;
+    }
+    .tickets {
+      background-color: var(--purple);
+      margin-top: 1.5rem;
+      padding: .5rem 4rem;
+      &:hover {
+        background-color: var(--white);
+        a, a:visited {
+          color: var(--darkpurple);
+          text-decoration: none;
+        }
+      }
+      a, a:visited {
+        color: var(--white);
+      }
+    }
+    .image-wrapper {
+      flex-shrink: 0;
+      position: relative;
+      width: 66%;
+      @media (width < 768px) {
+        width: 100%;
+      }
+      img {
+        display: block;
+        height: auto;
+        width: 100%;
+      }
+    }
+  }
+
+  #other-screenings {
+    ul {
+      align-items: center;
+      display: grid;
+      gap: 1.5rem 2rem;
+      grid-template-columns: max-content max-content 1fr auto auto auto;  /* image, ranking, title/director, time/date, theater/location, tickets */
+    }
+
+    /* let each row's cells participate directly in the shared grid tracks */
+    li {
+      display: contents;
+      font-size: .9rem;
+    }
+    .image-wrapper img {
+      display: block;
+      height: auto;
+      width: 100%;
+    }
+
+    .title {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    .director {
+      font-size: 1rem;
+    }
+
+    /* keep each timestamp/date on one line */
+    .time,
+    .date {
+      white-space: nowrap;
+    }
+
+    /* override the absolute overlay styling so the badge sits inline in the row */
+    .ranking {
+      background-color: transparent;
+      color: var(--purple);
+      font-family: var(--numbers-stack);
+      font-size: 3rem;
+      line-height: 1;
+      position: static;
+      text-align: center;
+    }
+    
+    .tickets {
+      &:hover {
+        background-color: var(--purple);
+        a, a:visited {
+          color: var(--white);
+          text-decoration: none;
+        }
+      }
+    }
+
+    /* stack each listing vertically on narrow screens */
+    @media (width < 768px) {
+      ul {
+        display: block;
+      }
+      li {
+        align-items: flex-start;  /* don't stretch the tickets button full width */
+        display: flex;
+        flex-direction: column;
+        gap: .5rem;
+        position: relative;  /* anchor the overlaid ranking badge */
+      }
+      li + li {
+        margin-top: 2rem;
+      }
+      .image-wrapper {
+        width: 100%;
+      }
+
+      /* overlay the ranking on the image, as elsewhere on the site */
+      .ranking {
+        background-color: rgb(0 0 0 / 55%);
+        left: 0;
+        padding: .75rem .5rem .6rem;
+        position: absolute;
+        top: 0;
+      }
+    }
+  }
+
+  .no-screenings {
+    text-align: center;
+    svg {
+      color: var(--purple);
+      margin: 0 auto 1rem;
+      width: 6rem;
+    }
+    p {
+      font-size: 1.5rem;
+      margin: 0 auto;
+      max-width: 42ch;
+      text-wrap: balance;
+    }
+  }
+  .wrapper {
+    border: 1px solid var(--grey);
+    padding: 3rem;
+  }
+}
+
+body.reviewsindexpage {
   .teaser {
     @media (width < 768px) {
       flex-direction: column;
@@ -410,11 +600,10 @@ body.reviewpage {
 body.flexiblepage {
   h2 {
     letter-spacing: -3px;
-    margin: 1rem auto 2rem;
   }
 }
 
-body.listindexpage {
+body.listsindexpage {
   ul.lists-list {
     font-family: var(--sans-stack);
     font-size: 1.5rem;
@@ -430,7 +619,7 @@ body.listindexpage {
   }
 }
 
-body.listindexpage,
+body.listsindexpage,
 body.listpage {
   h2 {
     letter-spacing: -3px;

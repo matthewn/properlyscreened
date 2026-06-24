@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+{% load typefixes %}
+
+{% block page-title-h2 %}{% endblock %}
+
+{% block main %}
+
+<section id="hosted-screenings">
+
+    <h2>Hosted Screenings</h2>
+
+    {% if hosted_screenings %}
+    <ul class="screenings">
+        {% for screening in hosted_screenings %}
+            {% if screening.film.image %}
+            <li>
+                <div class="image-wrapper">
+                    {% image screening.film.image fill-1000x400 %}
+                    {% include "properlyscreened/includes/film_ranking.html" with film=screening.film %}
+                </div>
+                <div class="listing-text">
+                    {% include 'properlyscreened/includes/screening.html' %}
+                </div>
+            </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+    {% else %}
+    <div class="wrapper">
+        <div class="no-screenings">
+            {% include 'properlyscreened/icons/calendar-x.svg' %}
+            <p>
+                We don’t have any hosted screenings scheduled at this time,
+                but we highly recommend checking out these other upcoming
+                screenings from <a href="{% pageurl lists_index_page %}">
+                the list</a>.
+            </p>
+        </div>
+    </div>
+    {% endif %}
+
+</section>
+
+<section id="other-screenings">
+
+    <h2>Other Screenings</h2>
+
+    {% if other_screenings %}
+    <ul class="screenings">
+        {% for screening in other_screenings %}
+            {% if screening.film.image %}
+            <li>
+                <div class="image-wrapper">
+                    {% image screening.film.image fill-300x120 %}
+                </div>
+                {% include 'properlyscreened/includes/film_ranking.html' with film=screening.film %}
+                {% include 'properlyscreened/includes/screening.html' %}
+            </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+    {% else %}
+    <div class="wrapper">
+        <div class="no-screenings">
+            {% include 'properlyscreened/icons/calendar-x.svg' %}
+            <p>
+                Oh no! We don’t have any other screenings at the moment,
+                either! We’ll get our act together. Check back soon.
+            </p>
+        </div>
+    </div>
+    {% endif %}
+
+</section>
+
+{% endblock %}

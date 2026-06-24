@@ -139,7 +139,7 @@ class BasePage(Page):
 
     def get_context(self, request):
         context = super().get_context(request)
-        # extras go here
+        context['lists_index_page'] = ListsIndexPage.objects.live().first()
         return context
 
     class Meta:
@@ -190,6 +190,19 @@ class HomePage(ReviewTeasersMixin, BasePage):
     def quotation(self):
         """A randomly chosen Quotation, or None if there are none."""
         return Quotation.objects.order_by('?').first()
+
+
+class ScreeningsPage(BasePage):
+    parent_page_types = ['properlyscreened.HomePage']
+    subpage_types = []
+    max_count = 1
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        screenings = Screening.objects.forthcoming()
+        context['hosted_screenings'] = screenings.filter(is_hosted=True)
+        context['other_screenings'] = screenings.filter(is_hosted=False)
+        return context
 
 
 class ReviewsIndexPage(ReviewTeasersMixin, BasePage):
@@ -287,6 +300,7 @@ class ListsIndexPage(BasePage):
     ]
 
     subpage_types = ['properlyscreened.ListPage']
+    max_count = 1
 
     # The film columns; a Ranking column per child List is prepended at
     # runtime (keyed 'list<id>'), so the rankings sit to the left.
