@@ -261,7 +261,15 @@ class ReviewPage(BasePage):
         )
         flowed = _flow_inline(prose)
         is_truncated = len(strip_tags(flowed).split()) > max_words
-        return mark_safe(Truncator(flowed).words(max_words, truncate='', html=True)), is_truncated
+        truncated = Truncator(flowed).words(max_words, truncate='', html=True)
+        if is_truncated:
+            # Drop trailing punctuation so it doesn't collide with the appended
+            # ellipsis. Dashes are still raw here (pre-typefixes), so em/en dashes
+            # may appear as hyphen runs (-- / ---), not unicode dashes. Regex (not
+            # endswith) because the punctuation may sit before closing tags, e.g.
+            # "aside--</em>", when the cut lands inside italics.
+            truncated = re.sub(r'(?:[,;:]|-{2,}|[—–])(\s*(?:</[^>]+>)*\s*)$', r'\1', truncated)
+        return mark_safe(truncated), is_truncated
 
     @property
     def display_title(self):
