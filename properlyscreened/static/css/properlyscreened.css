@@ -98,10 +98,10 @@ body:not(.homepage) > main {
   padding: 1rem 2.5rem;
   width: calc(100% - 2rem);
 
-  p, li {
-    font-size: 1.35rem;
-  }
   p, ol, ul, blockquote {
+    font-family: var(--serif-stack);
+    font-size: 1.4rem;
+    font-weight: 500;
     margin-bottom: 1rem;
   }
 }
@@ -169,8 +169,9 @@ h3 {
 }
 
 .letterboxd-link {
-  font-weight: 600;
+  font-family: var(--sans-stack) !important;
   margin-top: 2rem;
+  text-transform: uppercase;
 }
 
 /* Rank badge overlaid on a film image; host needs position: relative. */
@@ -391,6 +392,7 @@ body.reviewpage {
   }
   .date-screened {
     color: var(--grey);
+    font-family: var(--sans-stack);
     text-transform: uppercase;
   }
   .body {
@@ -409,15 +411,16 @@ body.flexiblepage {
 
 body.listindexpage {
   ul.lists-list {
+    font-family: var(--sans-stack);
     font-size: 1.5rem;
     font-weight: 600;
-    margin: 2rem 0;
+    margin: 2rem 0 0;
     padding: 0;
     text-align: center;
     li {
       display: inline-block;
       list-style: none;
-      margin: 0 2rem;
+      margin: 0 2rem 1rem;
     }
   }
 }
@@ -427,10 +430,6 @@ body.listpage {
   h2 {
     letter-spacing: -3px;
     margin: 1rem auto 2rem;
-    text-align: center;
-  }
-  .block-rich_text {
-    text-align: center;
   }
   table, th, td {
     border: 1px solid black;
