@@ -4,6 +4,7 @@ import unicodedata
 from urllib.parse import urlencode
 
 from django import forms
+from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models.functions import Lower
@@ -156,8 +157,6 @@ class FlexiblePage(BasePage):
 
 
 class ReviewTeasersMixin:
-    """Adds the reverse-chron list of review teasers to the page context."""
-
     def get_context(self, request):
         context = super().get_context(request)
         reviews = list(
@@ -204,19 +203,9 @@ class HomePage(ReviewTeasersMixin, BasePage):
 
 
 class ReviewsIndexPage(ReviewTeasersMixin, BasePage):
-    """Container that parents the ReviewPages and lists them."""
     parent_page_types = ['properlyscreened.HomePage']
     subpage_types = ['properlyscreened.ReviewPage']
     max_count = 1
-
-    body = StreamField(
-        LoadedStreamBlock(),
-        blank=True,
-    )
-
-    content_panels = BasePage.content_panels + [
-        FieldPanel('body'),
-    ]
 
 
 class ReviewPage(BasePage):
@@ -270,7 +259,7 @@ class ReviewPage(BasePage):
         FieldPanel('body'),
     ]
 
-    def excerpt(self, max_words=100):
+    def excerpt(self, max_words=80):
         """
         Return (html, is_truncated): the body's prose cut to `max_words` on a word
         boundary, with paragraph breaks flattened to spaces but inline styling
@@ -505,6 +494,19 @@ class Film(index.Indexed, RevisionMixin, ClusterableModel):
     @property
     def revisions(self):
         return self._revisions
+
+    @property
+    def ranking(self):
+        """
+        Return the film's rank on the critics' list OR a (rank, "Directors'")
+        tuple if it's only on the directors' list; or None if on neither.
+        """
+        ranks = {r.list_id: r.rank for r in self.rankings.all()}
+        if settings.BFI_250_LIST_ID in ranks:
+            return ranks[settings.BFI_250_LIST_ID]
+        if settings.BFI_DIRECTORS_100_LIST_ID in ranks:
+            return ranks[settings.BFI_DIRECTORS_100_LIST_ID], "Directors'"
+        return None
 
     def __str__(self):
         return self.title

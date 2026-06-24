@@ -4,28 +4,39 @@
 
 {% block main %}
 
-<section id="home-body">
-    {{ page.body }}
-</section>
-
-{% if review_teasers %}
 <section id="reviews-teasers">
     {% for review in review_teasers %}
+
+    {% if review.image %}
     <article class="teaser">
-        <h2><a href="{{ review.url }}">{{ review.display_title }}</a></h2>
-        <p class="date-screened">{{ review.date_screened|date:"F j, Y" }}</p>
-        <div class="teaser-body">
-            {% if review.image %}
-            {% image review.image fill-170x170 class="teaser-image" %}
-            {% endif %}
-            <p>
-                {{ review.teaser|typefixes }}{% if review.is_truncated %}...{% endif %}
-                <span class="readmore"><a href="{{ review.url }}">read&nbsp;more</a></span>
-            </p>
+        <div class="image-wrapper">
+            <a href="{{ review.url }}">
+            {% image review.image fill-415x255 class="teaser-image" %}
+            {% with ranking=review.film.ranking %}
+            <div class="ranking">
+                {% if ranking.1 %}<span class="modifier">{{ ranking.1 }}</span>{{ ranking.0 }}
+                {% else %}{{ ranking }}
+                {% endif %}
+            </div>
+            {% endwith %}
+            </a>
+        </div>
+        <div class="text-wrapper">
+            <a href="{{ review.url }}">
+                <h3>{{ review.display_title }}</h3>
+                <div class="director">Dir. {{ review.film.director }}</div>
+            </a>
+            <div class="teaser-body">
+                <p>
+                    {{ review.teaser|typefixes }}{% if review.is_truncated %}...{% endif %}
+                    <div class="readmore"><a href="{{ review.url }}">read&nbsp;more &rarr;</a></div>
+                </p>
+            </div>
         </div>
     </article>
+    {% endif %}
+
     {% endfor %}
 </section>
-{% endif %}
 
 {% endblock %}
