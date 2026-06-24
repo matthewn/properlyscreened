@@ -4,17 +4,19 @@
 {% load typefixes %}
 
 {% block title %}{{ page.film.title }}{% endblock %}
-{% block heading %}<h2 class="review-display-title">{{ page.display_title }}</h2>{% endblock %}
+
+{% block heading %}{% endblock %}
 
 {% block main %}
-
-<p class="date-screened">{{ page.date_screened|date:"F j, Y" }}</p>
 
 {% if page.image %}
 <div id="film-image">
     {% image page.image width-1200 %}
 </div>
 {% endif %}
+
+<h2>{{ page.display_title }}</h2>
+<p class="date-screened">{{ page.date_screened|date:"F j, Y" }}</p>
 
 {{ page.body|typefixes }}
 

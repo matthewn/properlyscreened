@@ -49,9 +49,7 @@
 
         {% block content %}
         <main>
-            {% if page.slug != 'home' %}
-                {% block heading %}<h2>{{ page.title }}</h2>{% endblock %}
-            {% endif %}
+            {% block heading %}<h2>{{ page.title }}</h2>{% endblock %}
             {% block main %}{% endblock %}
         </main>
         {% endblock %}
