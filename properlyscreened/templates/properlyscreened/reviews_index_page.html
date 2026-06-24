@@ -12,13 +12,7 @@
         <div class="image-wrapper">
             <a href="{{ review.url }}">
             {% image review.film.image fill-415x255 class="teaser-image" %}
-            {% with ranking=review.film.ranking %}
-            <div class="ranking">
-                {% if ranking.1 %}<span class="modifier">{{ ranking.1 }}</span>{{ ranking.0 }}
-                {% else %}{{ ranking }}
-                {% endif %}
-            </div>
-            {% endwith %}
+            {% include "properlyscreened/includes/film_ranking.html" with film=review.film %}
             </a>
         </div>
         <div class="text-wrapper">

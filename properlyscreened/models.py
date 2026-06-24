@@ -492,6 +492,10 @@ class Film(index.Indexed, RevisionMixin, ClusterableModel):
     ]
 
     @property
+    def director_short(self):
+        return self.director_short_override or _last_names(self.director)
+
+    @property
     def revisions(self):
         return self._revisions
 

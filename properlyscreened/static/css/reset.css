@@ -23,6 +23,7 @@ body {
 /* improve media defaults */
 img, picture, video, canvas, svg {
   display: block;
+  height: auto;  /* keep aspect ratio when max-width shrinks the element */
   max-width: 100%;
 }
 

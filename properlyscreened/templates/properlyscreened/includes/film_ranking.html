@@ -1,0 +1,7 @@
+{% with ranking=film.ranking %}
+{% if ranking %}
+<div class="ranking">
+    {% if ranking.1 %}<span class="modifier">{{ ranking.1 }}</span>{{ ranking.0 }}{% else %}{{ ranking }}{% endif %}
+</div>
+{% endif %}
+{% endwith %}
