@@ -231,21 +231,26 @@ body.homepage {
   nav {
     position: relative;
     z-index: 1;
-    @media (width <= 512px) {
-      margin: 0 auto;
-      max-width: 372px; /* prevent one solo menu item on a line of its own */
-    }
     @media (width >= 768px) {
       position: absolute;
       right: .75rem;
       top: 2.5rem;
     }
+    @media (769px <= width <= 1075px) {
+      max-width: 12rem;
+      text-align: right;
+    }
     @media (width < 768px) {
       ul {
-        text-align: center;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        justify-content: center;
+        margin: 0 auto;
+        max-width: 20rem;
+        row-gap: .75rem;
       }
       li {
-        display: inline-block;
+        text-align: center;
       }
     }
   }
