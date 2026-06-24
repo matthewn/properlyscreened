@@ -161,7 +161,7 @@ class ReviewTeasersMixin:
         context = super().get_context(request)
         reviews = list(
             ReviewPage.objects.live()
-            .select_related('image', 'film', 'theater')
+            .select_related('film__image', 'film', 'theater')
             .prefetch_related('film__rankings')
             .order_by('-date_screened', '-id')
         )
@@ -228,14 +228,6 @@ class ReviewPage(BasePage):
     date_screened = models.DateField(
         default=timezone.localdate,
     )
-    image = models.ForeignKey(
-        get_image_model_string(),
-        verbose_name='Image',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='+',
-    )
     letterboxd_url = models.URLField(
         'Letterboxd URL',
         blank=True,
@@ -254,7 +246,6 @@ class ReviewPage(BasePage):
         AutocompletePanel('film'),
         AutocompletePanel('theater'),
         FieldPanel('date_screened'),
-        FieldPanel('image'),
         FieldPanel('letterboxd_url'),
         FieldPanel('body'),
     ]
@@ -474,6 +465,14 @@ class Film(index.Indexed, RevisionMixin, ClusterableModel):
         help_text='This can be left blank if the director surname comes last '
                   'in the previous field.',
     )
+    image = models.ForeignKey(
+        get_image_model_string(),
+        verbose_name='Image',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='+',
+    )
     _revisions = GenericRelation('wagtailcore.Revision', related_query_name='film')
 
     search_fields = [
@@ -488,6 +487,7 @@ class Film(index.Indexed, RevisionMixin, ClusterableModel):
         FieldPanel('year'),
         FieldPanel('director'),
         FieldPanel('director_short_override'),
+        FieldPanel('image'),
         InlinePanel('rankings', label='Ranking'),
     ]
 

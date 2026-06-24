@@ -7,11 +7,11 @@
 <section id="reviews-teasers">
     {% for review in review_teasers %}
 
-    {% if review.image %}
+    {% if review.film.image %}
     <article class="teaser">
         <div class="image-wrapper">
             <a href="{{ review.url }}">
-            {% image review.image fill-415x255 class="teaser-image" %}
+            {% image review.film.image fill-415x255 class="teaser-image" %}
             {% with ranking=review.film.ranking %}
             <div class="ranking">
                 {% if ranking.1 %}<span class="modifier">{{ ranking.1 }}</span>{{ ranking.0 }}
