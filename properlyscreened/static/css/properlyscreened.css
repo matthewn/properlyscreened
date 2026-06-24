@@ -95,7 +95,7 @@ body:not(.homepage) > main {
   background-color: var(--white);
   border-radius: 5px;
   margin: 0 auto;
-  padding: 1rem 2.5rem;
+  padding: 1rem 2rem;
   width: calc(100% - 2rem);
 
   p, ol, ul, blockquote {
