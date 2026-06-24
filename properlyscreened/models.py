@@ -285,9 +285,11 @@ class ReviewPage(BasePage):
 @register_snippet
 class Theater(models.Model):
     name = models.CharField(max_length=128)
+    location = models.CharField(max_length=64, blank=True)
 
     panels = [
         FieldPanel('name'),
+        FieldPanel('location'),
     ]
 
     autocomplete_search_field = 'name'
@@ -313,7 +315,7 @@ class Theater(models.Model):
         ]
 
     def __str__(self):
-        return self.name
+        return f'{self.name} ({self.location})'
 
 
 class ListPage(BasePage):
