@@ -146,16 +146,6 @@ class BasePage(Page):
         abstract = True
 
 
-class FlexiblePage(BasePage):
-    body = StreamField(
-        LoadedStreamBlock(),
-    )
-
-    content_panels = BasePage.content_panels + [
-        FieldPanel('body'),
-    ]
-
-
 class ReviewTeasersMixin:
     def get_context(self, request):
         context = super().get_context(request)
@@ -282,108 +272,7 @@ class ReviewPage(BasePage):
             return self.film.title
 
 
-@register_snippet
-class Theater(models.Model):
-    name = models.CharField(max_length=128)
-    location = models.CharField(max_length=64, blank=True)
-
-    panels = [
-        FieldPanel('name'),
-        FieldPanel('location'),
-    ]
-
-    autocomplete_search_field = 'name'
-
-    def autocomplete_label(self):
-        return self.name
-
-    @classmethod
-    def autocomplete_create(kls, value):
-        # allow creating a Theater inline from the text typed into the
-        # autocomplete widget; reuse an existing name (case-insensitively) so
-        # we never violate the unique_theater_name_ci constraint
-        existing = kls.objects.filter(name__iexact=value).first()
-        return existing or kls.objects.create(name=value)
-
-    class Meta:
-        ordering = ['name']
-        constraints = [
-            models.UniqueConstraint(
-                Lower('name'),
-                name='unique_theater_name_ci',
-            ),
-        ]
-
-    def __str__(self):
-        return f'{self.name} ({self.location})'
-
-
-class ListPage(BasePage):
-    short_name = models.CharField(
-        max_length=128,
-        help_text='Short name for the list (appears on Lists index and here in the admin).',
-    )
-
-    body = StreamField(
-        LoadedStreamBlock(),
-        blank=True,
-    )
-
-    content_panels = Page.content_panels + [
-        FieldPanel('short_name'),
-        FieldPanel('body'),
-    ]
-
-    parent_page_types = ['properlyscreened.ListIndexPage']
-    subpage_types = []
-
-    # (query value, column heading) for the sortable rankings table.
-    SORT_COLUMNS = [
-        ('rank', 'Ranking'),
-        ('title', 'Title'),
-        ('year', 'Year(s)'),
-        ('director', 'Director(s)'),
-    ]
-
-    def __str__(self):
-        return self.short_name
-
-    def get_context(self, request):
-        context = super().get_context(request)
-
-        sort = request.GET.get('sort')
-        direction = request.GET.get('dir')
-        if sort not in {key for key, _ in self.SORT_COLUMNS}:
-            sort, direction = 'rank', 'asc'
-        elif direction not in ('asc', 'desc'):
-            direction = 'asc'
-
-        # Sort in Python: SQLite orders text by code point and ignores
-        # non-ASCII case/accents, which buries titles like "À bout de souffle".
-        # The text columns use an accent-/case-folded key (see _sort_key).
-        sort_keys = {
-            'rank': lambda r: r.rank,
-            'title': lambda r: _sort_key(r.film.title),
-            'year': lambda r: r.film.year,
-            'director': lambda r: _sort_key(r.film.director),
-        }
-        rankings = list(self.rankings.select_related('film'))
-        review_urls = _review_urls_by_film([r.film_id for r in rankings])
-        for r in rankings:
-            r.review_url = review_urls.get(r.film_id)
-        # Ties fall back to rank, except a rank sort falls back to title.
-        # A stable two-pass sort keeps the tie-break ascending even when the
-        # primary column is reversed.
-        tiebreak = (lambda r: _sort_key(r.film.title)) if sort == 'rank' else (lambda r: r.rank)
-        rankings.sort(key=tiebreak)
-        rankings.sort(key=sort_keys[sort], reverse=(direction == 'desc'))
-        context['rankings'] = rankings
-
-        context['sort_headers'] = _sort_headers(self.SORT_COLUMNS, sort, direction, 'rank')
-        return context
-
-
-class ListIndexPage(BasePage):
+class ListsIndexPage(BasePage):
     """
     Parents the List pages and shows every ranked film in one sortable table,
     with a Ranking column per child List (headed by its short_name).
@@ -462,6 +351,85 @@ class ListIndexPage(BasePage):
         context['table_headers'] = _sort_headers(columns, sort, direction, 'title')
         return context
 
+
+class ListPage(BasePage):
+    short_name = models.CharField(
+        max_length=128,
+        help_text='Short name for the list (appears on Lists index and here in the admin).',
+    )
+
+    body = StreamField(
+        LoadedStreamBlock(),
+        blank=True,
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel('short_name'),
+        FieldPanel('body'),
+    ]
+
+    parent_page_types = ['properlyscreened.ListsIndexPage']
+    subpage_types = []
+
+    # (query value, column heading) for the sortable rankings table.
+    SORT_COLUMNS = [
+        ('rank', 'Ranking'),
+        ('title', 'Title'),
+        ('year', 'Year(s)'),
+        ('director', 'Director(s)'),
+    ]
+
+    def __str__(self):
+        return self.short_name
+
+    def get_context(self, request):
+        context = super().get_context(request)
+
+        sort = request.GET.get('sort')
+        direction = request.GET.get('dir')
+        if sort not in {key for key, _ in self.SORT_COLUMNS}:
+            sort, direction = 'rank', 'asc'
+        elif direction not in ('asc', 'desc'):
+            direction = 'asc'
+
+        # Sort in Python: SQLite orders text by code point and ignores
+        # non-ASCII case/accents, which buries titles like "À bout de souffle".
+        # The text columns use an accent-/case-folded key (see _sort_key).
+        sort_keys = {
+            'rank': lambda r: r.rank,
+            'title': lambda r: _sort_key(r.film.title),
+            'year': lambda r: r.film.year,
+            'director': lambda r: _sort_key(r.film.director),
+        }
+        rankings = list(self.rankings.select_related('film'))
+        review_urls = _review_urls_by_film([r.film_id for r in rankings])
+        for r in rankings:
+            r.review_url = review_urls.get(r.film_id)
+        # Ties fall back to rank, except a rank sort falls back to title.
+        # A stable two-pass sort keeps the tie-break ascending even when the
+        # primary column is reversed.
+        tiebreak = (lambda r: _sort_key(r.film.title)) if sort == 'rank' else (lambda r: r.rank)
+        rankings.sort(key=tiebreak)
+        rankings.sort(key=sort_keys[sort], reverse=(direction == 'desc'))
+        context['rankings'] = rankings
+
+        context['sort_headers'] = _sort_headers(self.SORT_COLUMNS, sort, direction, 'rank')
+        return context
+
+
+class FlexiblePage(BasePage):
+    body = StreamField(
+        LoadedStreamBlock(),
+    )
+
+    content_panels = BasePage.content_panels + [
+        FieldPanel('body'),
+    ]
+
+
+# ···························································
+# SNIPPETS
+# ···························································
 
 # this snippet gets registered in wagtail_hooks.py
 class Film(index.Indexed, RevisionMixin, ClusterableModel):
@@ -616,6 +584,42 @@ class Screening(index.Indexed, RevisionMixin, ClusterableModel):
 
     def __str__(self):
         return f'{self.film} at {self.theater} on {self.screening_datetime}'
+
+
+@register_snippet
+class Theater(models.Model):
+    name = models.CharField(max_length=128)
+    location = models.CharField(max_length=64, blank=True)
+
+    panels = [
+        FieldPanel('name'),
+        FieldPanel('location'),
+    ]
+
+    autocomplete_search_field = 'name'
+
+    def autocomplete_label(self):
+        return self.name
+
+    @classmethod
+    def autocomplete_create(kls, value):
+        # allow creating a Theater inline from the text typed into the
+        # autocomplete widget; reuse an existing name (case-insensitively) so
+        # we never violate the unique_theater_name_ci constraint
+        existing = kls.objects.filter(name__iexact=value).first()
+        return existing or kls.objects.create(name=value)
+
+    class Meta:
+        ordering = ['name']
+        constraints = [
+            models.UniqueConstraint(
+                Lower('name'),
+                name='unique_theater_name_ci',
+            ),
+        ]
+
+    def __str__(self):
+        return f'{self.name} ({self.location})'
 
 
 @register_snippet
