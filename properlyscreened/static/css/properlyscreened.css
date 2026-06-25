@@ -300,7 +300,7 @@ body.homepage {
     background-color: var(--white);
     color: var(--black);
     margin: 2rem 0 0;
-    padding: 2rem 0;
+    padding: 2rem .75rem;
     .recent-reviews-grid {
       display: grid;
       gap: 1.5rem;
