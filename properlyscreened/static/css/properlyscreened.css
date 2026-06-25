@@ -291,6 +291,55 @@ body.homepage {
     max-width: var(--content-max-width);
     padding: 0.75rem;
   }
+  h2 {
+    font-size: 2.5rem;
+    margin: 0 auto 1rem;
+    max-width: var(--content-max-width);
+  }
+  #recent-reviews {
+    background-color: var(--white);
+    color: var(--black);
+    margin: 2rem 0 0;
+    padding: 2rem 0;
+    .recent-reviews-grid {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: 1fr;
+      margin: 0 auto;
+      max-width: var(--content-max-width);
+      @media (width >= 768px) {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    .recent-review {
+      display: block;
+    }
+    .image-wrapper {
+      position: relative;
+    }
+    .recent-review-image {
+      display: block;
+      transition: opacity .1s ease;
+      width: 100%;
+    }
+    .recent-review:hover .recent-review-image {
+      opacity: .85;
+    }
+    a, a:visited {
+      color: var(--black);
+    }
+    a:hover {
+      color: var(--darkpurple);
+      text-decoration: none;
+    }
+    h3 {
+      margin: .5rem 0 0;
+      text-transform: uppercase;
+    }
+    .director {
+      text-transform: uppercase;
+    }
+  }
   .quotation-wrapper {
     align-items: flex-start;
     background-color: var(--darkpurple);
@@ -298,7 +347,7 @@ body.homepage {
     display: flex;
     font-family: var(--serif-stack);
     justify-content: center;
-    margin: 2rem 0;
+    margin: 0 0 2rem;
     padding: 2rem;
     &::before {
       content: '“';
