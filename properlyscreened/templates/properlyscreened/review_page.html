@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
+{% load wagtailroutablepage_tags %}
 {% load typefixes %}
 
 {% block title %}{{ page.film.title }}{% endblock %}
@@ -10,10 +11,10 @@
 {% block main %}
 
 {% if page.film.image %}
-<div id="film-image">
-    {% image page.film.image width-1200 %}
-    {% include "properlyscreened/includes/film_ranking.html" with film=page.film %}
-</div>
+    <div id="film-image">
+        {% image page.film.image width-1200 %}
+        {% include "properlyscreened/includes/film_ranking.html" with film=page.film %}
+    </div>
 {% endif %}
 
 <div class="wrapper">
@@ -21,13 +22,39 @@
     <p class="date-screened">{{ page.date_screened|date:"F j, Y" }}</p>
 
     <div class="body">
-    {{ page.body|typefixes }}
+        {{ page.body|typefixes }}
     </div>
 
+    {% if theater_has_others or director_has_others or page.tags.all %}
+        <ul class="tags">
+            {% if theater_has_others %}
+                <li>
+                    <a href="{% routablepageurl reviews_index 'reviews_by_theater' page.theater.name|slugify %}">
+                        {{ page.theater.name }}
+                    </a>
+                </li>
+            {% endif %}
+            {% if director_has_others %}
+                <li>
+                    <a href="{% routablepageurl reviews_index 'reviews_by_director' page.film.director|slugify %}">
+                        {{ page.film.director_short }}
+                    </a>
+                </li>
+            {% endif %}
+            {% for tag in page.tags.all %}
+                <li>
+                    <a href="{% routablepageurl reviews_index 'reviews_by_tag' tag.slug %}">
+                        {{ tag }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
     {% if page.letterboxd_url %}
-    <p class="letterboxd-link">
-        <a href="{{ page.letterboxd_url }}"><i>{{ page.film.title }}</i> on Letterboxd&nbsp;&rarr;</a>
-    </p>
+        <p class="letterboxd-link">
+            <a href="{{ page.letterboxd_url }}"><i>{{ page.film.title }}</i> on Letterboxd&nbsp;&rarr;</a>
+        </p>
     {% endif %}
 
 </div>

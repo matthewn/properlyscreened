@@ -123,7 +123,7 @@ h2 {
   font-size: clamp(2rem, 1.6364rem + 1.8182vw, 3rem);
   font-weight: 600;
   letter-spacing: -3px;
-  line-height: 1;
+  line-height: 1.15;
   margin-bottom: 2rem;
   text-transform: uppercase;
 }
@@ -173,6 +173,33 @@ h3 {
   margin-top: 2rem;
   text-transform: uppercase;
 }
+
+ul.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 1.5rem 0;
+  padding: 0;
+  li a {
+    background-color: var(--purple);
+    border: 1px solid var(--purple);
+    border-radius: 1rem;
+    color: var(--white);
+    display: inline-block;
+    font-family: var(--sans-stack);
+    font-size: .9rem;
+    font-weight: 400;
+    padding: 0.2rem 0.75rem;
+    text-transform: uppercase;
+  }
+  li a:hover {
+    background-color: var(--white);
+    color: var(--purple);
+    text-decoration: none;
+  }
+}
+
 
 /* Rank badge overlaid on a film image; host needs position: relative. */
 .ranking {
@@ -498,6 +525,16 @@ body.screeningspage {
 }
 
 body.reviewsindexpage {
+  .filter-notice {
+    font-family: var(--sans-stack);
+    font-size: 1.35rem;
+    font-weight: 400;
+    margin-bottom: 3rem;
+    span {
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+  }
   .teaser {
     @media (width < 768px) {
       flex-direction: column;

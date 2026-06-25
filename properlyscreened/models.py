@@ -8,16 +8,21 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models.functions import Lower
+from django.http import Http404
 from django.utils import timezone
 from django.utils.html import mark_safe, strip_tags
-from django.utils.text import Truncator
+from django.utils.text import Truncator, slugify
 
 from bs4 import BeautifulSoup
 
+from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 
+from taggit.models import Tag, TaggedItemBase
+
 from wagtail.admin.panels import FieldPanel, FieldRowPanel, InlinePanel, TitleFieldPanel
+from wagtail.contrib.routable_page.models import RoutablePageMixin, path
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page, RevisionMixin
 from wagtail.search import index
@@ -146,18 +151,23 @@ class BasePage(Page):
         abstract = True
 
 
+def _review_teasers(reviews):
+    """Annotate a ReviewPage queryset with teaser/is_truncated, newest first."""
+    reviews = list(
+        reviews
+        .select_related('film__image', 'film', 'theater')
+        .prefetch_related('film__rankings')
+        .order_by('-date_screened', '-id')
+    )
+    for review in reviews:
+        review.teaser, review.is_truncated = review.excerpt()
+    return reviews
+
+
 class ReviewTeasersMixin:
     def get_context(self, request):
         context = super().get_context(request)
-        reviews = list(
-            ReviewPage.objects.live()
-            .select_related('film__image', 'film', 'theater')
-            .prefetch_related('film__rankings')
-            .order_by('-date_screened', '-id')
-        )
-        for review in reviews:
-            review.teaser, review.is_truncated = review.excerpt()
-        context['review_teasers'] = reviews
+        context['review_teasers'] = _review_teasers(ReviewPage.objects.live())
         return context
 
 
@@ -205,10 +215,61 @@ class ScreeningsPage(BasePage):
         return context
 
 
-class ReviewsIndexPage(ReviewTeasersMixin, BasePage):
+class ReviewsIndexPage(ReviewTeasersMixin, RoutablePageMixin, BasePage):
     parent_page_types = ['properlyscreened.HomePage']
     subpage_types = ['properlyscreened.ReviewPage']
     max_count = 1
+
+    @path('tags/<slug:tag>/')
+    def reviews_by_tag(self, request, tag):
+        reviews = ReviewPage.objects.live().filter(tags__slug=tag)
+        tag_obj = Tag.objects.filter(slug=tag).first()
+        if tag_obj is None:
+            raise Http404
+        return self.render(request, context_overrides={
+            'review_teasers': _review_teasers(reviews),
+            'filter_kind': 'tag',
+            'filter_label': tag_obj.name,
+        })
+
+    @path('theater/<slug:theater_slug>/')
+    def reviews_by_theater(self, request, theater_slug):
+        theater = next(
+            (t for t in Theater.objects.all() if slugify(t.name) == theater_slug),
+            None,
+        )
+        if theater is None:
+            raise Http404
+        reviews = ReviewPage.objects.live().filter(theater=theater)
+        return self.render(request, context_overrides={
+            'review_teasers': _review_teasers(reviews),
+            'filter_kind': 'theater',
+            'filter_label': theater.name,
+        })
+
+    @path('director/<slug:director_slug>/')
+    def reviews_by_director(self, request, director_slug):
+        director = next(
+            (d for d in Film.objects.values_list('director', flat=True).distinct()
+             if slugify(d) == director_slug),
+            None,
+        )
+        if director is None:
+            raise Http404
+        reviews = ReviewPage.objects.live().filter(film__director=director)
+        return self.render(request, context_overrides={
+            'review_teasers': _review_teasers(reviews),
+            'filter_kind': 'director',
+            'filter_label': director,
+        })
+
+
+class ReviewPageTag(TaggedItemBase):
+    content_object = ParentalKey(
+        'ReviewPage',
+        on_delete=models.CASCADE,
+        related_name='tagged_items',
+    )
 
 
 class ReviewPage(BasePage):
@@ -235,6 +296,7 @@ class ReviewPage(BasePage):
         'Letterboxd URL',
         blank=True,
     )
+    tags = ClusterTaggableManager(through=ReviewPageTag, blank=True)
     body = StreamField(
         LoadedStreamBlock(),
     )
@@ -249,9 +311,18 @@ class ReviewPage(BasePage):
         AutocompletePanel('film'),
         AutocompletePanel('theater'),
         FieldPanel('date_screened'),
-        FieldPanel('letterboxd_url'),
         FieldPanel('body'),
+        FieldPanel('tags'),
+        FieldPanel('letterboxd_url'),
     ]
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        context['reviews_index'] = self.get_parent().specific
+        live = ReviewPage.objects.live()
+        context['theater_has_others'] = live.filter(theater=self.theater).count() > 1
+        context['director_has_others'] = live.filter(film__director=self.film.director).count() > 1
+        return context
 
     def excerpt(self, max_words=80):
         """

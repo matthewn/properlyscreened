@@ -4,6 +4,10 @@
 
 {% block main %}
 
+{% if filter_kind %}
+<p class="filter-notice">Showing reviews for {{ filter_kind }}: <span>{{ filter_label }}</span></p>
+{% endif %}
+
 <section id="reviews-teasers">
     {% for review in review_teasers %}
 
