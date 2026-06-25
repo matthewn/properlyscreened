@@ -21,8 +21,13 @@
         </div>
         <div class="text-wrapper">
             <a href="{{ review.url }}">
-                <h3>{{ review.display_title }}</h3>
-                <div class="director">Dir. {{ review.film.director }}</div>
+                <h3>
+                    <span class="title">{{ review.display_title }}</span>
+                    <span class="other">
+                        <nobr>({{ review.film.director_short }})</nobr>
+                        at {{ review.theater.name }}
+                    </span>
+                </h3>
             </a>
             <div class="teaser-body">
                 <p>
