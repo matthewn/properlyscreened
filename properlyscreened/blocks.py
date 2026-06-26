@@ -95,6 +95,6 @@ class LoadedStreamBlock(StreamBlock):
     )
     image = ImageBlock()
     embed = EmbedBlock()
-    media = MediaBlock(icon='media')
+    # media = MediaBlock(icon='media')
     # raw_HTML = RawHTMLBlock(required=False)
     # danger = RawHTMLBlock(label='DANGER!', required=False)
