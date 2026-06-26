@@ -153,15 +153,11 @@ h3 {
 
 .buttonesque {
   border: 1px solid var(--purple);
-  color: var(--purple) !important;
   display: inline-block;
   font-family: var(--sans-stack);
   font-size: 1.25rem;
   padding: 1rem;
   text-transform: uppercase;
-  &:hover {
-    color: var(--white) !important;
-  }
 }
 
 .letterboxd-link {
@@ -248,6 +244,13 @@ body.homepage {
       @media (width >= 768px) {
         max-width: 24rem;
       }
+    }
+    .blurb-link {
+      &:hover {
+        background-color: var(--darkpurple);
+        color: var(--white) !important;
+      }
+      color: var(--purple);
     }
   }
   nav {
@@ -346,6 +349,18 @@ body.homepage {
           font-variant: small-caps;
         }
       }
+    }
+    .wrapper {
+      margin: 2rem auto 0;
+      max-width: var(--content-max-width);
+    }
+    .reviews-link {
+      border: 1px solid var(--darkpurple);
+      &:hover {
+        background-color: var(--darkpurple);
+        color: var(--white) !important;
+      }
+      color: var(--darkpurple) !important;
     }
   }
   .quotation-wrapper {

@@ -142,11 +142,6 @@ class BasePage(Page):
                 return page.hero_image
         return None
 
-    def get_context(self, request):
-        context = super().get_context(request)
-        context['lists_index_page'] = ListsIndexPage.objects.live().first()
-        return context
-
     class Meta:
         abstract = True
 
@@ -197,8 +192,15 @@ class HomePage(ReviewTeasersMixin, BasePage):
 
     max_count = 1
 
+    def get_context(self, request):
+        context = super().get_context(request)
+        context['reviews_index_page'] = ReviewsIndexPage.objects.live().first()
+        return context
+
     def quotation(self):
-        """A randomly chosen Quotation, or None if there are none."""
+        """
+        A randomly chosen Quotation, or None if there are none.
+        """
         return Quotation.objects.order_by('?').first()
 
 
@@ -212,6 +214,7 @@ class ScreeningsPage(BasePage):
         screenings = Screening.objects.forthcoming()
         context['hosted_screenings'] = screenings.filter(is_hosted=True)
         context['other_screenings'] = screenings.filter(is_hosted=False)
+        context['lists_index_page'] = ListsIndexPage.objects.live().first()
         return context
 
 
