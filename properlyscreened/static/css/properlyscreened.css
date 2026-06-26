@@ -316,15 +316,18 @@ main {
       margin-top: .25rem;
     }
   }
-  figure.float {
-    margin-bottom: .5rem;
-    &.left {
-      float: left;
-      margin-right: 2.5rem;
-    }
-    &.right {
-      float: right;
-      margin-left: 2.5rem;
+  @media (width >= 768px) {
+    figure.float {
+      margin-bottom: .5rem;
+      width: var(--float-width);
+      &.left {
+        float: left;
+        margin-right: 2.5rem;
+      }
+      &.right {
+        float: right;
+        margin-left: 2.5rem;
+      }
     }
   }
 }
