@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'django_extensions',
+    'email_obfuscator',
     'typogrify',
     'wagtailmedia',
     'wagtailautocomplete',

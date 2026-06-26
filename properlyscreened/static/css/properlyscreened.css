@@ -11,7 +11,7 @@
 
   --sans-stack: 'Proza Libre', sans-serif;
   --serif-stack: 'Cormorant Garamond', serif;
-  --headline-stack: 'Bebas Neue', sans-serif;
+  --wordmark-stack: 'Bebas Neue', sans-serif;
   --numbers-stack: 'Oi', sans-serif;
 
   --content-max-width: 1200px;
@@ -38,7 +38,7 @@ body > header {
   h1 {
     --scale: 1.4;
     color: var(--white);
-    font-family: var(--headline-stack);
+    font-family: var(--wordmark-stack);
     font-size: clamp(2.125rem, 1.8068rem + 1.5909vw, 3rem);
     line-height: .85;
     padding-bottom: calc((var(--scale) - 1) * 1em);
@@ -102,9 +102,81 @@ body:not(.homepage) > main {
 
 body > footer {
   color: var(--white);
-  margin: 5rem 0 2rem;
+  margin: 3rem auto 4rem;
   text-align: center;
-  text-transform: uppercase;
+
+  a, a:visited {
+    color: var(--purple);
+  }
+  a:hover {
+    color: var(--white);
+    text-decoration: none;
+  }
+
+  .wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .footer-cell:first-child {
+    justify-self: end;
+    padding-right: 5.5rem;
+  }
+  .footer-cell:last-child {
+    border-left: 1px solid var(--white);
+    justify-self: start;
+    padding-left: 5.5rem;
+  }
+
+  @media (width < 768px) {
+    font-size: .9rem;
+    .wrapper {
+      grid-template-columns: 1fr;
+    }
+    .footer-cell:first-child {
+      justify-self: stretch;
+      padding-bottom: 1.5rem;
+      padding-right: 0;
+    }
+    .footer-cell:last-child {
+      border-left: none;
+      justify-self: stretch;
+      margin-top: 1rem;
+      padding-left: 0;
+    }
+    .footer-label {
+      font-size: 1.25rem;
+    }
+  }
+
+  .footer-label {
+    display: block;
+    font-family: var(--sans-stack);
+    font-size: 1.5em;
+    margin-bottom: .5rem;
+    text-transform: uppercase;
+  }
+  .social {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    li {
+      list-style: none;
+    }
+    .icon svg {
+      display: block;
+      width: 30px;
+    }
+  }
+  .footer-bottom {
+    font-size: .9em;
+    font-weight: 300;
+    margin-top: 2rem;
+    a {
+      font-variant: small-caps;
+    }
+  }
 }
 
 a {
@@ -446,6 +518,10 @@ body.screeningspage {
         width: 1em;
       }
     }
+    .wrapper {
+      border: 1px solid var(--grey);
+      padding: 3rem;
+    }
   }
 
   #hosted-screenings {
@@ -578,10 +654,6 @@ body.screeningspage {
       max-width: 42ch;
       text-wrap: balance;
     }
-  }
-  .wrapper {
-    border: 1px solid var(--grey);
-    padding: 3rem;
   }
 }
 

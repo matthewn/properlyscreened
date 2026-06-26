@@ -107,6 +107,12 @@ wheels = [
 ]
 
 [[package]]
+name = "django-email-obfuscator"
+version = "0.1.5"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/f6/ef/476733a8dafacd240ca13e374c45c8142ff239171771dced719e526701de/django-email-obfuscator-0.1.5.tar.gz", hash = "sha256:055d5251ebfb4aa3431c238927461e6b4bd501f937b5207cd175f7ea50519f32", size = 1347, upload-time = "2017-02-10T21:51:55.653Z" }
+
+[[package]]
 name = "django-extensions"
 version = "4.1"
 source = { registry = "https://pypi.org/simple" }
@@ -416,6 +422,7 @@ name = "properlyscreened"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "django-email-obfuscator" },
     { name = "django-extensions" },
     { name = "gunicorn" },
     { name = "jinja2" },
@@ -428,6 +435,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
+    { name = "django-email-obfuscator", specifier = ">=0.1.5" },
     { name = "django-extensions", specifier = ">=4.1" },
     { name = "gunicorn", specifier = ">=26.0.0" },
     { name = "jinja2", specifier = ">=3.1.6" },

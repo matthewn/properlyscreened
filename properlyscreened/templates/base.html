@@ -1,4 +1,5 @@
 {% load static wagtailcore_tags wagtailimages_tags wagtailuserbar navigation_tags %}
+{% load email_obfuscator %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -55,7 +56,30 @@
         {% endblock %}
 
         <footer>
-            (footer goes here)
+            <div class="wrapper">
+                <div class="footer-cell">
+                    <span class="footer-label">Follow Us</span>
+                    <ul class="social">
+                        <li>
+                            <a href="https://www.instagram.com/properlyscreened" aria-label="Instagram" title="Follow us on Instagram">
+                                <span class="icon">{% include 'properlyscreened/icons/instagram.svg' %}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://letterboxd.com/PrprlyScrnd/" aria-label="Letterboxd" title="Follow us on Letterboxd">
+                                <span class="icon">{% include 'properlyscreened/icons/letterboxd.svg' %}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-cell">
+                    <span class="footer-label">Contact Us</span>
+                    {{ 'properlyscreened@gmail.com'|obfuscate_mailto }}
+                </div>
+            </div>
+            <div class="footer-bottom">
+                Site developed by <a href="https://loudmachine.net/">Loud Machine</a>
+            </div>
         </footer>
 
         {# Global javascript #}
