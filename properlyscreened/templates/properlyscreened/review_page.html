@@ -2,6 +2,7 @@
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
 {% load wagtailroutablepage_tags %}
+{% load text_tags %}
 {% load typefixes %}
 
 {% block title %}{{ page.film.title }}{% endblock %}
@@ -18,7 +19,14 @@
 {% endif %}
 
 <div class="wrapper">
-    <h2><i>{{ page.display_title }}</i> ({{ page.film.director_short }}) at {{ page.theater }}</h2>
+    <h2>
+        <span class="title">{{ page.display_title }}</span>
+        <span class="director">({{ page.film.director }})</span>
+        <br>
+        <span class="atthe">at {{ page.theater.name|optional_the }} </span>
+        <span class="theater-name">{{ page.theater.name }}</span>
+        <span class="theater-location">({{ page.theater.location }})</span>
+    </h2>
     <p class="date-screened">{{ page.date_screened|date:"F j, Y" }}</p>
 
     <div class="body">

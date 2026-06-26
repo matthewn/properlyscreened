@@ -2,16 +2,16 @@
 
 <div class="title-and-director">
     <div class="title">{{ screening.film|typefixes }}</div>
-    <div class="director">Dir. {{ screening.film.director|typefixes }}</div>
+    <div class="director">({{ screening.film.director|typefixes }})</div>
 </div>
 <div class="time-and-date">
-    <div class="time">
-        <span class="icon">{% include 'properlyscreened/icons/clock.svg' %}</span>
-        {{ screening.screening_datetime|date:"g:i A" }}
-    </div>
     <div class="date">
         <span class="icon">{% include 'properlyscreened/icons/calendar.svg' %}</span>
         {{ screening.screening_datetime|date:"l, F j, Y" }}
+    </div>
+    <div class="time">
+        <span class="icon">{% include 'properlyscreened/icons/clock.svg' %}</span>
+        {{ screening.screening_datetime|date:"g:i A" }}
     </div>
 </div>
 <div class="theater-and-location">

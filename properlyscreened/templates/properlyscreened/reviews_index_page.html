@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags wagtailimages_tags %}
+{% load text_tags %}
 {% load typefixes %}
 
 {% block main %}
@@ -21,11 +22,12 @@
         </div>
         <div class="text-wrapper">
             <a href="{{ review.url }}">
-                <h3>
+                <h3 class="complex-title">
                     <span class="title">{{ review.display_title }}</span>
                     <span class="other">
                         <nobr>({{ review.film.director_short }})</nobr>
-                        at {{ review.theater.name }}
+                        <span class="atthe">at {{ review.theater.name|optional_the }} </span>
+                        <span class="theater">{{ review.theater.name }}</span>
                     </span>
                 </h3>
             </a>

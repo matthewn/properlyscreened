@@ -85,12 +85,6 @@ body > header {
   }
 }
 
-body > footer {
-  margin-bottom: 2rem;
-  text-align: center;
-  text-transform: uppercase;
-}
-
 body:not(.homepage) > main {
   background-color: var(--white);
   border-radius: 5px;
@@ -108,7 +102,9 @@ body:not(.homepage) > main {
 
 body > footer {
   color: var(--white);
-  margin-top: 5rem;
+  margin: 5rem 0 2rem;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 a {
@@ -123,7 +119,7 @@ h2 {
   font-size: clamp(2rem, 1.6364rem + 1.8182vw, 3rem);
   font-weight: 600;
   letter-spacing: -3px;
-  line-height: 1.15;
+  line-height: 1.1;
   margin-bottom: 2rem;
   text-transform: uppercase;
 }
@@ -199,7 +195,6 @@ ul.tags {
     text-decoration: none;
   }
 }
-
 
 /* Rank badge overlaid on a film image; host needs position: relative. */
 .ranking {
@@ -333,11 +328,24 @@ body.homepage {
       text-decoration: none;
     }
     h3 {
-      margin: .5rem 0 0;
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: -3px;
+      line-height: 1;
+      margin: .75rem 0 0;
       text-transform: uppercase;
-    }
-    .director {
-      text-transform: uppercase;
+      .title {
+        margin-right: .25rem;
+      }
+      .other {
+        font-size: 1.55rem;
+        font-weight: 400;
+        letter-spacing: -2px;
+        text-transform: none;
+        .theater {
+          font-variant: small-caps;
+        }
+      }
     }
   }
   .quotation-wrapper {
@@ -380,6 +388,11 @@ body.homepage {
 }
 
 body.screeningspage {
+  .image-wrapper img {
+    display: block;
+    height: auto;
+    width: 100%;
+  }
 
   #hosted-screenings,
   #other-screenings {
@@ -390,13 +403,11 @@ body.screeningspage {
       margin: 0;
       padding: 0;
     }
-    .title,
-    .director,
-    .time,
-    .date,
-    .theater-name,
-    .theater-location {
+    .title {
       text-transform: uppercase;
+    }
+    .theater-name {
+      font-variant: small-caps;
     }
     .time,
     .date {
@@ -461,11 +472,6 @@ body.screeningspage {
       @media (width < 768px) {
         width: 100%;
       }
-      img {
-        display: block;
-        height: auto;
-        width: 100%;
-      }
     }
   }
 
@@ -482,12 +488,6 @@ body.screeningspage {
       display: contents;
       font-size: .9rem;
     }
-    .image-wrapper img {
-      display: block;
-      height: auto;
-      width: 100%;
-    }
-
     .title {
       font-size: 1.2rem;
       font-weight: 600;
@@ -512,7 +512,7 @@ body.screeningspage {
       position: static;
       text-align: center;
     }
-    
+
     .tickets {
       &:hover {
         background-color: var(--purple);
@@ -613,6 +613,9 @@ body.reviewsindexpage {
         font-weight: 400;
         letter-spacing: -1px;
         text-transform: none;
+        .theater {
+          font-variant: small-caps;
+        }
       }
     }
     .teaser-body {
@@ -670,7 +673,29 @@ body.reviewpage {
     max-width: 850px;
   }
   h2 {
+    letter-spacing: -2px;
     text-transform: unset;
+    .title {
+      letter-spacing: -3px;
+      text-transform: uppercase;
+    }
+    .director {
+      font-size: .85em;
+      font-weight: 500;
+    }
+    .atthe {
+      font-size: .65em;
+      font-weight: 400;
+    }
+    .theater-name {
+      font-size: .85em;
+      font-variant: small-caps;
+      font-weight: 500;
+    }
+    .theater-location {
+      font-size: .75em;
+      font-weight: 500;
+    }
   }
   .date-screened {
     color: var(--grey);

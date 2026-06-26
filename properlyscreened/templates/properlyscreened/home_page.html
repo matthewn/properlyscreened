@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags wagtailimages_tags navigation_tags %}
+{% load text_tags %}
 {% load typefixes %}
 
 {% block header %}
@@ -31,8 +32,14 @@
                 {% include "properlyscreened/includes/film_ranking.html" with film=review.film %}
             </div>
             {% endif %}
-            <h3>{{ review.display_title }}</h3>
-            <div class="director">Dir. {{ review.film.director }}</div>
+            <h3>
+                <span class="title">{{ review.display_title }}</span>
+                <span class="other">
+                    <nobr>({{ review.film.director_short }})</nobr>
+                    <span class="atthe">at {{ review.theater.name|optional_the }} </span>
+                    <span class="theater">{{ review.theater.name }}</span>
+                </span>
+            </h3>
         </a>
         {% endfor %}
     </div>
