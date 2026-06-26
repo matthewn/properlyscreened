@@ -285,6 +285,32 @@ ul.tags {
   }
 }
 
+/* ImageBlock <figure>s */
+main {
+  figure {
+    margin: 0 0 1rem;
+    img {
+      height: auto;
+      max-width: 100%;
+    }
+    figcaption p {
+      font-size: 1rem !important;
+      margin-top: .25rem;
+    }
+  }
+  figure.float {
+    margin-bottom: .5rem;
+    &.left {
+      float: left;
+      margin-right: 2.5rem;
+    }
+    &.right {
+      float: right;
+      margin-left: 2.5rem;
+    }
+  }
+}
+
 /***********************************
  * PAGE-SPECIFIC STUFF BEGINS HERE *
  ***********************************/

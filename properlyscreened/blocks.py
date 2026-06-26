@@ -4,6 +4,7 @@ from django.utils.html import format_html, format_html_join
 
 from wagtail.blocks import (
     ChoiceBlock,
+    IntegerBlock,
     # RawHTMLBlock,
     RichTextBlock,
     StreamBlock,
@@ -23,11 +24,6 @@ class FloatChoices(models.IntegerChoices):
     RIGHT = 2
 
 
-class ZoomChoices(models.IntegerChoices):
-    OFF = 0
-    ON = 1
-
-
 class ImageBlock(StructBlock):
     image = ImageChooserBlock()
     caption = RichTextBlock(required=False, features=['bold', 'italic', 'link'])
@@ -37,9 +33,11 @@ class ImageBlock(StructBlock):
         choices=FloatChoices.choices,
         default=FloatChoices.NONE,
     )
-    zoom = ChoiceBlock(
-        choices=ZoomChoices.choices,
-        default=ZoomChoices.ON,
+    float_width = IntegerBlock(
+        required=False,
+        min_value=1,
+        max_value=100,
+        help_text='Width of the float, as a percentage of the container.',
     )
 
     class Meta:

@@ -1,0 +1,13 @@
+{% load wagtailimages_tags wagtailcore_tags typefixes %}
+
+<figure
+    {% if value.float == 1 %}class="float left"{% elif value.float == 2 %}class="float right"{% endif %}
+    {% if value.float_width and value.float != 3 %}style="width: {{ value.float_width }}%;"{% endif %}>
+    {% image value.image width-800 as small_image %}
+    {% if value.link %}<a href="{{ value.link }}">{% endif %}
+    <img src="{{ small_image.url }}" alt="{{ value.image.description|default:value.image.title }}">
+    {% if value.link %}</a>{% endif %}
+    {% if value.caption %}
+        <figcaption class="caption">{{ value.caption|richtext|typefixes }}</figcaption>
+    {% endif %}
+</figure>
