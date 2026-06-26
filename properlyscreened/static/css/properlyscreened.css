@@ -202,6 +202,18 @@ h3 {
   margin: 1rem 0;
 }
 
+h4 {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin: 1rem 0;
+}
+
+h5 {
+  font-size: 1.15rem;
+  font-weight: 500;
+  margin: 1rem 0;
+}
+
 #hero-image {
   height: auto;
   left: 0;
@@ -283,6 +295,12 @@ ul.tags {
     text-align: center;
     text-transform: uppercase;
   }
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--darkpurple);
+  margin: 2rem auto;
 }
 
 /* ImageBlock <figure>s */

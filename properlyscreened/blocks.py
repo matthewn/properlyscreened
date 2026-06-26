@@ -88,6 +88,7 @@ class LoadedStreamBlock(StreamBlock):
             'italic',
             'strikethrough',
             'small',
+            'hr',
             'link',
             'document-link',
         ],
