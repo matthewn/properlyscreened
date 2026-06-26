@@ -220,17 +220,20 @@ class ReviewsIndexPage(ReviewTeasersMixin, RoutablePageMixin, BasePage):
     subpage_types = ['properlyscreened.ReviewPage']
     max_count = 1
 
+    def _render_filtered(self, request, reviews, kind, label):
+        return self.render(request, context_overrides={
+            'review_teasers': _review_teasers(reviews),
+            'filter_kind': kind,
+            'filter_label': label,
+        })
+
     @path('tags/<slug:tag>/')
     def reviews_by_tag(self, request, tag):
-        reviews = ReviewPage.objects.live().filter(tags__slug=tag)
         tag_obj = Tag.objects.filter(slug=tag).first()
         if tag_obj is None:
             raise Http404
-        return self.render(request, context_overrides={
-            'review_teasers': _review_teasers(reviews),
-            'filter_kind': 'tag',
-            'filter_label': tag_obj.name,
-        })
+        reviews = ReviewPage.objects.live().filter(tags__slug=tag)
+        return self._render_filtered(request, reviews, 'tag', tag_obj.name)
 
     @path('theater/<slug:theater_slug>/')
     def reviews_by_theater(self, request, theater_slug):
@@ -241,11 +244,7 @@ class ReviewsIndexPage(ReviewTeasersMixin, RoutablePageMixin, BasePage):
         if theater is None:
             raise Http404
         reviews = ReviewPage.objects.live().filter(theater=theater)
-        return self.render(request, context_overrides={
-            'review_teasers': _review_teasers(reviews),
-            'filter_kind': 'theater',
-            'filter_label': theater.name,
-        })
+        return self._render_filtered(request, reviews, 'theater', theater.name)
 
     @path('director/<slug:director_slug>/')
     def reviews_by_director(self, request, director_slug):
@@ -257,11 +256,7 @@ class ReviewsIndexPage(ReviewTeasersMixin, RoutablePageMixin, BasePage):
         if director is None:
             raise Http404
         reviews = ReviewPage.objects.live().filter(film__director=director)
-        return self.render(request, context_overrides={
-            'review_teasers': _review_teasers(reviews),
-            'filter_kind': 'director',
-            'filter_label': director,
-        })
+        return self._render_filtered(request, reviews, 'director', director)
 
 
 class ReviewPageTag(TaggedItemBase):
