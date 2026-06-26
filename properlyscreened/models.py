@@ -386,10 +386,11 @@ class ListsIndexPage(BasePage):
         columns = [(f'list{lst.id}', lst.short_name) for lst in lists] + self.FILM_COLUMNS
         context['published_lists'] = [lst for lst in lists if lst.live]
 
+        default_sort = columns[0][0]
         sort = request.GET.get('sort')
         direction = request.GET.get('dir')
         if sort not in {key for key, _ in columns}:
-            sort, direction = 'title', 'asc'
+            sort, direction = default_sort, 'asc'
         elif direction not in ('asc', 'desc'):
             direction = 'asc'
 
@@ -431,7 +432,7 @@ class ListsIndexPage(BasePage):
             }
             for row in rows
         ]
-        context['table_headers'] = _sort_headers(columns, sort, direction, 'title')
+        context['table_headers'] = _sort_headers(columns, sort, direction, default_sort)
         return context
 
 
