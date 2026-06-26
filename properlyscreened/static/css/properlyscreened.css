@@ -466,15 +466,14 @@ body.screeningspage {
       font-size: 1.55rem;
     }
     .tickets {
-      background-color: var(--purple);
+      background-color: var(--darkpurple);
+      color: var(--white);
       margin-top: 1.5rem;
       padding: .5rem 4rem;
       &:hover {
         background-color: var(--white);
-        a, a:visited {
-          color: var(--darkpurple);
-          text-decoration: none;
-        }
+        color: var(--darkpurple);
+        text-decoration: none;
       }
       a, a:visited {
         color: var(--white);
@@ -530,11 +529,9 @@ body.screeningspage {
 
     .tickets {
       &:hover {
-        background-color: var(--purple);
-        a, a:visited {
-          color: var(--white);
-          text-decoration: none;
-        }
+        background-color: var(--darkpurple);
+        color: var(--white);
+        text-decoration: none;
       }
     }
 
