@@ -3,7 +3,7 @@ from django.template.defaultfilters import stringfilter
 
 register = template.Library()
 
-_THE_SUFFIXES = ('theater', 'theatre', 'cinema')
+_THE_SUFFIXES = ('theater', 'theatre', 'cinema', 'archive')
 
 
 @register.filter
