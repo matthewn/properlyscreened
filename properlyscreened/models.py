@@ -81,7 +81,9 @@ _TEASER_BLOCK_TAGS = ['p', 'blockquote', 'ul', 'ol', 'li', 'h2', 'h3', 'h4', 'h5
 
 
 def _flow_inline(markup):
-    """Flatten block structure to single spaces, keeping inline styling."""
+    """
+    Flatten block structure to single spaces, keeping inline styling.
+    """
     soup = BeautifulSoup(markup, 'html.parser')
     for tag in soup.find_all(_TEASER_BLOCK_TAGS):
         tag.insert_after(' ')
@@ -147,7 +149,9 @@ class BasePage(Page):
 
 
 def _review_teasers(reviews):
-    """Annotate a ReviewPage queryset with teaser/is_truncated, newest first."""
+    """
+    Annotate a ReviewPage queryset with teaser/is_truncated, newest first.
+    """
     reviews = list(
         reviews
         .select_related('film__image', 'film', 'theater')
@@ -345,9 +349,6 @@ class ReviewPage(BasePage):
 
     @property
     def display_title(self):
-        """
-        Return a computed title, unless a manual one is set.
-        """
         if self.use_manual_page_title:
             return self.title
         else:
