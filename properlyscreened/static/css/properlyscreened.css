@@ -844,6 +844,11 @@ body.flexiblepage {
   h2 {
     letter-spacing: -3px;
   }
+  h2,
+  main .wrapper {
+    margin: 0 auto 2rem;
+    max-width: 850px;
+  }
 }
 
 body.listsindexpage {

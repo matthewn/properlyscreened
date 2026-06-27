@@ -3,5 +3,7 @@
 {% load typefixes %}
 
 {% block main %}
-{{ page.body|typefixes }}
+<div class="wrapper">
+    {{ page.body|typefixes }}
+</div>
 {% endblock %}
