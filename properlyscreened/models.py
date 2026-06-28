@@ -194,6 +194,10 @@ class HomePage(ReviewTeasersMixin, BasePage):
         FieldPanel('body'),
     ]
 
+    search_fields = Page.search_fields + [
+        index.SearchField('body'),
+    ]
+
     max_count = 1
 
     def get_context(self, request):
@@ -318,6 +322,19 @@ class ReviewPage(BasePage):
         FieldPanel('letterboxd_url'),
     ]
 
+    search_fields = Page.search_fields + [
+        index.SearchField('body'),
+        index.RelatedFields('film', [
+            index.SearchField('title'),
+            index.SearchField('director'),
+            index.SearchField('year'),
+        ]),
+        index.RelatedFields('theater', [
+            index.SearchField('name'),
+            index.SearchField('location'),
+        ]),
+    ]
+
     def get_context(self, request):
         context = super().get_context(request)
         context['reviews_index'] = self.get_parent().specific
@@ -367,6 +384,10 @@ class ListsIndexPage(BasePage):
 
     content_panels = Page.content_panels + [
         FieldPanel('body'),
+    ]
+
+    search_fields = Page.search_fields + [
+        index.SearchField('body'),
     ]
 
     subpage_types = ['properlyscreened.ListPage']
@@ -453,6 +474,10 @@ class ListPage(BasePage):
         FieldPanel('body'),
     ]
 
+    search_fields = Page.search_fields + [
+        index.SearchField('body'),
+    ]
+
     parent_page_types = ['properlyscreened.ListsIndexPage']
     subpage_types = []
 
@@ -509,6 +534,10 @@ class FlexiblePage(BasePage):
 
     content_panels = BasePage.content_panels + [
         FieldPanel('body'),
+    ]
+
+    search_fields = Page.search_fields + [
+        index.SearchField('body'),
     ]
 
 

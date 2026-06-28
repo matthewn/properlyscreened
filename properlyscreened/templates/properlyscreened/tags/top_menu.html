@@ -6,5 +6,15 @@
             <a href="{% pageurl menuitem %}">{% if menuitem.menu_title %}{{ menuitem.menu_title }}{% else %}{{ menuitem.title }}{% endif %}</a>
         </li>
         {% endfor %}
+        <li class="search-item">
+            {# Pure-CSS reveal: the label toggles the hidden checkbox; its :checked state expands the field. #}
+            <input type="checkbox" id="search-toggle" class="search-toggle">
+            <form action="{% url 'search' %}" method="get" role="search">
+                <input type="search" name="query" placeholder="Search…" aria-label="Search">
+            </form>
+            <label for="search-toggle" aria-label="Search">
+                <span class="icon">{% include 'properlyscreened/icons/search.svg' %}</span>
+            </label>
+        </li>
     </ul>
 </nav>

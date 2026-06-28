@@ -7,13 +7,16 @@ register = template.Library()
 
 @register.filter
 def page_type(page):
-    # Lowercase model name of the page's specific type, e.g. 'listpage'.
+    # lowercase model name of the page's specific type, e.g. 'listpage'
+    # (empty for non-page contexts, e.g. the search results page)
+    if not hasattr(page, 'specific_class'):
+        return ''
     return page.specific_class._meta.model_name
 
 
 @register.simple_tag(takes_context=True)
 def get_site_root(context):
-    # Returns a core.Page (not the specific model) — the site's root page.
+    # returns a core.Page (not the specific model) - the site's root page
     return Site.find_for_request(context['request']).root_page
 
 
@@ -24,7 +27,7 @@ def top_menu(context, parent, calling_page=None):
     """
     menuitems = parent.get_children().live().in_menu().specific()
     for menuitem in menuitems:
-        # An item is active if the page being rendered is it or one of its descendants.
+        # an item is active if the page being rendered is it or one of its descendants
         menuitem.active = (
             calling_page.path.startswith(menuitem.path) if calling_page else False
         )
