@@ -32,13 +32,11 @@
                 {% include "properlyscreened/includes/film_ranking.html" with film=review.film %}
             </div>
             {% endif %}
-            <h3>
+            <h3 class="complex-title">
                 <span class="title">{{ review.display_title }}</span>
-                <span class="other">
-                    <nobr>({{ review.film.director_short }})</nobr>
-                    <span class="atthe">at {{ review.theater.name|optional_the }} </span>
-                    <span class="theater">{{ review.theater.name }}</span>
-                </span>
+                <span class="director">({{ review.film.director_short }})</span>
+                <span class="atthe">at {{ review.theater.name|optional_the }} </span>
+                <span class="theater-name">{{ review.theater.name }}</span>
             </h3>
         </a>
         {% endfor %}

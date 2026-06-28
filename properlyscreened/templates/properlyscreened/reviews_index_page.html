@@ -24,10 +24,9 @@
             <a href="{{ review.url }}">
                 <h3 class="complex-title">
                     <span class="title">{{ review.display_title }}</span>
-                    <span class="other">
-                        <nobr>({{ review.film.director_short }})</nobr>
-                        <span class="atthe">at {{ review.theater.name|optional_the }} </span>
-                        <span class="theater">{{ review.theater.name }}</span>
+                    <span class="director">({{ review.film.director_short }})</span>
+                    <span class="atthe">at {{ review.theater.name|optional_the }} </span>
+                    <span class="theater">{{ review.theater.name }}</span>
                     </span>
                 </h3>
             </a>

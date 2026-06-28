@@ -9,7 +9,7 @@
   --grey: #6b6b6b;
   --dust: #e4e1da;
 
-  --sans-stack: 'Proza Libre', sans-serif;
+  --sans-stack: 'Inter', sans-serif;
   --serif-stack: 'Cormorant Garamond', serif;
   --wordmark-stack: 'Bebas Neue', sans-serif;
   --numbers-stack: 'Oi', sans-serif;
@@ -189,8 +189,8 @@ a:hover {
 
 h2 {
   font-size: clamp(2rem, 1.6364rem + 1.8182vw, 3rem);
-  font-weight: 600;
-  letter-spacing: -3px;
+  font-weight: 700;
+  letter-spacing: -1px;
   line-height: 1.1;
   margin-bottom: 2rem;
   text-transform: uppercase;
@@ -449,24 +449,12 @@ body.homepage {
       color: var(--darkpurple);
       text-decoration: none;
     }
-    h3 {
+    h3.complex-title {
       font-size: 2rem;
-      font-weight: 600;
-      letter-spacing: -3px;
       line-height: 1;
       margin: .75rem 0 0;
-      text-transform: uppercase;
-      .title {
-        margin-right: .25rem;
-      }
-      .other {
+      span:not(.title) {
         font-size: 1.55rem;
-        font-weight: 400;
-        letter-spacing: -2px;
-        text-transform: none;
-        .theater {
-          font-variant: small-caps;
-        }
       }
     }
     .wrapper {
@@ -490,7 +478,7 @@ body.homepage {
     font-family: var(--serif-stack);
     justify-content: center;
     margin: 0 0 2rem;
-    padding: 2rem;
+    padding: 2.5rem 2rem 1.5rem;
     &::before {
       content: '“';
       font-size: 8rem;
@@ -541,7 +529,7 @@ body.screeningspage {
       text-transform: uppercase;
     }
     .theater-name {
-      font-variant: small-caps;
+      font-weight: 600;
     }
     .time,
     .date {
@@ -583,7 +571,7 @@ body.screeningspage {
     }
     .title {
       font-size: 1.85rem;
-      font-weight: 600;
+      font-weight: 700;
     }
     .director {
       font-size: 1.55rem;
@@ -627,7 +615,7 @@ body.screeningspage {
     }
     .title {
       font-size: 1.2rem;
-      font-weight: 600;
+      font-weight: 700;
     }
     .director {
       font-size: 1rem;
@@ -729,24 +717,12 @@ body.reviewsindexpage {
       color: var(--darkpurple);
       text-decoration: none;
     }
-    h3 {
-      font-size: 2.25rem;
-      font-weight: 600;
-      letter-spacing: -3px;
-      line-height: 1;
+    h3.complex-title {
+      font-size: 2.15rem;
+      line-height: 1.1;
       margin: 0 1rem 0 0;
-      text-transform: uppercase;
-      .title {
-        margin-right: .25rem;
-      }
-      .other {
-        font-size: 1.75rem;
-        font-weight: 400;
-        letter-spacing: -1px;
-        text-transform: none;
-        .theater {
-          font-variant: small-caps;
-        }
+      span:not(.title) {
+        font-size: 1.85rem;
       }
     }
     .teaser-body {
@@ -803,29 +779,16 @@ body.reviewpage {
     margin: 0 auto;
     max-width: 850px;
   }
-  h2 {
-    letter-spacing: -2px;
+  h2.complex-title {
+    letter-spacing: unset;
+    line-height: .95;
     text-transform: unset;
     .title {
-      letter-spacing: -3px;
+      letter-spacing: -1px;
       text-transform: uppercase;
     }
-    .director {
-      font-size: .85em;
-      font-weight: 500;
-    }
-    .atthe {
-      font-size: .65em;
-      font-weight: 400;
-    }
-    .theater-name {
-      font-size: .85em;
-      font-variant: small-caps;
-      font-weight: 500;
-    }
-    .theater-location {
+    span:not(.title) {
       font-size: .75em;
-      font-weight: 500;
     }
   }
   .date-screened {
@@ -842,7 +805,7 @@ body.reviewpage {
 
 body.flexiblepage {
   h2 {
-    letter-spacing: -3px;
+    /* letter-spacing: -3px; */
   }
   h2,
   main .wrapper {
@@ -870,7 +833,7 @@ body.listsindexpage {
 body.listsindexpage,
 body.listpage {
   h2 {
-    letter-spacing: -3px;
+    /* letter-spacing: -3px; */
     margin: 1rem auto 2rem;
   }
   table, th, td {
@@ -924,5 +887,27 @@ body.listpage {
   }
   td a:hover {
     text-decoration: underline;
+  }
+}
+
+.complex-title {
+  .title {
+    font-weight: 700;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+  }
+  .director {
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .atthe {
+    font-weight: 300;
+    white-space: nowrap;
+  }
+  .theater-name {
+    font-weight: 500;
+  }
+  .theater-location {
+    font-weight: 400;
   }
 }
