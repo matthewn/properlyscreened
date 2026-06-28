@@ -15,10 +15,11 @@
   --numbers-stack: 'Oi', sans-serif;
 
   --content-max-width: 1200px;
+  --reading-width: 850px;
 }
 
 body {
-  background-color: #000;
+  background-color: var(--black);
   font-family: var(--sans-stack);
 }
 
@@ -31,6 +32,9 @@ body > footer {
 }
 
 body > header {
+  --link: var(--white);
+  --link-hover: var(--purple);
+  --link-hover-decoration: none;
   align-items: center;
   display: flex;
   justify-content: space-between;
@@ -70,18 +74,8 @@ body > header {
       }
     }
   }
-  a {
-    color: var(--white);
-  }
-  a:hover {
-    color: var(--purple) !important;
-    text-decoration: none;
-  }
-  a:visited {
-    color: var(--white);
-  }
   .active a {
-    color: var(--purple) !important;
+    color: var(--purple);
   }
 }
 
@@ -102,17 +96,12 @@ body:not(.homepage) > main {
 }
 
 body > footer {
+  --link: var(--purple);
+  --link-hover: var(--white);
+  --link-hover-decoration: none;
   color: var(--white);
   margin: 3rem auto 4rem;
   text-align: center;
-
-  a, a:visited {
-    color: var(--purple);
-  }
-  a:hover {
-    color: var(--white);
-    text-decoration: none;
-  }
 
   .wrapper {
     display: grid;
@@ -180,12 +169,18 @@ body > footer {
   }
 }
 
-a {
-  color: var(--darkpurple);
+/* Link colors are driven by --link / --link-hover: a section sets just those
+   two custom properties (plus --link-hover-decoration to suppress the default
+   underline) instead of repeating the a / a:visited / a:hover triad. The
+   fallbacks below preserve plain body-text link behavior. */
+a,
+a:visited {
+  color: var(--link, var(--darkpurple));
   text-decoration: none;
 }
 a:hover {
-  text-decoration: underline;
+  color: var(--link-hover, var(--darkpurple));
+  text-decoration: var(--link-hover-decoration, underline);
 }
 
 h2 {
@@ -245,8 +240,9 @@ h5 {
   text-transform: uppercase;
 }
 
-.letterboxd-link {
-  font-family: var(--sans-stack) !important;
+/* a <p>, so out-specify the serif `main p` rule rather than forcing it */
+body:not(.homepage) > main .letterboxd-link {
+  font-family: var(--sans-stack);
   margin-top: 2rem;
   text-transform: uppercase;
 }
@@ -279,7 +275,6 @@ ul.tags {
 
 /* rank badge overlaid on a film image; host needs position: relative */
 .ranking {
-  /* background-color: rgb(0 0 0 / 55%); */
   color: var(--purple);
   font-family: var(--numbers-stack);
   font-size: 3.25rem;
@@ -324,8 +319,8 @@ main {
       height: auto;
       max-width: 100%;
     }
-    figcaption p {
-      font-size: 1rem !important;
+    figcaption.caption p {
+      font-size: 1rem;
       margin-top: .25rem;
     }
   }
@@ -378,11 +373,11 @@ body.homepage {
       }
     }
     .blurb-link {
+      --link: var(--purple);
+      --link-hover: var(--white);
       &:hover {
         background-color: var(--darkpurple);
-        color: var(--white) !important;
       }
-      color: var(--purple);
     }
   }
   nav {
@@ -433,6 +428,9 @@ body.homepage {
     max-width: var(--content-max-width);
   }
   #recent-reviews {
+    --link: var(--black);
+    --link-hover: var(--darkpurple);
+    --link-hover-decoration: none;
     background-color: var(--white);
     color: var(--black);
     margin: 2rem 0 0;
@@ -461,13 +459,6 @@ body.homepage {
     .recent-review:hover .recent-review-image {
       opacity: .85;
     }
-    a, a:visited {
-      color: var(--black);
-    }
-    a:hover {
-      color: var(--darkpurple);
-      text-decoration: none;
-    }
     h3.complex-title {
       font-size: 2rem;
       line-height: 1;
@@ -481,12 +472,12 @@ body.homepage {
       max-width: var(--content-max-width);
     }
     .reviews-link {
+      --link: var(--darkpurple);
+      --link-hover: var(--white);
       border: 1px solid var(--darkpurple);
       &:hover {
         background-color: var(--darkpurple);
-        color: var(--white) !important;
       }
-      color: var(--darkpurple) !important;
     }
   }
   .quotation-wrapper {
@@ -502,7 +493,7 @@ body.homepage {
       content: '“';
       font-size: 8rem;
       font-style: italic;
-      height: 0;  /* to avoid inflatating height of container when quotation is short */
+      height: 0;  /* to avoid inflating height of container when quotation is short */
       line-height: 1;
       margin: -1.75rem 2rem 0 0;
     }
@@ -648,7 +639,6 @@ body.screeningspage {
 
     /* override the absolute overlay styling so the badge sits inline in the row */
     .ranking {
-      /* background-color: transparent; */
       color: var(--purple);
       font-family: var(--numbers-stack);
       font-size: 3rem;
@@ -686,7 +676,6 @@ body.screeningspage {
 
       /* overlay the ranking on the image, as elsewhere on the site */
       .ranking {
-        /* background-color: rgb(0 0 0 / 55%); */
         left: 0;
         padding: .75rem .5rem .6rem;
         position: absolute;
@@ -723,19 +712,15 @@ body.reviewsindexpage {
     }
   }
   .teaser {
+    --link: var(--black);
+    --link-hover: var(--darkpurple);
+    --link-hover-decoration: none;
     @media (width < 768px) {
       flex-direction: column;
     }
     display: flex;
     gap: 1.5rem;
     margin-bottom: 2.5rem;
-    a, a:visited {
-      color: var(--black);
-    }
-    a:hover {
-      color: var(--darkpurple);
-      text-decoration: none;
-    }
     h3.complex-title {
       font-size: 2.15rem;
       line-height: 1.1;
@@ -752,15 +737,11 @@ body.reviewsindexpage {
       }
     }
     .readmore {
+      --link: var(--darkpurple);
+      --link-hover: var(--purple);
       font-family: var(--sans-stack);
       font-size: 1.25rem;
       text-transform: uppercase;
-      a, a:visited {
-        color: var(--darkpurple);
-      }
-      a:hover {
-        color: var(--purple);
-      }
     }
   }
   .image-wrapper {
@@ -796,7 +777,7 @@ body.reviewpage {
   }
   .wrapper {
     margin: 0 auto;
-    max-width: 850px;
+    max-width: var(--reading-width);
   }
   h2.complex-title {
     letter-spacing: unset;
@@ -823,13 +804,10 @@ body.reviewpage {
 }
 
 body.flexiblepage {
-  h2 {
-    /* letter-spacing: -3px; */
-  }
   h2,
   main .wrapper {
     margin: 0 auto 2rem;
-    max-width: 850px;
+    max-width: var(--reading-width);
   }
 }
 
@@ -852,11 +830,10 @@ body.listsindexpage {
 body.listsindexpage,
 body.listpage {
   h2 {
-    /* letter-spacing: -3px; */
     margin: 1rem auto 2rem;
   }
   table, th, td {
-    border: 1px solid black;
+    border: 1px solid var(--black);
   }
   .table-scroll {
     margin: 2rem auto;
@@ -889,11 +866,11 @@ body.listpage {
   }
   td {
     border: none;
-    border-top: 1px solid #eee;
+    border-top: 1px solid color-mix(in srgb, var(--black) 8%, #fff);
     padding: .7rem 1rem;
   }
   tbody tr:nth-child(even) {
-    background-color: #fafafa;
+    background-color: color-mix(in srgb, var(--black) 3%, #fff);
   }
   tbody tr:hover {
     background-color: color-mix(in srgb, var(--purple) 8%, transparent);
@@ -950,7 +927,7 @@ body.listpage {
 
   button {
     background-color: var(--white);
-    border-color: var(--darkpurple);
+    border: 1px solid var(--darkpurple);
     color: var(--darkpurple);
     font-size: 1rem;
     padding: .75rem;
