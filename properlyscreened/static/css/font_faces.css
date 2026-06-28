@@ -29,6 +29,14 @@
 
 
 @font-face {
+  font-family: 'Permanent Marker';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/static/fonts/PermanentMarker-Regular.woff2') format('woff2');
+}
+
+
+@font-face {
   font-family: Inter;
   font-style: normal;
   font-weight: 100 900;
