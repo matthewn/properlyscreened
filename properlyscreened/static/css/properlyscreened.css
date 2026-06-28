@@ -39,7 +39,7 @@ body > header {
     --scale: 1.4;
     color: var(--white);
     font-family: var(--wordmark-stack);
-    font-size: clamp(2.125rem, 1.8068rem + 1.5909vw, 3rem);
+    font-size: clamp(2.55rem, 2.1682rem + 1.9091vw, 3.6rem);
     line-height: .85;
     padding-bottom: calc((var(--scale) - 1) * 1em);
     padding-top: 1rem;
