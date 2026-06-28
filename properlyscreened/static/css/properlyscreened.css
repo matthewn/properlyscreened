@@ -911,7 +911,7 @@ body.listpage {
     text-transform: uppercase;
   }
   .director {
-    font-weight: 500;
+    font-weight: 300;
     white-space: nowrap;
   }
   .atthe {
@@ -922,7 +922,7 @@ body.listpage {
     font-weight: 500;
   }
   .theater-location {
-    font-weight: 400;
+    font-weight: 300;
   }
 }
 
