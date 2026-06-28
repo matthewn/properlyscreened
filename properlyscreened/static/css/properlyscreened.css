@@ -367,6 +367,7 @@ body.homepage {
       line-height: 1.2;
       margin: 1rem 0;
       text-transform: uppercase;
+      text-wrap: balance;
       span { display: block; }
     }
     .blurb {
