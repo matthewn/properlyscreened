@@ -302,6 +302,10 @@ class ReviewPage(BasePage):
         'Letterboxd URL',
         blank=True,
     )
+    has_spoilers = models.BooleanField(
+        default=False,
+        help_text='Check the box if the review contains spoilers.',
+    )
     tags = ClusterTaggableManager(through=ReviewPageTag, blank=True)
     body = StreamField(
         LoadedStreamBlock(),
@@ -320,6 +324,7 @@ class ReviewPage(BasePage):
         FieldPanel('body'),
         FieldPanel('tags'),
         FieldPanel('letterboxd_url'),
+        FieldPanel('has_spoilers'),
     ]
 
     search_fields = Page.search_fields + [

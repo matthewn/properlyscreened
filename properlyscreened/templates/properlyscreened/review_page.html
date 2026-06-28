@@ -28,6 +28,9 @@
         <span class="theater-location">({{ page.theater.location }})</span>
     </h2>
     <p class="date-screened">{{ page.date_screened|date:"F j, Y" }}</p>
+    {% if page.has_spoilers %}
+        <p class="spoiler-warning">(This review contains spoilers.)</p>
+    {% endif %}
 
     <div class="body">
         {{ page.body|typefixes }}

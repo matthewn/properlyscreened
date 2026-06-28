@@ -801,6 +801,13 @@ body.reviewpage {
     font-family: var(--sans-stack);
     text-transform: uppercase;
   }
+  .spoiler-warning {
+    color: var(--grey);
+    font-family: var(--sans-stack);
+    font-size: 1.15rem;
+    font-style: italic;
+    margin-top: -1rem;
+  }
   .body {
     font-family: var(--serif-stack);
     font-size: 1.75rem;
