@@ -2,7 +2,7 @@
 
 <figure
     {% if value.float == 1 %}class="float left"{% elif value.float == 2 %}class="float right"{% endif %}
-    {% if value.float_width and value.float != 3 %}style="--float-width: {{ value.float_width }}%;"{% endif %}>
+    {% if value.max_width %}style="--max-width: {{ value.max_width }}%;"{% endif %}>
     {% image value.image width-800 as small_image %}
     {% if value.link %}<a href="{{ value.link }}">{% endif %}
     <img src="{{ small_image.url }}" alt="{{ value.image.description|default:value.image.title }}">

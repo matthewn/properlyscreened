@@ -36,11 +36,11 @@ class ImageBlock(StructBlock):
         choices=FloatChoices.choices,
         default=FloatChoices.NONE,
     )
-    float_width = IntegerBlock(
+    max_width = IntegerBlock(
         required=False,
         min_value=1,
         max_value=100,
-        help_text='Width of the float, as a percentage of the container.',
+        help_text='Maximum width of the image, floated or not, as a percentage of the container (optional).',
     )
 
     class Meta:
