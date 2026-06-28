@@ -657,7 +657,7 @@ class ScreeningManager(models.Manager):
         """
         Screenings whose screening_datetime is still in the future.
         """
-        return self.filter(screening_datetime__gt=timezone.localtime().replace(tzinfo=None))
+        return self.filter(screening_datetime__gt=timezone.localtime().replace(tzinfo=None)).order_by('screening_datetime')
 
 
 @register_snippet
