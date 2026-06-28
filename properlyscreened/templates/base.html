@@ -34,7 +34,7 @@
         {% endblock %}
     </head>
 
-    <body class="{{ page|page_type }}">
+    <body class="{{ page|page_type }}"{% if request.GET.marker == '1' %} style="--numbers-stack: 'Permanent Marker', cursive;"{% endif %}>
         {% if page.hero %}
             <div id="hero-wrapper">{% image page.hero original id="hero-image" %}</div>
         {% endif %}
