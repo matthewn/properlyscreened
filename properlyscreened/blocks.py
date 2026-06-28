@@ -1,12 +1,15 @@
 from django.db import models
 from django.forms.utils import flatatt
+from django.template.loader import render_to_string
 from django.utils.html import format_html, format_html_join
+from django.utils.safestring import mark_safe
 
 from wagtail.blocks import (
     ChoiceBlock,
     IntegerBlock,
     # RawHTMLBlock,
     RichTextBlock,
+    StaticBlock,
     StreamBlock,
     StructBlock,
     URLBlock,
@@ -75,6 +78,16 @@ class MediaBlock(AbstractMediaChooserBlock):
         ))
 
 
+class FleuronBlock(StaticBlock):
+    """
+    A fieldless ornament; renders the actual fleuron in the admin too.
+    """
+
+    def get_admin_text(self):
+        # a SafeString makes the telepath adapter render it as HTML, not text
+        return mark_safe(render_to_string('properlyscreened/blocks/fleuron.html'))
+
+
 class LoadedStreamBlock(StreamBlock):
     rich_text = RichTextBlock(
         features=[
@@ -95,6 +108,11 @@ class LoadedStreamBlock(StreamBlock):
     )
     image = ImageBlock()
     embed = EmbedBlock()
+    fleuron = FleuronBlock(
+        icon='fleuron',
+        label='Fleuron',
+        template='properlyscreened/blocks/fleuron.html',
+    )
     # media = MediaBlock(icon='media')
     # raw_HTML = RawHTMLBlock(required=False)
     # danger = RawHTMLBlock(label='DANGER!', required=False)

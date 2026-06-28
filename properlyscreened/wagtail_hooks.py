@@ -46,7 +46,10 @@ def global_admin_js():
 
 @hooks.register('register_icons')
 def register_icons(icons):
-    return icons + ['properlyscreened/icons/small.svg']
+    return icons + [
+        'properlyscreened/icons/small.svg',
+        'properlyscreened/icons/fleuron.svg',
+    ]
 
 
 @hooks.register('register_admin_search_area')

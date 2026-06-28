@@ -3,3 +3,16 @@
   --w-color-primary-saturation: 45%;
   --w-color-primary-lightness: 25%;
 }
+
+/* the fieldless fleuron block renders its ornament inline in the editor;
+   keep these in sync with the public .fleuron rule in properlyscreened.css */
+.fleuron {
+  color: #111;  /* matches var(--black) on the public side */
+  text-align: center;
+  svg {
+    fill: currentcolor;
+    height: auto;
+    max-width: 100%;
+    width: 20rem;
+  }
+}

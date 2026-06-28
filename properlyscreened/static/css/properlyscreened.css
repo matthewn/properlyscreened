@@ -304,6 +304,18 @@ hr {
   margin: 2rem auto;
 }
 
+.fleuron {
+  color: var(--black);
+  margin: 2rem auto;
+  svg {
+    fill: currentcolor;
+    height: auto;
+    margin: 0 auto;  /* reset.css makes svg display: block, so center it */
+    max-width: 100%;
+    width: 20rem;
+  }
+}
+
 /* ImageBlock <figure>s */
 main {
   figure {
