@@ -11,6 +11,11 @@ ALLOWED_HOSTS = ["*"]
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
+# Live-reload the browser on template/static/Python changes (dev only). The
+# middleware auto-injects its script into HTML responses while DEBUG is on.
+INSTALLED_APPS += ["django_browser_reload"]
+MIDDLEWARE += ["django_browser_reload.middleware.BrowserReloadMiddleware"]
+
 
 try:
     from .local import *
