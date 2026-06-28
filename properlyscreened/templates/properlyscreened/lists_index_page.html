@@ -27,7 +27,7 @@
             {% for rank in row.ranks %}
             <td>{{ rank|default_if_none:'' }}</td>
             {% endfor %}
-            <td>{% if row.review_url %}<a href="{{ row.review_url }}">{{ row.film.title }}</a>{% else %}{{ row.film.title|typefixes }}{% endif %}</td>
+            <td class="title-cell">{% if row.review_url %}<a href="{{ row.review_url }}">{{ row.film.title }}</a>{% else %}{{ row.film.title|typefixes }}{% endif %}</td>
             <td>{{ row.film.year }}</td>
             <td>{{ row.film.director|typefixes }}</td>
         </tr>

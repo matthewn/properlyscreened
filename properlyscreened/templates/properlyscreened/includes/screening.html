@@ -1,8 +1,8 @@
 {% load typefixes %}
 
 <div class="title-and-director">
-    <div class="title">{{ screening.film|typefixes }}</div>
-    <div class="director">({{ screening.film.director|typefixes }})</div>
+    <div class="title">{{ screening.film|typefixes_minimal }}</div>
+    <div class="director">({{ screening.film.director|typefixes_minimal }})</div>
 </div>
 <div class="time-and-date">
     <div class="date">
@@ -17,8 +17,8 @@
 <div class="theater-and-location">
     <span class="icon">{% include 'properlyscreened/icons/location.svg' %}</span>
     <div class="theater-text">
-        <div class="theater-name">{{ screening.theater.name|typefixes }}</div>
-        <div class="theater-location">{{ screening.theater.location|typefixes }}</div>
+        <div class="theater-name">{{ screening.theater.name|typefixes_minimal }}</div>
+        <div class="theater-location">{{ screening.theater.location|typefixes_minimal }}</div>
     </div>
 </div>
 <div><a class="tickets buttonesque" href="{{ screening.tickets_link }}">Tickets</a></div>

@@ -45,8 +45,8 @@ body > header {
     font-family: var(--wordmark-stack);
     font-size: clamp(2.55rem, 2.1682rem + 1.9091vw, 3.6rem);
     line-height: .85;
-    padding-bottom: calc((var(--scale) - 1) * 1em);
-    padding-top: 1rem;
+    padding-bottom: calc((var(--scale) - 1) * .5em);
+    padding-top: 1.25rem;
     transform: scaleY(var(--scale));
     a {
       display: inline-grid;  /* single column sizes to the wider word */
@@ -354,6 +354,7 @@ body.homepage {
     position: relative;
     h1 {
       font-size: clamp(6rem, 5.2727rem + 3.6364vw, 8rem);
+      padding-bottom: calc((var(--scale) - 1) * 1em);
       padding-top: 5.25rem;
     }
     .site-slogan {
@@ -369,7 +370,7 @@ body.homepage {
       font-size: 1.25rem;
       margin: 1.25rem 0;
       @media (width >= 768px) {
-        max-width: 24rem;
+        max-width: 30rem;
       }
     }
     .blurb-link {
@@ -614,8 +615,8 @@ body.screeningspage {
     ul {
       align-items: center;
       display: grid;
-      gap: 1.5rem 2rem;
-      grid-template-columns: max-content max-content 1fr auto auto auto;  /* image, ranking, title/director, time/date, theater/location, tickets */
+      gap: 1.25rem 2rem;
+      grid-template-columns: max-content max-content minmax(0, 20rem) max-content minmax(0, 13rem) auto;  /* image, ranking, title/director, time/date, theater/location, tickets */
     }
 
     /* let each row's cells participate directly in the shared grid tracks */
@@ -626,6 +627,8 @@ body.screeningspage {
     .title {
       font-size: 1.2rem;
       font-weight: 700;
+      letter-spacing: -.75px;
+      line-height: 1.2;
     }
     .director {
       font-size: 1rem;
@@ -643,6 +646,7 @@ body.screeningspage {
       font-family: var(--numbers-stack);
       font-size: 3rem;
       line-height: 1;
+      padding: 0;
       position: static;
       text-align: center;
     }
@@ -874,6 +878,9 @@ body.listpage {
   }
   tbody tr:hover {
     background-color: color-mix(in srgb, var(--purple) 8%, transparent);
+  }
+  td.title-cell {
+    text-transform: uppercase;
   }
   td a,
   td a:visited {

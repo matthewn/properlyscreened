@@ -42,5 +42,5 @@ def typefixes_minimal(text):
 
     text = smartypants(text)
 
-    text = alumyears(text)
+    text = ddyears(text)
     return mark_safe(text)
