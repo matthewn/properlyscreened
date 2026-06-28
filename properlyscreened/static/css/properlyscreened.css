@@ -315,7 +315,6 @@ hr {
 main {
   figure {
     margin: 0 0 1rem;
-    max-width: var(--max-width);
     img {
       height: auto;
       max-width: 100%;
@@ -326,6 +325,9 @@ main {
     }
   }
   @media (width >= 768px) {
+    figure {
+      max-width: var(--max-width);
+    }
     figure.float {
       margin-bottom: .5rem;
       width: var(--max-width);
