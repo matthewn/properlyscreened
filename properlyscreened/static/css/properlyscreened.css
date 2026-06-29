@@ -19,7 +19,7 @@
 }
 
 body {
-  background-color: var(--black);
+  background-color: #000; /* not a mistake :) */
   font-family: var(--sans-stack);
 }
 
