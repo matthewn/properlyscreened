@@ -525,12 +525,6 @@ body.homepage {
 }
 
 body.screeningspage {
-  .image-wrapper img {
-    display: block;
-    height: auto;
-    width: 100%;
-  }
-
   #hosted-screenings,
   #other-screenings {
     ul {
@@ -595,7 +589,7 @@ body.screeningspage {
       background-color: var(--darkpurple);
       color: var(--white);
       margin-top: 1.5rem;
-      padding: .5rem 4rem;
+      padding: .5rem 3rem;
       &:hover {
         background-color: var(--white);
         color: var(--darkpurple);
@@ -628,6 +622,29 @@ body.screeningspage {
       display: contents;
       font-size: .9rem;
     }
+    .image-wrapper img {
+      display: block;
+      height: auto;
+      width: 100%;
+      @media (width >= 1190px) {
+        width: 300px;
+      }
+    }
+    .non-image-wrapper {
+      display: contents;
+      margin-top: .5rem;
+      @media (768px <= width < 1190px) {
+        display: flex;  /* side-by-side under the image at intermediate sizes */
+        gap: 3rem;
+        width: 100%;
+        > * {
+          flex: 1;
+        }
+        > :last-child {
+          text-align: right;
+        }
+      }
+    }
     .title {
       font-size: 1.2rem;
       font-weight: 700;
@@ -656,6 +673,7 @@ body.screeningspage {
     }
 
     .tickets {
+      padding: .5rem 1rem;
       &:hover {
         background-color: var(--darkpurple);
         color: var(--white);
