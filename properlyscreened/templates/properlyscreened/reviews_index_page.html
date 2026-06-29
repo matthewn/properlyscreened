@@ -16,7 +16,7 @@
     <article class="teaser">
         <div class="image-wrapper">
             <a href="{{ review.url }}">
-            {% image review.film.image fill-415x255 class="teaser-image" %}
+            {% srcset_image review.film.image fill-{415x255,830x510} sizes="415px" class="teaser-image" loading="lazy" %}
             {% include "properlyscreened/includes/film_ranking.html" with film=review.film %}
             </a>
         </div>

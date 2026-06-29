@@ -13,7 +13,7 @@
 
 {% if page.film.image %}
     <div id="film-image">
-        {% image page.film.image fill-1200x648 %}
+        {% srcset_image page.film.image fill-{400x216,800x432,1200x648} sizes="(min-width: 1200px) 1176px, calc(100vw - 1.5rem)" %}
         {% include "properlyscreened/includes/film_ranking.html" with film=page.film %}
     </div>
 {% endif %}

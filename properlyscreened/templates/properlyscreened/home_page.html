@@ -28,7 +28,7 @@
         <a class="recent-review" href="{{ review.url }}">
             {% if review.film.image %}
             <div class="image-wrapper">
-                {% image review.film.image fill-415x255 class="recent-review-image" %}
+                {% srcset_image review.film.image fill-{415x255,830x510} sizes="(min-width: 1200px) 384px, (min-width: 768px) 33vw, calc(100vw - 1.5rem)" class="recent-review-image" %}
                 {% include "properlyscreened/includes/film_ranking.html" with film=review.film %}
             </div>
             {% endif %}
