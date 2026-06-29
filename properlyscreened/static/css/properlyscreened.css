@@ -893,6 +893,7 @@ body.listpage {
   th {
     border: none;
     color: var(--white);
+    font-size: clamp(.85rem, .67rem + .69vw, 1rem);
     font-weight: 600;
     letter-spacing: .03em;
     padding: .85rem 1rem;
@@ -904,10 +905,18 @@ body.listpage {
     color: var(--white);
     text-decoration: none;
   }
+  th a:hover {
+    text-decoration: underline;
+  }
   td {
     border: none;
     border-top: 1px solid color-mix(in srgb, var(--black) 8%, #fff);
+    font-size: clamp(.85rem, .67rem + .69vw, 1rem);
     padding: .7rem 1rem;
+  }
+  .rank-cell,
+  .year-cell {
+    text-align: center;
   }
   tbody tr:nth-child(even) {
     background-color: color-mix(in srgb, var(--black) 3%, #fff);

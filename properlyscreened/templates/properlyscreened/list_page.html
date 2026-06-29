@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags %}
 {% load typefixes %}
+{% load text_tags %}
 
 {% block main %}
 
@@ -11,17 +12,17 @@
     <thead>
         <tr>
             {% for col in sort_headers %}
-            <th><a href="{{ page.url }}{{ col.query }}">{{ col.label }}</a>&nbsp;{{ col.arrow }}</th>
+            <th><a href="{{ page.url }}{{ col.query }}">{{ col.label|shy_directors|typefixes_minimal }}</a>&nbsp;{{ col.arrow }}</th>
             {% endfor %}
         </tr>
     </thead>
     <tbody>
         {% for ranking in rankings %}
         <tr>
-            <td>{{ ranking.rank }}</td>
-            <td class="title-cell">{% if ranking.review_url %}<a href="{{ ranking.review_url }}">{{ ranking.film.title|typefixes }}</a>{% else %}{{ ranking.film.title|typefixes }}{% endif %}</td>
-            <td>{{ ranking.film.year }}</td>
-            <td>{% if ranking.director_url %}<a href="{{ ranking.director_url }}">{{ ranking.film.director|typefixes }}</a>{% else %}{{ ranking.film.director|typefixes }}{% endif %}</td>
+            <td class="rank-cell">{{ ranking.rank }}</td>
+            <td class="title-cell">{% if ranking.review_url %}<a href="{{ ranking.review_url }}">{{ ranking.film.title|typefixes_minimal }}</a>{% else %}{{ ranking.film.title|typefixes_minimal }}{% endif %}</td>
+            <td class="year-cell">{{ ranking.film.year }}</td>
+            <td>{% if ranking.director_url %}<a href="{{ ranking.director_url }}">{{ ranking.film.director|typefixes_minimal|name_lines }}</a>{% else %}{{ ranking.film.director|typefixes_minimal|name_lines }}{% endif %}</td>
         </tr>
         {% endfor %}
     </tbody>
