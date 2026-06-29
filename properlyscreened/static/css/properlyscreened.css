@@ -90,6 +90,9 @@ body:not(.homepage) > main {
   margin: 0 auto;
   padding: 2rem;
   width: calc(100% - 2rem);
+  @media (width < 768px) {
+    padding: 2rem 1.15rem;
+  }
 
   p, ol, ul, blockquote {
     font-family: var(--serif-stack);
