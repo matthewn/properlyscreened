@@ -4,6 +4,7 @@ from wagtail.admin.rich_text.editors.draftail.features import InlineStyleFeature
 from wagtail.admin.search import SearchArea
 from wagtail.snippets.models import register_snippet
 from wagtail.snippets.views.snippets import IndexView, SnippetViewSet
+from taggit.models import Tag
 from django.templatetags.static import static
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -81,8 +82,17 @@ class FilmViewSet(SnippetViewSet):
     model = Film
     index_view_class = FilmIndexView
     list_display = ['title', 'year', 'director']
-    list_per_page = 10000
+    list_per_page = 1000
     ordering = ['title']
 
 
+class TagViewSet(SnippetViewSet):
+    model = Tag
+    icon = 'tag'
+    list_display = ['name', 'slug']
+    list_per_page = 1000
+    ordering = ['name']
+
+
 register_snippet(FilmViewSet)
+register_snippet(TagViewSet)
