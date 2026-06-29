@@ -1,6 +1,7 @@
 import copy
 import re
 import unicodedata
+from collections import Counter
 from urllib.parse import urlencode
 
 from django import forms
@@ -100,6 +101,26 @@ def _review_urls_by_film(film_ids):
     for review in ReviewPage.objects.live().filter(film_id__in=film_ids):
         urls.setdefault(review.film_id, review.url)
     return urls
+
+
+def _director_review_urls(films):
+    """
+    Map film id -> filtered ReviewsIndexPage URL for the film's director, for
+    directors with two or more live reviews (else absent).
+    """
+    index = ReviewsIndexPage.objects.live().first()
+    if index is None:
+        return {}
+    counts = Counter(
+        ReviewPage.objects.live().values_list('film__director', flat=True)
+    )
+    return {
+        film.id: index.url + index.reverse_subpage(
+            'reviews_by_director', args=[slugify(film.director)]
+        )
+        for film in films
+        if counts[film.director] >= 2
+    }
 
 
 # ···························································
@@ -451,11 +472,13 @@ class ListsIndexPage(BasePage):
         # Flatten each row's ranks into the list-column order for the template.
         list_ids = [lst.id for lst in lists]
         review_urls = _review_urls_by_film([row['film'].id for row in rows])
+        director_urls = _director_review_urls([row['film'] for row in rows])
         context['rows'] = [
             {
                 'film': row['film'],
                 'ranks': [row['ranks'].get(lid) for lid in list_ids],
                 'review_url': review_urls.get(row['film'].id),
+                'director_url': director_urls.get(row['film'].id),
             }
             for row in rows
         ]
@@ -518,8 +541,10 @@ class ListPage(BasePage):
         }
         rankings = list(self.rankings.select_related('film'))
         review_urls = _review_urls_by_film([r.film_id for r in rankings])
+        director_urls = _director_review_urls([r.film for r in rankings])
         for r in rankings:
             r.review_url = review_urls.get(r.film_id)
+            r.director_url = director_urls.get(r.film_id)
         # Ties fall back to rank, except a rank sort falls back to title.
         # A stable two-pass sort keeps the tie-break ascending even when the
         # primary column is reversed.

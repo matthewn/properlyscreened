@@ -29,7 +29,7 @@
             {% endfor %}
             <td class="title-cell">{% if row.review_url %}<a href="{{ row.review_url }}">{{ row.film.title }}</a>{% else %}{{ row.film.title|typefixes }}{% endif %}</td>
             <td>{{ row.film.year }}</td>
-            <td>{{ row.film.director|typefixes }}</td>
+            <td>{% if row.director_url %}<a href="{{ row.director_url }}">{{ row.film.director|typefixes }}</a>{% else %}{{ row.film.director|typefixes }}{% endif %}</td>
         </tr>
         {% endfor %}
     </tbody>

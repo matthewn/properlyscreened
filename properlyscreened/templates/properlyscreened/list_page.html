@@ -21,7 +21,7 @@
             <td>{{ ranking.rank }}</td>
             <td class="title-cell">{% if ranking.review_url %}<a href="{{ ranking.review_url }}">{{ ranking.film.title|typefixes }}</a>{% else %}{{ ranking.film.title|typefixes }}{% endif %}</td>
             <td>{{ ranking.film.year }}</td>
-            <td>{{ ranking.film.director|typefixes }}</td>
+            <td>{% if ranking.director_url %}<a href="{{ ranking.director_url }}">{{ ranking.film.director|typefixes }}</a>{% else %}{{ ranking.film.director|typefixes }}{% endif %}</td>
         </tr>
         {% endfor %}
     </tbody>
