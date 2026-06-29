@@ -24,7 +24,7 @@
 <section id="recent-reviews">
     <h2>Recent Reviews</h2>
     <div class="recent-reviews-grid">
-        {% for review in review_teasers|slice:":6" %}
+        {% for review in review_teasers|slice:":9" %}
         <a class="recent-review" href="{{ review.url }}">
             {% if review.film.image %}
             <div class="image-wrapper">
