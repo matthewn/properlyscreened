@@ -123,6 +123,40 @@ def _director_review_urls(films):
     }
 
 
+def _parse_sort(request, columns, default_key):
+    """
+    Pick a valid (sort, direction) from the query string for these columns,
+    falling back to default_key ascending. (Used by ListsIndexPage and
+    ListPage.)
+    """
+    sort = request.GET.get('sort')
+    direction = request.GET.get('dir')
+    if sort not in {key for key, _ in columns}:
+        return default_key, 'asc'
+    if direction not in ('asc', 'desc'):
+        direction = 'asc'
+    return sort, direction
+
+
+def _build_rows(film_ranks):
+    """
+    Build the template row dicts (film, ranks, review_url, director_url) from
+    (film, ranks list) pairs. (Used by ListsIndexPage and ListPage.)
+    """
+    films = [film for film, _ in film_ranks]
+    review_urls = _review_urls_by_film([f.id for f in films])
+    director_urls = _director_review_urls(films)
+    return [
+        {
+            'film': film,
+            'ranks': ranks,
+            'review_url': review_urls.get(film.id),
+            'director_url': director_urls.get(film.id),
+        }
+        for film, ranks in film_ranks
+    ]
+
+
 # ···························································
 # CUSTOM BASE PAGE MODEL AND MISC PAGES/SNIPPETS
 # ···························································
@@ -435,12 +469,7 @@ class ListsIndexPage(BasePage):
         context['published_lists'] = [lst for lst in lists if lst.live]
 
         default_sort = columns[0][0]
-        sort = request.GET.get('sort')
-        direction = request.GET.get('dir')
-        if sort not in {key for key, _ in columns}:
-            sort, direction = default_sort, 'asc'
-        elif direction not in ('asc', 'desc'):
-            direction = 'asc'
+        sort, direction = _parse_sort(request, columns, default_sort)
 
         # One row per film, holding its rank on each list (absent if unranked).
         rows_by_film = {}
@@ -471,18 +500,10 @@ class ListsIndexPage(BasePage):
 
         # Flatten each row's ranks into the list-column order for the template.
         list_ids = [lst.id for lst in lists]
-        review_urls = _review_urls_by_film([row['film'].id for row in rows])
-        director_urls = _director_review_urls([row['film'] for row in rows])
-        context['rows'] = [
-            {
-                'film': row['film'],
-                'ranks': [row['ranks'].get(lid) for lid in list_ids],
-                'review_url': review_urls.get(row['film'].id),
-                'director_url': director_urls.get(row['film'].id),
-            }
-            for row in rows
-        ]
-        context['table_headers'] = _sort_headers(columns, sort, direction, default_sort)
+        context['rows'] = _build_rows(
+            [(row['film'], [row['ranks'].get(lid) for lid in list_ids]) for row in rows]
+        )
+        context['headers'] = _sort_headers(columns, sort, direction, default_sort)
         return context
 
 
@@ -523,12 +544,7 @@ class ListPage(BasePage):
     def get_context(self, request):
         context = super().get_context(request)
 
-        sort = request.GET.get('sort')
-        direction = request.GET.get('dir')
-        if sort not in {key for key, _ in self.SORT_COLUMNS}:
-            sort, direction = 'rank', 'asc'
-        elif direction not in ('asc', 'desc'):
-            direction = 'asc'
+        sort, direction = _parse_sort(request, self.SORT_COLUMNS, 'rank')
 
         # Sort in Python: SQLite orders text by code point and ignores
         # non-ASCII case/accents, which buries titles like "À bout de souffle".
@@ -540,20 +556,14 @@ class ListPage(BasePage):
             'director': lambda r: _sort_key(r.film.director),
         }
         rankings = list(self.rankings.select_related('film'))
-        review_urls = _review_urls_by_film([r.film_id for r in rankings])
-        director_urls = _director_review_urls([r.film for r in rankings])
-        for r in rankings:
-            r.review_url = review_urls.get(r.film_id)
-            r.director_url = director_urls.get(r.film_id)
         # Ties fall back to rank, except a rank sort falls back to title.
         # A stable two-pass sort keeps the tie-break ascending even when the
         # primary column is reversed.
         tiebreak = (lambda r: _sort_key(r.film.title)) if sort == 'rank' else (lambda r: r.rank)
         rankings.sort(key=tiebreak)
         rankings.sort(key=sort_keys[sort], reverse=(direction == 'desc'))
-        context['rankings'] = rankings
-
-        context['sort_headers'] = _sort_headers(self.SORT_COLUMNS, sort, direction, 'rank')
+        context['rows'] = _build_rows([(r.film, [r.rank]) for r in rankings])
+        context['headers'] = _sort_headers(self.SORT_COLUMNS, sort, direction, 'rank')
         return context
 
 

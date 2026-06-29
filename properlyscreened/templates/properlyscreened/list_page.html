@@ -1,32 +1,11 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags %}
 {% load typefixes %}
-{% load text_tags %}
 
 {% block main %}
 
 {{ page.body|typefixes }}
 
-<div class="table-scroll">
-<table>
-    <thead>
-        <tr>
-            {% for col in sort_headers %}
-            <th><a href="{{ page.url }}{{ col.query }}">{{ col.label|shy_directors|typefixes_minimal }}</a>&nbsp;{{ col.arrow }}</th>
-            {% endfor %}
-        </tr>
-    </thead>
-    <tbody>
-        {% for ranking in rankings %}
-        <tr>
-            <td class="rank-cell">{{ ranking.rank }}</td>
-            <td class="title-cell">{% if ranking.review_url %}<a href="{{ ranking.review_url }}">{{ ranking.film.title|typefixes_minimal }}</a>{% else %}{{ ranking.film.title|typefixes_minimal }}{% endif %}</td>
-            <td class="year-cell">{{ ranking.film.year }}</td>
-            <td>{% if ranking.director_url %}<a href="{{ ranking.director_url }}">{{ ranking.film.director|typefixes_minimal|name_lines }}</a>{% else %}{{ ranking.film.director|typefixes_minimal|name_lines }}{% endif %}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-</div>
+{% include "properlyscreened/includes/list_table.html" %}
 
 {% endblock %}

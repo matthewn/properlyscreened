@@ -1,5 +1,6 @@
 {% load static wagtailcore_tags wagtailimages_tags wagtailuserbar navigation_tags %}
 {% load email_obfuscator %}
+{% load typefixes %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -52,7 +53,7 @@
 
         {% block content %}
         <main>
-            {% block page-title-h2 %}<h2>{{ page.title }}</h2>{% endblock %}
+            {% block page-title-h2 %}<h2>{{ page.title|typefixes_minimal }}</h2>{% endblock %}
             {% block main %}{% endblock %}
         </main>
         {% endblock %}
