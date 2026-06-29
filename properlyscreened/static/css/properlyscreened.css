@@ -65,11 +65,11 @@ body > header {
       li {
         font-size: 1.15rem;
         list-style: none;
-        margin: 0 1.25rem;
+        margin: 0 1.15rem;
         text-align: right;
         @media (width >= 890px) {
           display: inline-block;
-          font-size: 1.5rem;
+          font-size: 1.45rem;
         }
       }
     }
@@ -77,6 +77,10 @@ body > header {
   .active a {
     color: var(--purple);
   }
+}
+
+body:not(.homepage) > header {
+  margin-top: 1.5625rem;  /* nudge header up so nav aligns with the homepage nav */
 }
 
 body:not(.homepage) > main {
@@ -413,7 +417,7 @@ body.homepage {
     }
     li {
       @media (width >= 768px) {
-        font-size: 1.5rem;
+        font-size: 1.45rem;
       }
     }
   }
