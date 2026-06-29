@@ -1,11 +1,13 @@
 {% load typefixes %}
 {% load text_tags %}
-<div class="table-scroll">
+<div class="table-scroll" id="list-table">
 <table>
     <thead>
         <tr>
             {% for col in headers %}
-            <th><a href="{{ page.url }}{{ col.query }}">{{ col.label|shy_directors|typefixes_minimal }}</a>&nbsp;{{ col.arrow }}</th>
+                <th>
+                    <a href="{{ page.url }}{{ col.query }}" up-target="#list-table" up-scroll="false">{{ col.label|shy_directors|typefixes_minimal }}</a>&nbsp;{{ col.arrow }}
+                </th>
             {% endfor %}
         </tr>
     </thead>
@@ -15,9 +17,21 @@
             {% for rank in row.ranks %}
             <td class="rank-cell">{{ rank|default_if_none:'' }}</td>
             {% endfor %}
-            <td class="title-cell">{% if row.review_url %}<a href="{{ row.review_url }}">{{ row.film.title|typefixes_minimal }}</a>{% else %}{{ row.film.title|typefixes_minimal }}{% endif %}</td>
+            <td class="title-cell">
+                {% if row.review_url %}
+                    <a href="{{ row.review_url }}">{{ row.film.title|typefixes_minimal }}</a>
+                {% else %}
+                    {{ row.film.title|typefixes_minimal }}
+                {% endif %}
+            </td>
             <td class="year-cell">{{ row.film.year }}</td>
-            <td>{% if row.director_url %}<a href="{{ row.director_url }}">{{ row.film.director|typefixes_minimal|name_lines }}</a>{% else %}{{ row.film.director|typefixes_minimal|name_lines }}{% endif %}</td>
+            <td>
+                {% if row.director_url %}
+                    <a href="{{ row.director_url }}">{{ row.film.director|typefixes_minimal|name_lines }}</a>
+                {% else %}
+                    {{ row.film.director|typefixes_minimal|name_lines }}
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
     </tbody>

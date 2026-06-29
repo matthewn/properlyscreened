@@ -28,6 +28,7 @@
         <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
 
         {# Global stylesheets #}
+        <link rel="stylesheet" type="text/css" href="{% static 'js/vendor/unpoly.min.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/properlyscreened.css' %}">
 
         {% block extra_css %}
@@ -86,6 +87,8 @@
         </footer>
 
         {# Global javascript #}
+        <script type="text/javascript" src="{% static 'js/vendor/unpoly.min.js' %}"></script>
+        <script type="text/javascript">up.log.config.banner = false;</script>
         <script type="text/javascript" src="{% static 'js/properlyscreened.js' %}"></script>
 
         {% block extra_js %}
