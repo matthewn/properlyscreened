@@ -13,7 +13,7 @@
 
 {% if page.film.image %}
     <div id="film-image">
-        {% image page.film.image width-1200 %}
+        {% image page.film.image fill-1200x648 %}
         {% include "properlyscreened/includes/film_ranking.html" with film=page.film %}
     </div>
 {% endif %}
