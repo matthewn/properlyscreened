@@ -44,7 +44,7 @@ body.homepage nav {
       gap: .75rem;
       justify-content: center;
       margin: 0 auto;
-      max-width: 20rem;
+      max-width: 25rem;
     }
     li {
       flex: 0 0 calc(33.333% - .5rem);  /* three per row; partial rows center */
@@ -55,11 +55,6 @@ body.homepage nav {
   li {
     @media (width >= 768px) {
       font-size: 1.45rem;
-    }
-
-    /* horizontal row once the width cap is gone */
-    @media (width > 1150px) {
-      display: inline-block;
     }
   }
 }

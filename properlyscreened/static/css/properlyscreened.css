@@ -341,7 +341,7 @@ body.homepage {
     h1 {
       font-size: clamp(6rem, 5.2727rem + 3.6364vw, 8rem);
       padding-bottom: calc((var(--scale) - 1) * 1em);
-      padding-top: 5.25rem;
+      padding-top: 5rem;
     }
     .site-slogan {
       font-family: var(--serif-stack);
@@ -707,6 +707,11 @@ body.blogindexpage {
         font-size: 1.85rem;
       }
     }
+    h3.post-title {
+      font-size: 1.85rem;
+      margin-top: 0;
+      text-transform: uppercase;
+    }
     .teaser-body {
       font-family: var(--serif-stack);
       font-weight: 500;
@@ -841,9 +846,6 @@ body.listsindexpage {
 
 body.listsindexpage,
 body.listpage {
-  h2 {
-    margin: 1rem auto 2rem;
-  }
   table, th, td {
     border: 1px solid var(--black);
   }
