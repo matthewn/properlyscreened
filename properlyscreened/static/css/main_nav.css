@@ -1,0 +1,145 @@
+body > header nav {
+  font-family: var(--sans-stack);
+  ul {
+    margin: 0;
+    padding: 0;
+    text-transform: uppercase;
+
+    /* default everywhere: a RIGHT-ALIGNED VERTICAL STACK. Each page opts
+       into a horizontal row at its own breakpoint (interior at 890px,
+       homepage at 1150px), so this stacked look is defined only here. */
+    li {
+      font-size: 1.15rem;
+      list-style: none;
+      margin: 0 1.15rem;
+      text-align: right;
+    }
+  }
+}
+
+body > header .active a {
+  color: var(--purple);
+}
+
+body:not(.homepage) > header nav li {
+  /* INTERIOR PAGES GO HORIZONTAL for desktop */
+  @media (width >= 890px) {
+    display: inline-block;
+    font-size: 1.45rem;
+  }
+}
+
+body.homepage nav {
+  position: relative;
+  z-index: 1;
+  @media (width >= 768px) {
+    position: absolute;
+    right: .75rem;
+    top: 2.5rem;
+  }
+  @media (width < 768px) {
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem;
+      justify-content: center;
+      margin: 0 auto;
+      max-width: 20rem;
+    }
+    li {
+      flex: 0 0 calc(33.333% - .5rem);  /* three per row; partial rows center */
+      margin: 0;  /* drop the base rule's horizontal margin so the basis fits */
+      text-align: center;
+    }
+  }
+  li {
+    @media (width >= 768px) {
+      font-size: 1.45rem;
+    }
+
+    /* horizontal row once the width cap is gone */
+    @media (width > 1150px) {
+      display: inline-block;
+    }
+  }
+}
+
+.site-nav .search-item {
+  position: relative;
+
+  /* toggle is hidden but focusable for keyboard users */
+  .search-toggle {
+    height: 0;
+    opacity: 0;
+    position: absolute;
+    width: 0;
+  }
+  form {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  label {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .icon svg {
+    color: var(--white);
+    display: block;
+    width: 26px;
+  }
+  label:hover .icon svg,
+  .search-toggle:checked ~ label .icon svg {
+    color: var(--purple);
+  }
+
+  /* keyboard focus ring on the icon when the hidden checkbox is focused */
+  .search-toggle:focus-visible ~ label .icon svg {
+    outline: 2px solid var(--purple);
+    outline-offset: 3px;
+  }
+
+  /* collapsed by default; the checkbox's :checked state expands it */
+  input[type='search'] {
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--white);
+    color: var(--white);
+    font-family: var(--sans-stack);
+    font-size: clamp(1rem, 0.64rem + 0.74vw, 1.2rem);
+    margin-right: .5rem;
+    opacity: 0;
+    padding: .15rem 0;
+    transition: width .25s ease, opacity .25s ease;
+    vertical-align: middle;
+    width: 0;
+    &::placeholder {
+      color: rgb(244 242 237 / .6);
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+  .search-toggle:checked ~ form input[type='search'] {
+    opacity: 1;
+    width: clamp(8rem, 30vw, 14rem);
+  }
+  form {
+    position: absolute;
+    right: 0;
+    top: calc(100% + .5rem);
+    z-index: 2;
+  }
+}
+
+/* homepage mobile: center the popped-out search field beneath the nav */
+body.homepage .site-nav .search-item {
+  @media (width < 768px) {
+    position: static;
+    form {
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+    }
+  }
+}

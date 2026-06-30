@@ -1,4 +1,4 @@
-{% load static wagtailcore_tags wagtailimages_tags wagtailuserbar navigation_tags %}
+{% load static compress wagtailcore_tags wagtailimages_tags wagtailuserbar navigation_tags %}
 {% load email_obfuscator %}
 {% load typefixes %}
 <!DOCTYPE html>
@@ -28,8 +28,13 @@
         <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
 
         {# Global stylesheets #}
-        <link rel="stylesheet" type="text/css" href="{% static 'css/unpoly.min.css' %}">
+        {% compress css %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/font_faces.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/properlyscreened.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/main_nav.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/unpoly.min.css' %}">
+        {% endcompress %}
 
         {% block extra_css %}
         {# Override this in templates to add extra stylesheets #}
