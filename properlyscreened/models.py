@@ -221,7 +221,9 @@ def _review_teasers(reviews):
 class ReviewTeasersMixin:
     def get_context(self, request):
         context = super().get_context(request)
-        context['review_teasers'] = _review_teasers(ReviewPage.objects.live())
+        context['review_teasers'] = _review_teasers(
+            ReviewPage.objects.live().public().exclude(film__image__isnull=True)
+        )
         return context
 
 
