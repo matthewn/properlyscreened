@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load wagtailimages_tags %}
+{% load typefixes %}
+
+{% block main %}
+
+<section id="blog-teasers">
+    {% for post in blog_posts %}
+
+    <article class="teaser">
+        {% if post.image %}
+        <div class="image-wrapper">
+            <a href="{{ post.url }}">
+            {% srcset_image post.image fill-{415x255,830x510} sizes="415px" class="teaser-image" loading="lazy" %}
+            </a>
+        </div>
+        {% endif %}
+        <div class="text-wrapper">
+            <a href="{{ post.url }}">
+                <h3>{{ post.title }}</h3>
+            </a>
+            <p class="date-published">{{ post.first_published_at|date:"F j, Y g:i A" }}</p>
+            <div class="teaser-body">
+                <p>
+                    {{ post.teaser|typefixes }}{% if post.is_truncated %}...{% endif %}
+                    <div class="readmore"><a href="{{ post.url }}">read&nbsp;more &rarr;</a></div>
+                </p>
+            </div>
+        </div>
+    </article>
+
+    {% empty %}
+    <p class="no-posts">No blog posts yet. Check back soon.</p>
+    {% endfor %}
+</section>
+
+{% endblock %}

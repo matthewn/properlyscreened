@@ -677,7 +677,8 @@ body.screeningspage {
   }
 }
 
-body.reviewsindexpage {
+body.reviewsindexpage,
+body.blogindexpage {
   .filter-notice {
     font-family: var(--sans-stack);
     font-size: 1.35rem;
@@ -785,6 +786,33 @@ body.reviewpage {
     font-size: 1.75rem;
     font-weight: 500;
   }
+}
+
+body.blogpost {
+  #post-image {
+    margin: 1.5rem auto 2.5rem;
+    img {
+      height: auto;
+      margin: 0 auto;
+      width: 100%;  /* force display width even when the source is smaller */
+    }
+  }
+  .wrapper {
+    margin: 0 auto;
+    max-width: var(--reading-width);
+  }
+  .body {
+    font-family: var(--serif-stack);
+    font-size: 1.75rem;
+    font-weight: 500;
+  }
+}
+
+body.blogpost .date-published,
+body.blogindexpage .date-published {
+  color: var(--grey);
+  font-family: var(--sans-stack);
+  text-transform: uppercase;
 }
 
 body.flexiblepage {

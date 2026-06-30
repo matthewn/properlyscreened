@@ -199,23 +199,51 @@ class BasePage(Page):
                 return page.hero_image
         return None
 
+    def excerpt(self, max_words=80):
+        """
+        Return (html, is_truncated): the body's prose cut to `max_words` on a word
+        boundary, with paragraph breaks flattened to spaces but inline styling
+        (italics, links, ...) preserved.
+        """
+        prose = ' '.join(
+            str(block.value) for block in self.body if block.block_type == 'rich_text'
+        )
+        flowed = _flow_inline(prose)
+        is_truncated = len(strip_tags(flowed).split()) > max_words
+        truncated = Truncator(flowed).words(max_words, truncate='', html=True)
+        if is_truncated:
+            # Drop trailing punctuation so it doesn't collide with the appended
+            # ellipsis. Dashes are still raw here (pre-typefixes), so em/en dashes
+            # may appear as hyphen runs (-- / ---), not unicode dashes. Regex (not
+            # endswith) because the punctuation may sit before closing tags, e.g.
+            # "aside--</em>", when the cut lands inside italics.
+            truncated = re.sub(r'(?:[,;:]|-{2,}|[—–])(\s*(?:</[^>]+>)*\s*)$', r'\1', truncated)
+        return mark_safe(truncated), is_truncated
+
     class Meta:
         abstract = True
+
+
+def _annotate_excerpts(pages):
+    """
+    Attach teaser/is_truncated (from each page's excerpt()) to a list of pages.
+    """
+    pages = list(pages)
+    for page in pages:
+        page.teaser, page.is_truncated = page.excerpt()
+    return pages
 
 
 def _review_teasers(reviews):
     """
     Annotate a ReviewPage queryset with teaser/is_truncated, newest first.
     """
-    reviews = list(
+    return _annotate_excerpts(
         reviews
         .select_related('film__image', 'film', 'theater')
         .prefetch_related('film__rankings')
         .order_by('-date_screened', '-id')
     )
-    for review in reviews:
-        review.teaser, review.is_truncated = review.excerpt()
-    return reviews
 
 
 class ReviewTeasersMixin:
@@ -405,27 +433,6 @@ class ReviewPage(BasePage):
         context['director_has_others'] = live.filter(film__director=self.film.director).count() > 1
         return context
 
-    def excerpt(self, max_words=80):
-        """
-        Return (html, is_truncated): the body's prose cut to `max_words` on a word
-        boundary, with paragraph breaks flattened to spaces but inline styling
-        (italics, links, ...) preserved.
-        """
-        prose = ' '.join(
-            str(block.value) for block in self.body if block.block_type == 'rich_text'
-        )
-        flowed = _flow_inline(prose)
-        is_truncated = len(strip_tags(flowed).split()) > max_words
-        truncated = Truncator(flowed).words(max_words, truncate='', html=True)
-        if is_truncated:
-            # Drop trailing punctuation so it doesn't collide with the appended
-            # ellipsis. Dashes are still raw here (pre-typefixes), so em/en dashes
-            # may appear as hyphen runs (-- / ---), not unicode dashes. Regex (not
-            # endswith) because the punctuation may sit before closing tags, e.g.
-            # "aside--</em>", when the cut lands inside italics.
-            truncated = re.sub(r'(?:[,;:]|-{2,}|[—–])(\s*(?:</[^>]+>)*\s*)$', r'\1', truncated)
-        return mark_safe(truncated), is_truncated
-
     @property
     def display_title(self):
         if self.use_manual_page_title:
@@ -567,6 +574,56 @@ class ListPage(BasePage):
         context['rows'] = _build_rows([(r.film, [r.rank]) for r in rankings])
         context['headers'] = _sort_headers(self.SORT_COLUMNS, sort, direction, 'rank')
         return context
+
+
+class BlogIndexPage(BasePage):
+    body = StreamField(
+        LoadedStreamBlock(),
+        blank=True,
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel('body'),
+    ]
+
+    search_fields = Page.search_fields + [
+        index.SearchField('body'),
+    ]
+
+    subpage_types = ['properlyscreened.BlogPost']
+    max_count = 1
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        context['blog_posts'] = _annotate_excerpts(
+            BlogPost.objects.child_of(self).live().public().order_by('-first_published_at')
+        )
+        return context
+
+
+class BlogPost(BasePage):
+    parent_page_types = ['properlyscreened.BlogIndexPage']
+    subpage_types = []
+
+    image = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    body = StreamField(
+        LoadedStreamBlock(),
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel('image'),
+        FieldPanel('body'),
+    ]
+
+    search_fields = Page.search_fields + [
+        index.SearchField('body'),
+    ]
 
 
 class FlexiblePage(BasePage):

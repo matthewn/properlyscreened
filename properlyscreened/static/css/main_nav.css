@@ -23,7 +23,7 @@ body > header .active a {
 
 body:not(.homepage) > header nav li {
   /* INTERIOR PAGES GO HORIZONTAL for desktop */
-  @media (width >= 890px) {
+  @media (width >= 1000px) {
     display: inline-block;
     font-size: 1.45rem;
   }
