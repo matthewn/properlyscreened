@@ -562,6 +562,9 @@ body.screeningspage {
   }
 
   #other-screenings {
+    .blurb {
+      margin-bottom: 1.5rem;
+    }
     ul {
       align-items: center;
       display: grid;

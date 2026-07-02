@@ -298,6 +298,12 @@ class HomePage(ReviewTeasersMixin, BasePage):
 
 
 class ScreeningsPage(BasePage):
+    other_screenings_blurb = RichTextField(blank=True)
+
+    content_panels = BasePage.content_panels + [
+        FieldPanel('other_screenings_blurb'),
+    ]
+
     parent_page_types = ['properlyscreened.HomePage']
     subpage_types = []
     max_count = 1

@@ -45,6 +45,10 @@
 
     <h2>Other Screenings</h2>
 
+    {% if page.other_screenings_blurb %}
+        <div class="blurb">{{ page.other_screenings_blurb|richtext|typefixes }}</div>
+    {% endif %}
+
     {% if other_screenings %}
     <ul class="screenings">
         {% for screening in other_screenings %}
