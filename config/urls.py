@@ -9,6 +9,8 @@ from wagtail.documents import urls as wagtaildocs_urls
 
 from wagtailautocomplete.urls.admin import urlpatterns as autocomplete_admin_urls
 
+from properlyscreened.feeds import LatestEntriesFeed
+
 from search import views as search_views
 
 urlpatterns = [
@@ -20,6 +22,7 @@ urlpatterns = [
     path('cms/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
     path('search/', search_views.search, name='search'),
+    path('feed/', LatestEntriesFeed(), name='feed'),
     path('robots.txt', TemplateView.as_view(
         template_name='robots.txt', content_type='text/plain')),
 ]
