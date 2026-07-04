@@ -19,7 +19,7 @@
             <a href="{{ post.url }}">
                 <h3 class="post-title">{{ post.title }}</h3>
             </a>
-            <p class="date-published">{{ post.first_published_at|date:"F j, Y g:i A" }}</p>
+            <p class="date-published">{{ post.first_published_at|date:"F j, Y" }}</p>
             <div class="teaser-body">
                 <p>
                     {{ post.teaser|typefixes }}{% if post.is_truncated %}...{% endif %}
