@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags %}
-{% load wagtailimages_tags %}
 {% load wagtailroutablepage_tags %}
 {% load text_tags %}
 {% load typefixes %}
@@ -8,12 +7,6 @@
 {% block title %}{{ page.title }}{% endblock %}
 
 {% block main %}
-
-{% if page.image %}
-    <div id="post-image">
-        {% srcset_image page.image fill-{400x216,800x432,1200x648} sizes="(min-width: 1200px) 1176px, calc(100vw - 1.5rem)" %}
-    </div>
-{% endif %}
 
 <div class="wrapper">
 

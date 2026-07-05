@@ -626,20 +626,12 @@ class BlogPost(BasePage):
         max_length=16,
         choices=Category.choices,
     )
-    image = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
     body = StreamField(
         LoadedStreamBlock(),
     )
 
     content_panels = Page.content_panels + [
         FieldPanel('category'),
-        FieldPanel('image'),
         FieldPanel('body'),
     ]
 

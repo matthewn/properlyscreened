@@ -814,14 +814,6 @@ body.reviewpage {
 }
 
 body.blogpost {
-  #post-image {
-    margin: 1.5rem auto 2.5rem;
-    img {
-      height: auto;
-      margin: 0 auto;
-      width: 100%;  /* force display width even when the source is smaller */
-    }
-  }
   .wrapper {
     margin: 0 auto;
     max-width: var(--reading-width);
