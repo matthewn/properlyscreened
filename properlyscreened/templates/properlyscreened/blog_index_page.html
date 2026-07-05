@@ -7,14 +7,10 @@
 <section id="blog-teasers">
     {% for post in blog_posts %}
 
-    <article class="teaser">
-        {% if post.image %}
-        <div class="image-wrapper">
-            <a href="{{ post.url }}">
-            {% srcset_image post.image fill-{415x255,830x510} sizes="415px" class="teaser-image" loading="lazy" %}
-            </a>
+    <article class="teaser {% cycle 'icon-left' 'icon-right' %}">
+        <div class="icon-wrapper">
+            <span class="category-icon">{% include 'properlyscreened/icons/blog_'|add:post.category|add:'.svg' %}</span>
         </div>
-        {% endif %}
         <div class="text-wrapper">
             <a href="{{ post.url }}">
                 <h3 class="post-title">{{ post.title|typefixes }}</h3>

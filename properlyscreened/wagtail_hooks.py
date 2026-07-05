@@ -42,7 +42,11 @@ def global_admin_css():
 
 @hooks.register('insert_global_admin_js')
 def global_admin_js():
-    return format_html('<script src="{}"></script>', static('js/review_film_autofill.js'))
+    return format_html(
+        '<script src="{}"></script><script src="{}"></script>',
+        static('js/review_film_autofill.js'),
+        static('js/blog_category_icon.js'),
+    )
 
 
 @hooks.register('register_icons')
@@ -50,6 +54,14 @@ def register_icons(icons):
     return icons + [
         'properlyscreened/icons/small.svg',
         'properlyscreened/icons/fleuron.svg',
+        'properlyscreened/icons/blog_events.svg',
+        'properlyscreened/icons/blog_ss.svg',
+        'properlyscreened/icons/blog_celebrations.svg',
+        'properlyscreened/icons/blog_formats.svg',
+        'properlyscreened/icons/blog_theaters.svg',
+        'properlyscreened/icons/blog_photography.svg',
+        'properlyscreened/icons/blog_profile.svg',
+        'properlyscreened/icons/blog_news.svg',
     ]
 
 
