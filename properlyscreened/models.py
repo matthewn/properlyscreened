@@ -633,6 +633,7 @@ class BlogPost(BasePage):
     content_panels = Page.content_panels + [
         FieldPanel('category'),
         FieldPanel('body'),
+        FieldPanel('first_published_at'),
     ]
 
     search_fields = Page.search_fields + [
