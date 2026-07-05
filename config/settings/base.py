@@ -137,6 +137,10 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Provide custom input formats (AM/PM times) for the active locale. Django
+# reads *_INPUT_FORMATS from the locale format module, not from settings.
+FORMAT_MODULE_PATH = ['config.formats']
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
@@ -176,6 +180,10 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 10_000
 # Wagtail settings
 
 WAGTAIL_SITE_NAME = 'Properly Screened'
+# AM/PM time and datetime choosers in the admin (must match a corresponding
+# entry in config/formats/en/formats.py so submitted values parse back).
+WAGTAIL_TIME_FORMAT = '%I:%M %p'
+WAGTAIL_DATETIME_FORMAT = '%Y-%m-%d %I:%M %p'
 WAGTAILEMBEDS_RESPONSIVE_HTML = True
 WAGTAILIMAGES_IMAGE_MODEL = 'properlyscreened.CustomImage'
 WAGTAILIMAGES_INDEX_PAGE_SIZE = 300
