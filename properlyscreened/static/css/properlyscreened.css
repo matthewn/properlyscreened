@@ -700,7 +700,6 @@ body.blogindexpage {
     @media (width < 768px) {
       flex-direction: column;
     }
-    align-items: center;
     display: flex;
     gap: 1.5rem;
     margin-bottom: 2.5rem;
@@ -739,6 +738,16 @@ body.blogindexpage {
       text-transform: uppercase;
     }
   }
+  .image-wrapper {
+    flex-shrink: 0;
+    position: relative;
+    .teaser-image {
+      transition: opacity .1s ease;
+    }
+    &:hover .teaser-image {
+      opacity: .85;
+    }
+  }
   .icon-wrapper {
     flex-shrink: 0;
     margin: 0 .5rem;
@@ -751,6 +760,12 @@ body.blogindexpage {
         width: 8rem;
       }
     }
+  }
+}
+
+body.blogindexpage {
+  .teaser {
+    align-items: center;
   }
 }
 
