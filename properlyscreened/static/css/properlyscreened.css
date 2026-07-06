@@ -1007,3 +1007,40 @@ body.listpage {
 body:not(.homepage) > main .search-message {
   font-family: var(--sans-stack);
 }
+
+.newsletter {
+  margin: 0 auto;
+  max-width: var(--reading-width);
+  .newsletter-intro {
+    font-family: var(--serif-stack);
+  }
+  .newsletter-error {
+    color: var(--darkpurple);
+    font-weight: bold;
+  }
+}
+
+.newsletter-form {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  margin-top: 1.5rem;
+  label {
+    font-family: var(--sans-stack);
+    text-transform: uppercase;
+  }
+  input[type="email"] {
+    font-size: 1.25rem;
+    max-width: 24rem;
+    padding: .5rem;
+    width: 100%;
+  }
+
+  /* honeypot: keep it out of view and out of the layout, but not display:none
+     (some bots skip hidden fields) */
+  .hp-field {
+    left: -5000px;
+    position: absolute;
+  }
+}

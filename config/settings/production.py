@@ -2,6 +2,8 @@ from .base import *
 
 DEBUG = False
 
+WAGTAILADMIN_BASE_URL = 'https://properlyscreened.com'
+
 # Hand outgoing mail to the local msmtp binary, sendmail-style.
 EMAIL_BACKEND = 'properlyscreened.mail.MsmtpEmailBackend'
 DEFAULT_FROM_EMAIL = 'bot@properlyscreened.com'

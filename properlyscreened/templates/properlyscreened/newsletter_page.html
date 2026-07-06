@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags typefixes %}
+
+{% block title %}{{ page.title }}{% endblock %}
+
+{% block main %}
+<div class="wrapper newsletter">
+    <div class="body">
+        {{ page.body|typefixes }}
+    </div>
+
+    {% if error %}<p class="newsletter-error">{{ error }}</p>{% endif %}
+
+    <form action="{{ page.url }}" method="post" class="newsletter-form">
+        {% csrf_token %}
+        <label for="id_email">Email address</label>
+        <input type="email" name="email" id="id_email" required autocomplete="email"
+               value="{{ request.POST.email }}">
+        {# honeypot: hidden from real users; bots tend to fill it #}
+        <div class="hp-field" aria-hidden="true">
+            <label for="id_website">Leave this field blank</label>
+            <input type="text" name="website" id="id_website" tabindex="-1" autocomplete="off">
+        </div>
+        <button type="submit" class="buttonesque">Subscribe</button>
+    </form>
+</div>
+{% endblock %}

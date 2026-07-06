@@ -10,6 +10,7 @@ from wagtail.documents import urls as wagtaildocs_urls
 from wagtailautocomplete.urls.admin import urlpatterns as autocomplete_admin_urls
 
 from properlyscreened.feeds import LatestEntriesFeed
+from properlyscreened import newsletter as newsletter_views
 
 from search import views as search_views
 
@@ -22,6 +23,8 @@ urlpatterns = [
     path('cms/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
     path('search/', search_views.search, name='search'),
+    path('newsletter/check-inbox/', newsletter_views.check_inbox, name='newsletter_check_inbox'),
+    path('newsletter/subscribed/', newsletter_views.subscribed, name='newsletter_subscribed'),
     path('feed/', LatestEntriesFeed(), name='feed'),
     path('robots.txt', TemplateView.as_view(
         template_name='robots.txt', content_type='text/plain')),

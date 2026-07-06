@@ -639,6 +639,48 @@ class FlexiblePage(BasePage):
     ]
 
 
+class NewsletterPage(BasePage):
+    body = StreamField(
+        LoadedStreamBlock(),
+    )
+
+    content_panels = BasePage.content_panels + [
+        FieldPanel('body'),
+    ]
+
+    search_fields = Page.search_fields + [
+        index.SearchField('body'),
+    ]
+
+    parent_page_types = ['properlyscreened.HomePage']
+    subpage_types = []
+    max_count = 1
+
+    def get_context(self, request, error=None):
+        context = super().get_context(request)
+        context['error'] = error
+        return context
+
+    def serve(self, request):
+        from django.shortcuts import redirect
+        from django.template.response import TemplateResponse
+        from .newsletter import process_signup
+
+        error = None
+        if request.method == 'POST':
+            outcome = process_signup(request)
+            if outcome == 'ok':
+                return redirect('newsletter_check_inbox')
+            if outcome == 'exists':
+                return redirect('newsletter_subscribed')
+            error = outcome  # any other value is a user-facing error message
+        return TemplateResponse(
+            request,
+            self.get_template(request),
+            self.get_context(request, error=error),
+        )
+
+
 # ···························································
 # SNIPPETS
 # ···························································

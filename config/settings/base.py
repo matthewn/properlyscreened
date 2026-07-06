@@ -228,3 +228,10 @@ WAGTAILDOCS_MAX_UPLOAD_SIZE = 10 * 1024 * 1024  # 10MB
 # to compute a ReviewPage's display_title`.
 BFI_250_LIST_ID = 39            # BFI 250 Critics' list
 BFI_DIRECTORS_100_LIST_ID = 40  # BFI Directors' 100 list
+
+# Brevo newsletter double opt-in — see properlyscreened/newsletter.py.
+# The real API key is set in local.py (gitignored); '' disables live calls.
+BREVO_API_KEY = ''
+BREVO_LIST_ID = 2
+BREVO_DOI_TEMPLATE_ID = 1
+BREVO_DOI_REDIRECT_URL = 'https://properlyscreened.com/newsletter/subscribed/'
