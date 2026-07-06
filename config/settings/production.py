@@ -2,6 +2,11 @@ from .base import *
 
 DEBUG = False
 
+# Hand outgoing mail to the local msmtp binary, sendmail-style.
+EMAIL_BACKEND = 'properlyscreened.mail.MsmtpEmailBackend'
+DEFAULT_FROM_EMAIL = 'bot@properlyscreened.com'
+SERVER_EMAIL = 'bot@properlyscreened.com'
+
 # ManifestStaticFilesStorage is recommended in production, to prevent
 # outdated JavaScript / CSS assets being served from cache
 # (e.g. after a Wagtail upgrade).
