@@ -81,6 +81,12 @@
                         </li>
                     </ul>
                 </div>
+                {% if newsletter_page %}
+                <div class="footer-cell">
+                    <span class="footer-label">Our Newsletter</span>
+                    <a href="{% pageurl newsletter_page %}">Subscribe</a>
+                </div>
+                {% endif %}
                 <div class="footer-cell">
                     <span class="footer-label">Contact</span>
                     {{ 'properlyscreened@gmail.com'|obfuscate_mailto }}

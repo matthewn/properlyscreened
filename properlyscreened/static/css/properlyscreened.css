@@ -89,16 +89,13 @@ body > footer {
 
   .wrapper {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
   }
-  .footer-cell:first-child {
-    justify-self: end;
-    padding-right: 5.5rem;
+  .footer-cell {
+    padding: 0 3rem;
   }
-  .footer-cell:last-child {
+  .footer-cell:not(:first-child) {
     border-left: 1px solid var(--white);
-    justify-self: start;
-    padding-left: 5.5rem;
   }
 
   @media (width < 768px) {
@@ -106,16 +103,14 @@ body > footer {
     .wrapper {
       grid-template-columns: 1fr;
     }
-    .footer-cell:first-child {
+    .footer-cell {
       justify-self: stretch;
-      padding-bottom: 1.5rem;
-      padding-right: 0;
+      padding: 0;
     }
-    .footer-cell:last-child {
+    .footer-cell:not(:first-child) {
       border-left: none;
-      justify-self: stretch;
       margin-top: 1rem;
-      padding-left: 0;
+      padding-top: 1.5rem;
     }
     .footer-label {
       font-size: 1.25rem;

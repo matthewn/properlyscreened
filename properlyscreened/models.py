@@ -199,6 +199,11 @@ class BasePage(Page):
                 return page.hero_image
         return None
 
+    def get_context(self, request):
+        context = super().get_context(request)
+        context['newsletter_page'] = NewsletterPage.objects.live().public().first()
+        return context
+
     def excerpt(self, max_words=80):
         """
         Return (html, is_truncated): the body's prose cut to `max_words` on a word
