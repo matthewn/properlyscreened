@@ -7,10 +7,7 @@
 <section id="blog-teasers">
     {% for post in blog_posts %}
 
-    <article class="teaser {% cycle 'icon-left' 'icon-right' %}">
-        <div class="icon-wrapper">
-            <span class="category-icon">{% include 'properlyscreened/icons/blog_'|add:post.category|add:'.svg' %}</span>
-        </div>
+    <article class="teaser">
         <div class="text-wrapper">
             <a href="{{ post.url }}">
                 <h3 class="post-title">{{ post.title|typefixes }}</h3>

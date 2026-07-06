@@ -611,27 +611,11 @@ class BlogPost(BasePage):
     parent_page_types = ['properlyscreened.BlogIndexPage']
     subpage_types = []
 
-    class Category(models.TextChoices):
-        # value -> (stored value, label); the matching icon is 'blog_<value>'.
-        EVENTS = 'events', 'Events'
-        SS = 'ss', 'Sight and Sound'
-        CELEBRATIONS = 'celebrations', 'Celebrations and Milestones'
-        FORMATS = 'formats', 'Film formats'
-        THEATERS = 'theaters', 'Theaters'
-        PHOTOGRAPHY = 'photography', 'Photography'
-        PROFILE = 'profile', 'Profiles'
-        NEWS = 'news', 'News'
-
-    category = models.CharField(
-        max_length=16,
-        choices=Category.choices,
-    )
     body = StreamField(
         LoadedStreamBlock(),
     )
 
     content_panels = Page.content_panels + [
-        FieldPanel('category'),
         FieldPanel('body'),
         FieldPanel('first_published_at'),
     ]

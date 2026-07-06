@@ -704,12 +704,6 @@ body.blogindexpage {
     gap: 1.5rem;
     margin-bottom: 2.5rem;
 
-    /* alternate the icon left/right on wider screens; stacks on mobile */
-    @media (width >= 768px) {
-      &.icon-right {
-        flex-direction: row-reverse;
-      }
-    }
     h3.complex-title {
       font-size: 2.15rem;
       line-height: 1.1;
@@ -746,19 +740,6 @@ body.blogindexpage {
     }
     &:hover .teaser-image {
       opacity: .85;
-    }
-  }
-  .icon-wrapper {
-    flex-shrink: 0;
-    margin: 0 .5rem;
-    .category-icon {
-      color: var(--black);
-      display: block;
-      svg {
-        display: block;
-        height: auto;
-        width: 8rem;
-      }
     }
   }
 }
