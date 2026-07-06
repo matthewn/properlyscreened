@@ -10,21 +10,17 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 from pathlib import Path
-
-# True only when config.settings.production is the loaded settings module.
-IS_PRODUCTION = False
 
 PROJECT_DIR = Path(__file__).resolve().parent.parent  # where "settings" lives
 BASE_DIR = PROJECT_DIR.parent
 
+ROOT_URLCONF = 'config.urls'
+WSGI_APPLICATION = 'config.wsgi.application'
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
+# True only when config.settings.production is the loaded settings module
+IS_PRODUCTION = False
 
-
-# Application definition
 
 INSTALLED_APPS = [
     'properlyscreened',
@@ -70,10 +66,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'extlinks.middleware.RewriteExternalLinksMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
 ]
-
-ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
     {
@@ -96,12 +91,9 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -112,7 +104,6 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -131,13 +122,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+TIME_ZONE = 'America/Los_Angeles'
 USE_I18N = True
-
 USE_TZ = True
 
 # Provide custom input formats (AM/PM times) for the active locale. Django
@@ -147,22 +134,20 @@ FORMAT_MODULE_PATH = ['config.formats']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
-
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder',
 ]
-
 # STATICFILES_DIRS = [
 #     PROJECT_DIR / 'static',
 # ]
-
 STATIC_ROOT = BASE_DIR / 'static'
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
+
 
 # Default storage settings
 # See https://docs.djangoproject.com/en/6.0/ref/settings/#std-setting-STORAGES
@@ -175,22 +160,22 @@ STORAGES = {
     },
 }
 
+
 # Django sets a maximum of 1000 fields per form by default, but particularly complex page models
 # can exceed this limit within Wagtail's page editor.
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10_000
 
 
 # Wagtail settings
-
 WAGTAIL_SITE_NAME = 'Properly Screened'
-# AM/PM time and datetime choosers in the admin (must match a corresponding
-# entry in config/formats/en/formats.py so submitted values parse back).
-WAGTAIL_TIME_FORMAT = '%I:%M %p'
-WAGTAIL_DATETIME_FORMAT = '%Y-%m-%d %I:%M %p'
 WAGTAILEMBEDS_RESPONSIVE_HTML = True
 WAGTAILIMAGES_IMAGE_MODEL = 'properlyscreened.CustomImage'
 WAGTAILIMAGES_INDEX_PAGE_SIZE = 300
 WAGTAILMEDIA_MEDIA_MODEL = 'properlyscreened.CustomMedia'
+# AM/PM time and datetime choosers in the admin (must match a corresponding
+# entry in config/formats/en/formats.py so submitted values parse back).
+WAGTAIL_TIME_FORMAT = '%I:%M %p'
+WAGTAIL_DATETIME_FORMAT = '%Y-%m-%d %I:%M %p'
 
 # Search
 # https://docs.wagtail.org/en/stable/topics/search/backends.html
@@ -202,7 +187,7 @@ WAGTAILSEARCH_BACKENDS = {
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
-WAGTAILADMIN_BASE_URL = 'http://example.com'
+WAGTAILADMIN_BASE_URL = 'http://properlyscreened.com'
 
 # Allowed file extensions for documents in the document library.
 # This can be omitted to allow all files, but note that this may present a security risk
@@ -225,12 +210,10 @@ WAGTAILDOCS_EXTENSIONS = [
 WAGTAILDOCS_MAX_UPLOAD_SIZE = 10 * 1024 * 1024  # 10MB
 
 
-# properlyscreened-specific settings
+# extlinks middleware
+EXTLINKS_IGNORE_DOMAINS = ['properlyscreened.com', 'www.properlyscreened.com']
+EXTLINKS_TEMPLATES_WHITELIST = ['properlyscreened']
 
-# Page IDs of the current/active BFI 'List' pages used
-# to compute a ReviewPage's display_title`.
-BFI_250_LIST_ID = 39            # BFI 250 Critics' list
-BFI_DIRECTORS_100_LIST_ID = 40  # BFI Directors' 100 list
 
 # Brevo newsletter double opt-in — see properlyscreened/newsletter.py.
 # The real API key is set in local.py (gitignored); '' disables live calls.
@@ -238,3 +221,11 @@ BREVO_API_KEY = ''
 BREVO_LIST_ID = 2
 BREVO_DOI_TEMPLATE_ID = 1
 BREVO_DOI_REDIRECT_URL = 'https://properlyscreened.com/newsletter/subscribed/'
+
+
+# properlyscreened-specific settings
+
+# Page IDs of the current/active BFI 'List' pages used
+# to compute a ReviewPage's display_title`.
+BFI_250_LIST_ID = 39            # BFI 250 Critics' list
+BFI_DIRECTORS_100_LIST_ID = 40  # BFI Directors' 100 list
