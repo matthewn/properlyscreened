@@ -374,6 +374,11 @@ body.homepage {
     margin: 0 auto;
     max-width: var(--content-max-width);
     padding: 0.75rem;
+    a {
+      --link: var(--purple);
+      --link-hover: var(--darkpurple);
+    }
+
   }
   h2 {
     font-size: 2.5rem;
