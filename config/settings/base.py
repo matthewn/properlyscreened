@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 from pathlib import Path
 
+# True only when config.settings.production is the loaded settings module.
+IS_PRODUCTION = False
+
 PROJECT_DIR = Path(__file__).resolve().parent.parent  # where "settings" lives
 BASE_DIR = PROJECT_DIR.parent
 

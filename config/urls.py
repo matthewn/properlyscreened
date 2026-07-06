@@ -26,8 +26,13 @@ urlpatterns = [
     path('newsletter/check-inbox/', newsletter_views.check_inbox, name='newsletter_check_inbox'),
     path('newsletter/subscribed/', newsletter_views.subscribed, name='newsletter_subscribed'),
     path('feed/', LatestEntriesFeed(), name='feed'),
-    path('robots.txt', TemplateView.as_view(
-        template_name='robots.txt', content_type='text/plain')),
+    path(
+        'robots.txt',
+        TemplateView.as_view(
+            template_name='robots.production.txt' if settings.IS_PRODUCTION else 'robots.dev.txt',
+            content_type='text/plain',
+        )
+    ),
 ]
 
 

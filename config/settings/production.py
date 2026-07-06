@@ -2,6 +2,8 @@ from .base import *
 
 DEBUG = False
 
+IS_PRODUCTION = True
+
 WAGTAILADMIN_BASE_URL = 'https://properlyscreened.com'
 
 # Hand outgoing mail to the local msmtp binary, sendmail-style.
