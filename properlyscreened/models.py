@@ -448,8 +448,7 @@ class ReviewPage(BasePage):
     def display_title(self):
         if self.use_manual_page_title:
             return self.title
-        else:
-            return self.film.title
+        return self.film.title
 
 
 class ListsIndexPage(BasePage):
@@ -797,7 +796,7 @@ class ScreeningManager(models.Manager):
         """
         Screenings whose screening_datetime is still in the future.
         """
-        return self.filter(screening_datetime__gt=timezone.localtime().replace(tzinfo=None)).order_by('screening_datetime')
+        return self.filter(screening_datetime__gt=timezone.now()).order_by('screening_datetime')
 
 
 @register_snippet

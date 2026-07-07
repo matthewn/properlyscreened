@@ -90,7 +90,7 @@ def _excerpt(page, query, radius=30):
 
 
 def search(request):
-    search_query = request.GET.get('query', None)
+    search_query = request.GET.get('query')
     page = request.GET.get('page', 1)
 
     if search_query:
@@ -122,6 +122,6 @@ def search(request):
         {
             'search_query': search_query,
             'search_results': search_results,
-            'hero': home.hero if (home := HomePage.objects.live().first()) else None,
+            'hero': home.hero if (home := HomePage.objects.live().public().first()) else None,
         },
     )

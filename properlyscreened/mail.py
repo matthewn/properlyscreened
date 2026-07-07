@@ -4,7 +4,9 @@ from django.core.mail.backends.base import BaseEmailBackend
 
 
 class MsmtpEmailBackend(BaseEmailBackend):
-    '''Email backend that pipes each message to the local msmtp binary.'''
+    """
+    Email backend that pipes each message to the local msmtp binary.
+    """
 
     def send_messages(self, email_messages):
         sent = 0

@@ -1,5 +1,6 @@
-from django.conf import settings
 import re
+
+from django.conf import settings
 
 
 ignore_domains = getattr(settings, 'EXTLINKS_IGNORE_DOMAINS', ())
@@ -9,7 +10,7 @@ link_regex = re.compile(r'<\s*a[^>]*>')
 ignore_strings = ['://' + domain for domain in ignore_domains]
 
 
-class RewriteExternalLinksMiddleware(object):
+class RewriteExternalLinksMiddleware:
     """
     Rewrite all external links to open in a new tab/window.
     (In which we commit a sin by altering HTML with a regex -- but it's okay! Really!)
