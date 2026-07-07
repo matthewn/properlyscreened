@@ -3,6 +3,8 @@ from .base import *
 DEBUG = False
 
 IS_PRODUCTION = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 
 WAGTAILADMIN_BASE_URL = 'https://properlyscreened.com'
 
