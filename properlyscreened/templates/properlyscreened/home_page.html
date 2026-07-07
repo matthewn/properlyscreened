@@ -10,7 +10,7 @@
     <h1><a href="/"><div>Properly</div><div>Screened</div></a></h1>
     <p class="site-slogan"><span>The greatest films ever made&nbsp;—</span> as they were meant to be seen.</div>
     {% if page.blurb %}<div class="blurb">{{ page.blurb|richtext|typefixes }}</div>{% endif %}
-    {% if page.link_page and page.link_text %}<a class="blurb-link buttonesque" href="{% pageurl page.link_page %}">{{ page.link_text }} &rarr;</a>{% endif %}
+    {% if page.link_page and page.link_text %}<a class="blurb-link buttonesque light" href="{% pageurl page.link_page %}">{{ page.link_text }} &rarr;</a>{% endif %}
 {% endblock %}
 
 {% block page-title-h2 %}{% endblock %}
@@ -42,7 +42,7 @@
         {% endfor %}
     </div>
     <div class="wrapper">
-        <a class="reviews-link buttonesque" href="{% pageurl reviews_index_page %}">See all reviews &rarr;</a>
+        <a class="reviews-link buttonesque light" href="{% pageurl reviews_index_page %}">See all reviews &rarr;</a>
     </div>
 </section>
 {% endif %}

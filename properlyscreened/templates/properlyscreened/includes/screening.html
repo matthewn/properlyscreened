@@ -21,4 +21,4 @@
         <div class="theater-location">{{ screening.theater.location|typefixes_minimal }}</div>
     </div>
 </div>
-<div><a class="tickets buttonesque" href="{{ screening.tickets_link }}">Tickets</a></div>
+<div><a class="tickets buttonesque {{ ticket_class|default:'light' }}" href="{{ screening.tickets_link }}">Tickets</a></div>

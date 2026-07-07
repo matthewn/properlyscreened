@@ -217,6 +217,28 @@ h5 {
   font-size: 1.25rem;
   padding: 1rem;
   text-transform: uppercase;
+  &.dark {
+    --link: var(--white);
+    --link-hover: var(--darkpurple);
+    --link-hover-decoration: none;
+    background-color: var(--darkpurple);
+    color: var(--link);
+    &:hover {
+      background-color: var(--white);
+      color: var(--link-hover);
+    }
+  }
+  &.light {
+    --link: var(--darkpurple);
+    --link-hover: var(--white);
+    --link-hover-decoration: none;
+    background-color: transparent;
+    color: var(--link);
+    &:hover {
+      background-color: var(--darkpurple);
+      color: var(--link-hover);
+    }
+  }
 }
 
 /* a <p>, so out-specify the serif `main p` rule rather than forcing it */
@@ -357,12 +379,10 @@ body.homepage {
         max-width: 30rem;
       }
     }
+
+    /* .buttonesque.light, but light purple text for contrast on the dark hero */
     .blurb-link {
       --link: var(--purple);
-      --link-hover: var(--white);
-      &:hover {
-        background-color: var(--darkpurple);
-      }
     }
   }
   main {
@@ -429,13 +449,10 @@ body.homepage {
       margin: 2rem auto 0;
       max-width: var(--content-max-width);
     }
+
+    /* .buttonesque.light, with a darkpurple border to match its text */
     .reviews-link {
-      --link: var(--darkpurple);
-      --link-hover: var(--white);
-      border: 1px solid var(--darkpurple);
-      &:hover {
-        background-color: var(--darkpurple);
-      }
+      border-color: var(--darkpurple);
     }
   }
   .quotation-wrapper {
@@ -538,19 +555,10 @@ body.screeningspage {
     .director {
       font-size: 1.55rem;
     }
+
     .tickets {
-      background-color: var(--darkpurple);
-      color: var(--white);
       margin-top: 1.5rem;
       padding: .5rem 3rem;
-      &:hover {
-        background-color: var(--white);
-        color: var(--darkpurple);
-        text-decoration: none;
-      }
-      a, a:visited {
-        color: var(--white);
-      }
     }
     .image-wrapper {
       flex-shrink: 0;
@@ -630,11 +638,6 @@ body.screeningspage {
 
     .tickets {
       padding: .5rem 1rem;
-      &:hover {
-        background-color: var(--darkpurple);
-        color: var(--white);
-        text-decoration: none;
-      }
     }
 
     /* stack each listing vertically on narrower viewports */
@@ -756,6 +759,19 @@ body.blogindexpage #blog-teasers {
   max-width: var(--reading-width);
 }
 
+body.reviewpage .wrapper,
+body.blogpost .wrapper {
+  margin: 0 auto;
+  max-width: var(--reading-width);
+}
+
+body.reviewpage .body,
+body.blogpost .body {
+  font-family: var(--serif-stack);
+  font-size: 1.75rem;
+  font-weight: 500;
+}
+
 body.reviewpage {
   #film-image {
     margin: 1.5rem auto 2.5rem;
@@ -774,10 +790,6 @@ body.reviewpage {
         }
       }
     }
-  }
-  .wrapper {
-    margin: 0 auto;
-    max-width: var(--reading-width);
   }
   h2.complex-title {
     letter-spacing: unset;
@@ -802,23 +814,6 @@ body.reviewpage {
     font-size: 1.15rem;
     font-style: italic;
     margin-top: -1rem;
-  }
-  .body {
-    font-family: var(--serif-stack);
-    font-size: 1.75rem;
-    font-weight: 500;
-  }
-}
-
-body.blogpost {
-  .wrapper {
-    margin: 0 auto;
-    max-width: var(--reading-width);
-  }
-  .body {
-    font-family: var(--serif-stack);
-    font-size: 1.75rem;
-    font-weight: 500;
   }
 }
 

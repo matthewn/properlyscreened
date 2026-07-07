@@ -5,9 +5,10 @@ body > header nav {
     padding: 0;
     text-transform: uppercase;
 
-    /* default everywhere: a RIGHT-ALIGNED VERTICAL STACK. Each page opts
-       into a horizontal row at its own breakpoint (interior at 890px,
-       homepage at 1150px), so this stacked look is defined only here. */
+    /* default everywhere: a RIGHT-ALIGNED VERTICAL STACK. Interior pages opt
+       into a horizontal row at 1000px; the homepage instead floats the nav
+       into the header corner at 768px. So this stacked look is defined only
+       here. */
     li {
       font-size: 1.15rem;
       list-style: none;

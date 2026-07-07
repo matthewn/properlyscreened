@@ -20,7 +20,7 @@
                     {% include "properlyscreened/includes/film_ranking.html" with film=screening.film %}
                 </div>
                 <div class="listing-text">
-                    {% include 'properlyscreened/includes/screening.html' %}
+                    {% include 'properlyscreened/includes/screening.html' with ticket_class='dark' %}
                 </div>
             </li>
             {% endif %}
@@ -59,7 +59,7 @@
                 </div>
                 <div class="non-image-wrapper">
                     {% include 'properlyscreened/includes/film_ranking.html' with film=screening.film %}
-                    {% include 'properlyscreened/includes/screening.html' %}
+                    {% include 'properlyscreened/includes/screening.html' with ticket_class='light' %}
                 </div>
             </li>
             {% endif %}
