@@ -1,6 +1,7 @@
 .envrc
 .python-version
 .venv/
+backups/
 /media/
 /private/
 /static/
