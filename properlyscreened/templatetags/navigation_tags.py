@@ -14,6 +14,15 @@ def page_type(page):
     return page.specific_class._meta.model_name
 
 
+@register.filter
+def uses_block(page, block_type):
+    """
+    True if the page's StreamField body has a top-level block of block_type.
+    """
+    body = getattr(page, 'body', None)
+    return bool(body) and any(child.block_type == block_type for child in body)
+
+
 @register.simple_tag(takes_context=True)
 def get_site_root(context):
     # returns a core.Page (not the specific model) - the site's root page

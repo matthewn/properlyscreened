@@ -33,8 +33,14 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/properlyscreened.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/main_nav.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/unpoly.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/vendor/unpoly.min.css' %}">
         {% endcompress %}
+
+        {% if page|uses_block:'slides' %}
+        {% compress css %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/vendor/photoswipe.css' %}">
+        {% endcompress %}
+        {% endif %}
 
         {% block extra_css %}
         {# Override this in templates to add extra stylesheets #}
@@ -98,9 +104,15 @@
         </footer>
 
         {# Global javascript #}
+        {% compress js %}
         <script type="text/javascript" src="{% static 'js/vendor/unpoly.min.js' %}"></script>
-        <script type="text/javascript">up.log.config.banner = false;</script>
         <script type="text/javascript" src="{% static 'js/properlyscreened.js' %}"></script>
+        {% endcompress %}
+
+        {% if page|uses_block:'slides' %}
+        <script type="module" src="{% static 'js/photoswipe-init.js' %}"></script>
+        {% endif %}
+
         <script data-goatcounter="https://properlyscreened.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 
         {% block extra_js %}

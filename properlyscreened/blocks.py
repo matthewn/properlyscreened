@@ -7,6 +7,7 @@ from django.utils.safestring import mark_safe
 from wagtail.blocks import (
     ChoiceBlock,
     IntegerBlock,
+    ListBlock,
     # RawHTMLBlock,
     RichTextBlock,
     StaticBlock,
@@ -88,6 +89,19 @@ class FleuronBlock(StaticBlock):
         return mark_safe(render_to_string('properlyscreened/blocks/fleuron.html'))
 
 
+class SlideBlock(StructBlock):
+    image = ImageChooserBlock()
+    caption = RichTextBlock(required=False, features=['bold', 'italic', 'link'])
+
+
+class SlidesBlock(StructBlock):
+    slides = ListBlock(SlideBlock())
+
+    class Meta:
+        icon = 'image'
+        template = 'properlyscreened/blocks/slides_block.html'
+
+
 class LoadedStreamBlock(StreamBlock):
     rich_text = RichTextBlock(
         features=[
@@ -107,6 +121,7 @@ class LoadedStreamBlock(StreamBlock):
         ],
     )
     image = ImageBlock()
+    slides = SlidesBlock()
     embed = EmbedBlock()
     fleuron = FleuronBlock(
         icon='fleuron',

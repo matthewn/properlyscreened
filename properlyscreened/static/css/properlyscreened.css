@@ -345,6 +345,59 @@ main {
   }
 }
 
+.slides-block {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+  margin: 0 0 1rem;
+  .slide-thumb {
+    img {
+      height: 202px;
+      transition: opacity .1s ease;
+      width: 202px;
+    }
+    &:hover img {
+      opacity: .85;
+    }
+  }
+
+  /* caption markup is surfaced only inside the PhotoSwipe viewer */
+  .pswp-caption-content {
+    display: none;
+  }
+}
+
+/* release PhotoSwipe's image from the global img max-width in reset.css, which
+   would otherwise clamp it during pan/zoom-in */
+.pswp__img {
+  max-width: none;
+}
+
+/* hide PhotoSwipe zoom button */
+.pswp.pswp--zoom-allowed .pswp__button--zoom {
+  display: none;
+}
+
+.pswp__custom-caption:empty {
+  display: none;
+}
+
+.pswp__custom-caption {
+  background-color: rgb(0 0 0 / .7);
+  bottom: 0;
+  color: var(--white);
+  font-size: 1rem;
+  left: 0;
+  padding: .75rem 1rem;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  p {
+    margin: 0;
+  }
+}
+
+
 /***********************************
  * PAGE-SPECIFIC STUFF BEGINS HERE *
  ***********************************/
