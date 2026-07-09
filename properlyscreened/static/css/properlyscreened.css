@@ -1093,3 +1093,17 @@ body:not(.homepage) > main .search-message {
     position: absolute;
   }
 }
+
+/* boilerplate: Wagtail responsive embeds */
+.responsive-object {
+    position: relative;
+}
+.responsive-object iframe,
+.responsive-object object,
+.responsive-object embed {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
