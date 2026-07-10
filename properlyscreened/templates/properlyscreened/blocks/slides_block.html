@@ -2,15 +2,17 @@
 
 <div class="slides-block pswp-gallery">
     {% for slide in value.slides %}
-        {% image slide.image fill-400x400 as thumb %}
-        {% image slide.image width-1600 as full %}
-        <a class="slide-thumb" href="{{ full.url }}"
-           data-pswp-width="{{ full.width }}" data-pswp-height="{{ full.height }}"
-           target="_blank" rel="noreferrer">
-            <img src="{{ thumb.url }}" alt="{{ slide.image.description|default:slide.image.title }}">
-            {% if slide.caption %}
-                <span class="pswp-caption-content">{{ slide.caption|richtext|typefixes }}</span>
-            {% endif %}
-        </a>
+        {% if slide.image %}
+            {% image slide.image fill-400x400 as thumb %}
+            {% image slide.image width-1600 as full %}
+            <a class="slide-thumb" href="{{ full.url }}"
+               data-pswp-width="{{ full.width }}" data-pswp-height="{{ full.height }}"
+               target="_blank" rel="noreferrer">
+                <img src="{{ thumb.url }}" alt="{{ slide.image.description|default:slide.image.title }}">
+                {% if slide.caption %}
+                    <span class="pswp-caption-content">{{ slide.caption|richtext|typefixes }}</span>
+                {% endif %}
+            </a>
+        {% endif %}
     {% endfor %}
 </div>
