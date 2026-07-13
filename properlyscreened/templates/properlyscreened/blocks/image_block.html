@@ -1,8 +1,8 @@
 {% load wagtailimages_tags wagtailcore_tags typefixes %}
 
 <figure
-    {% if value.float == 1 %}class="float left"{% elif value.float == 2 %}class="float right"{% endif %}
-    {% if value.max_width %}style="--max-width: {{ value.max_width }}%;"{% endif %}>
+    class="{% if value.float == 1 %}float left{% elif value.float == 2 %}float right{% endif %}{% if value.max_width|slice:'-2:' == 'px' %}{% if value.float == 1 or value.float == 2 %} {% endif %}px-width{% endif %}"
+    {% if value.max_width %}style="--max-width: {{ value.max_width }};"{% endif %}>
     {% if value.image %}
         {% image value.image width-800 as small_image %}
         {% if value.link %}<a href="{{ value.link }}">{% endif %}

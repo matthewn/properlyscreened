@@ -6,9 +6,9 @@ from django.utils.safestring import mark_safe
 
 from wagtail.blocks import (
     ChoiceBlock,
-    IntegerBlock,
     ListBlock,
     # RawHTMLBlock,
+    RegexBlock,
     RichTextBlock,
     StaticBlock,
     StreamBlock,
@@ -37,11 +37,15 @@ class ImageBlock(StructBlock):
         choices=FloatChoices.choices,
         default=FloatChoices.NONE,
     )
-    max_width = IntegerBlock(
+    max_width = RegexBlock(
         required=False,
-        min_value=1,
-        max_value=100,
-        help_text='Maximum width of the image, floated or not, as a percentage of the container (optional).',
+        regex=r'^\d+(%|px)$',
+        error_messages={
+            'invalid': 'Enter a percentage (e.g. 30%) or a pixel value (e.g. 320px).',
+        },
+        help_text='OPTIONAL: Maximum width of the image, as a percentage '
+                  'of the container (e.g. 30%) or in pixels (e.g. 320px). '
+                  'Percentages only apply to desktop, not mobile.',
     )
 
     class Meta:
