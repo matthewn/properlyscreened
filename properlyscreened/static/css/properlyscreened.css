@@ -866,6 +866,9 @@ body.reviewpage {
     color: var(--grey);
     font-family: var(--sans-stack);
     text-transform: uppercase;
+    @media (width < 768px) {
+      font-size: 1.2rem;
+    }
   }
   .spoiler-warning {
     color: var(--grey);
@@ -873,6 +876,9 @@ body.reviewpage {
     font-size: 1.15rem;
     font-style: italic;
     margin-top: -1rem;
+    @media (width < 768px) {
+      font-size: 1rem;
+    }
   }
 }
 
