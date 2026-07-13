@@ -1,5 +1,10 @@
 {% load navigation_tags wagtailcore_tags %}
 <nav class="site-nav">
+    {# Homepage mobile only: pure-CSS hamburger toggle; the checkbox's :checked state reveals the nav list, hidden on every other viewport via CSS. #}
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" autocomplete="off">
+    <label for="nav-toggle" class="nav-toggle-label" aria-label="Menu">
+        <span class="icon">{% include 'properlyscreened/icons/menu.svg' %}</span>
+    </label>
     <ul>
         {% for menuitem in menuitems %}
         <li {% if menuitem.active %}class="active"{% endif %}>
@@ -8,7 +13,7 @@
         {% endfor %}
         <li class="search-item">
             {# Pure-CSS reveal: the label toggles the hidden checkbox; its :checked state expands the field. #}
-            <input type="checkbox" id="search-toggle" class="search-toggle">
+            <input type="checkbox" id="search-toggle" class="search-toggle" autocomplete="off">
             <form action="{% url 'search' %}" method="get" role="search">
                 <input type="search" name="query" placeholder="Search…" aria-label="Search">
             </form>

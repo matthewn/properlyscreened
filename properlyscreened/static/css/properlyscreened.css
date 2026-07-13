@@ -427,6 +427,16 @@ body.homepage {
       font-size: clamp(6rem, 5.2727rem + 3.6364vw, 8rem);
       padding-bottom: calc((var(--scale) - 1) * 1em);
       padding-top: 5rem;
+      @media (width < 768px) {
+        padding-top: 3.75rem;
+      }
+    }
+
+    /* opening the (mobile) search field needs 1.25rem more room below the nav */
+    @media (width < 768px) {
+      &:has(.search-toggle:checked) h1 {
+        padding-top: 5rem;
+      }
     }
     .site-slogan {
       font-family: var(--serif-stack);

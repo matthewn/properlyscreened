@@ -30,6 +30,19 @@ body:not(.homepage) > header nav li {
   }
 }
 
+/* both toggles are hidden but focusable for keyboard users. The nav-toggle's
+   hamburger label only shows on homepage mobile (below); it's hidden here. */
+.site-nav .nav-toggle,
+.site-nav .search-toggle {
+  height: 0;
+  opacity: 0;
+  position: absolute;
+  width: 0;
+}
+.site-nav .nav-toggle-label {
+  display: none;
+}
+
 body.homepage nav {
   position: relative;
   z-index: 1;
@@ -39,6 +52,40 @@ body.homepage nav {
     top: 2.5rem;
   }
   @media (width < 768px) {
+    /* Stack the hamburger and the nav list in the same grid cell so the nav
+       always reserves the list's height. Toggling swaps which one is visible
+       (via visibility, which keeps its footprint) so the page never shifts. */
+    display: grid;
+
+    .nav-toggle-label,
+    ul {
+      grid-area: 1 / 1;
+    }
+
+    /* tap the hamburger to reveal the nav; collapsed on page load */
+    .nav-toggle-label {
+      cursor: pointer;
+      display: block;
+      place-self: start center;
+      width: max-content;
+    }
+    .nav-toggle-label .icon svg {
+      color: var(--white);
+      display: block;
+      width: 32px;
+    }
+    .nav-toggle-label:hover .icon svg {
+      color: var(--purple);
+    }
+    .nav-toggle:focus-visible ~ .nav-toggle-label .icon svg {
+      outline: 2px solid var(--purple);
+      outline-offset: 3px;
+    }
+
+    /* tapping the hamburger swaps it out for the revealed nav */
+    .nav-toggle:checked ~ .nav-toggle-label {
+      visibility: hidden;
+    }
     ul {
       display: flex;
       flex-wrap: wrap;
@@ -46,6 +93,10 @@ body.homepage nav {
       justify-content: center;
       margin: 0 auto;
       max-width: 25rem;
+      visibility: hidden;
+    }
+    .nav-toggle:checked ~ ul {
+      visibility: visible;
     }
     li {
       flex: 0 0 calc(33.333% - .5rem);  /* three per row; partial rows center */
@@ -63,13 +114,6 @@ body.homepage nav {
 .site-nav .search-item {
   position: relative;
 
-  /* toggle is hidden but focusable for keyboard users */
-  .search-toggle {
-    height: 0;
-    opacity: 0;
-    position: absolute;
-    width: 0;
-  }
   form {
     display: inline-block;
     vertical-align: middle;
@@ -118,7 +162,7 @@ body.homepage nav {
   }
   .search-toggle:checked ~ form input[type='search'] {
     opacity: 1;
-    width: clamp(8rem, 30vw, 14rem);
+    width: clamp(12rem, 30vw, 14rem);
   }
   form {
     position: absolute;
