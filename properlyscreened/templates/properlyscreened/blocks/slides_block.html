@@ -1,14 +1,14 @@
 {% load wagtailimages_tags wagtailcore_tags typefixes %}
+{# thumb renders at 100vw on mobile, 202px on desktop; browser picks the rendition #}
 
 <div class="slides-block pswp-gallery">
     {% for slide in value.slides %}
         {% if slide.image %}
-            {% image slide.image fill-400x400 as thumb %}
             {% image slide.image width-1600 as full %}
             <a class="slide-thumb" href="{{ full.url }}"
                data-pswp-width="{{ full.width }}" data-pswp-height="{{ full.height }}"
                target="_blank" rel="noreferrer">
-                <img src="{{ thumb.url }}" alt="{{ slide.image.description|default:slide.image.title }}">
+                {% srcset_image slide.image fill-{400x400,800x800} sizes="(width < 768px) 100vw, 202px" alt=slide.image.description|default:slide.image.title %}
                 {% if slide.caption %}
                     <span class="pswp-caption-content">{{ slide.caption|richtext|typefixes }}</span>
                 {% endif %}

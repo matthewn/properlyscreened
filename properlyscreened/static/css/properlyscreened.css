@@ -357,10 +357,17 @@ main {
   gap: .75rem;
   margin: 0 0 1rem;
   .slide-thumb {
+    @media (width < 768px) {
+      flex: 1 1 100%;
+    }
     img {
       height: 202px;
       transition: opacity .1s ease;
       width: 202px;
+      @media (width < 768px) {
+        height: auto;
+        width: 100%;
+      }
     }
     &:hover img {
       opacity: .85;
@@ -1118,4 +1125,8 @@ body:not(.homepage) > main .search-message {
     position: absolute;
     top: 0;
     width: 100%;
+}
+
+.pswp__custom-caption {
+  text-wrap: balance;
 }
