@@ -3,7 +3,7 @@ from properlyscreened.templatetags.text_tags import (
     optional_the,
     shy_directors,
 )
-from properlyscreened.templatetags.typefixes import ddyears
+from properlyscreened.templatetags.typefixes import ddyears, typefixes
 
 
 class TestOptionalThe:
@@ -42,3 +42,10 @@ class TestDdyears:
 
     def test_leaves_other_apostrophes_alone(self):
         assert ddyears("it's fine") == "it's fine"
+
+
+class TestTypefixes:
+    def test_possessive_after_link_gets_closing_quote(self):
+        result = typefixes('<a href="/x/">Hitchcock</a>\'s film')
+        assert '&#8217;s' in result
+        assert '&#8216;' not in result

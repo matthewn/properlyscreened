@@ -25,6 +25,9 @@ def typefixes(text):
     text = text.replace('&#x27;', "'")
 
     text = typogrify(text)
+    # smartypants wrongly opens a quote when a possessive/contraction follows a
+    # closing tag (e.g. </a>'s); flip it back to a closing quote
+    text = re.sub(r'(</[a-z]+>)&#8216;', r'\g<1>&#8217;', text)
     text = ddyears(text)
     return mark_safe(text)
 
