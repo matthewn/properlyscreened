@@ -654,7 +654,7 @@ body.screeningspage {
       align-items: center;
       display: grid;
       gap: 1.25rem 2rem;
-      grid-template-columns: max-content max-content minmax(0, 20rem) max-content minmax(0, 13rem) auto;  /* image, ranking, title/director, time/date, theater/location, tickets */
+      grid-template-columns: max-content min-content minmax(1rem, 20rem) max-content minmax(0, 13rem) auto;  /* image, ranking, title/director, time/date, theater/location, tickets */
     }
 
     /* let each row's cells participate directly in the shared grid tracks */
