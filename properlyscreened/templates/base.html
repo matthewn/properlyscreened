@@ -50,7 +50,7 @@
     </head>
 
     {% now 'n' as current_month %}
-    <body class="{{ page|page_type }}"{% if request.GET.october == '1' or current_month == '10' %} style="--numbers-stack: 'Rubik Wet Paint', sans-serif;"{% endif %}>
+    <body class="{{ page|page_type }}{% block body_class %}{% endblock %}"{% if request.GET.october == '1' or current_month == '10' %} style="--numbers-stack: 'Rubik Wet Paint', sans-serif;"{% endif %}>
         {% if page.hero %}
             <div id="hero-wrapper">{% image page.hero original id="hero-image" %}</div>
         {% elif hero %}

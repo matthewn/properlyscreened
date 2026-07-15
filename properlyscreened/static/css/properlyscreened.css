@@ -1141,3 +1141,16 @@ body:not(.homepage) > main .search-message {
 .pswp__custom-caption {
   text-wrap: balance;
 }
+
+body.template-404 > main {
+  background-color: transparent;
+  color: var(--white);
+  text-align: center;
+  img {
+    width: 100%;
+  }
+  p {
+    font-family: var(--sans-stack);
+    margin-top: 1.5rem;
+  }
+}

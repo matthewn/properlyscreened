@@ -1,11 +1,21 @@
 {% extends "base.html" %}
+{% load wagtailimages_tags image_tags %}
 
 {% block title %}Page not found{% endblock %}
 
 {% block body_class %}template-404{% endblock %}
 
-{% block content %}
-<h1>Page not found</h1>
+{% block page-title-h2 %}{% endblock %}
 
-<h2>Sorry, this page could not be found.</h2>
+{% block main %}
+
+    <h2>Page not found</h2>
+
+    {% image_by_id 82 as not_found_image %}
+    {% if not_found_image %}
+        {% srcset_image not_found_image width-{600,1200} sizes="(min-width: 1200px) 1136px, calc(100vw - 4rem)" alt=not_found_image.description|default:not_found_image.title %}
+    {% endif %}
+
+    <p>You’d think it would be around here somewhere...</p>
+
 {% endblock %}
