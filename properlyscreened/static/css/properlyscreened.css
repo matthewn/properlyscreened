@@ -1142,7 +1142,9 @@ body:not(.homepage) > main .search-message {
   text-wrap: balance;
 }
 
-body.template-404 > main {
+body.template-404 > main,
+body.template-403 > main,
+body.template-500 > main {
   background-color: transparent;
   color: var(--white);
   text-align: center;

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load wagtailimages_tags image_tags %}
+
+{% block title %}Forbidden{% endblock %}
+
+{% block body_class %}template-403{% endblock %}
+
+{% block page-title-h2 %}{% endblock %}
+
+{% block main %}
+
+    <h2>Forbidden</h2>
+
+    {% image_by_id 84 as forbidden_image %}
+    {% if forbidden_image %}
+        {% srcset_image forbidden_image width-{600,1200} sizes="(min-width: 1200px) 1136px, calc(100vw - 4rem)" alt=forbidden_image.description|default:forbidden_image.title %}
+    {% endif %}
+
+    <p>You just can’t go there.</p>
+
+{% endblock %}

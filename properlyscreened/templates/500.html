@@ -1,13 +1,21 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-    <head>
-        <meta charset="utf-8" />
-        <title>Internal server error</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-    </head>
-    <body>
-        <h1>Internal server error</h1>
+{% extends "base.html" %}
+{% load wagtailimages_tags image_tags %}
 
-        <h2>Sorry, there seems to be an error. Please try again soon.</h2>
-    </body>
-</html>
+{% block title %}Internal Server Error{% endblock %}
+
+{% block body_class %}template-500{% endblock %}
+
+{% block page-title-h2 %}{% endblock %}
+
+{% block main %}
+
+    <h2>Internal Server Error</h2>
+
+    {% image_by_id 83 as error_image %}
+    {% if error_image %}
+        {% srcset_image error_image width-{600,1200} sizes="(min-width: 1200px) 1136px, calc(100vw - 4rem)" alt=error_image.description|default:error_image.title %}
+    {% endif %}
+
+    <p>Oh no. The website broke.</p>
+
+{% endblock %}

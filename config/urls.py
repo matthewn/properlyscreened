@@ -14,6 +14,10 @@ from properlyscreened import newsletter as newsletter_views
 
 from search import views as search_views
 
+from properlyscreened import views as error_views
+
+handler500 = 'properlyscreened.views.handler500'
+
 urlpatterns = [
     path('dja/', admin.site.urls),
     # Must precede the `cms/` Wagtail admin include below. The autocomplete
@@ -33,8 +37,17 @@ urlpatterns = [
             content_type='text/plain',
         )
     ),
+    path('force403/', error_views.force403),
+    path('force500/', error_views.force500),
 ]
 
+# for testing error pages on dev
+# import re
+# from django.views.static import serve
+# from django.urls import re_path
+# urlpatterns += [
+#     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+# ]
 
 if settings.DEBUG:
     from django.conf.urls.static import static
