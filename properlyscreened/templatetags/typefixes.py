@@ -11,7 +11,9 @@ register = template.Library()
 @register.filter(is_safe=True)
 @stringfilter
 def ddyears(value):
-    """ Fix apostrophes before alumni year. """
+    """
+    Fix apostrophes before double-digit year.
+    """
     regex = re.compile(" ('|‘|&#8216;)(\\d\\d)")
     value = regex.sub(' ’\\g<2>', value)
     return value
