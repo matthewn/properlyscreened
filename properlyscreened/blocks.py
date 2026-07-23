@@ -41,7 +41,7 @@ class ImageBlock(StructBlock):
         required=False,
         regex=r'^\d+(%|px)$',
         error_messages={
-            'invalid': 'Enter a percentage (e.g. 30%) or a pixel value (e.g. 320px).',
+            'invalid': 'Enter a percentage (e.g. 30%%) or a pixel value (e.g. 320px).',
         },
         help_text='OPTIONAL: Maximum width of the image, as a percentage '
                   'of the container (e.g. 30%) or in pixels (e.g. 320px). '
