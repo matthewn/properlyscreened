@@ -35,10 +35,10 @@
             </div>
             {% endif %}
             <h3 class="complex-title">
-                <span class="title">{{ review.display_title }}</span>
-                <span class="director">({{ review.film.director_short }})</span>
+                <span class="title">{{ review.display_title|typefixes_minimal }}</span>
+                <span class="director">({{ review.film.director_short|typefixes_minimal }})</span>
                 <span class="atthe">at {{ review.theater.name|optional_the }} </span>
-                <span class="theater-name">{{ review.theater.name }}</span>
+                <span class="theater-name">{{ review.theater.name|typefixes_minimal }}</span>
             </h3>
         </a>
         {% endfor %}
