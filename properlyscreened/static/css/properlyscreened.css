@@ -829,6 +829,27 @@ body.blogindexpage {
   .teaser {
     align-items: center;
   }
+  .teaser-body {
+    overflow: hidden;  /* contain the floated promo image */
+  }
+  .image-wrapper {
+    float: right;
+    margin: 1.5rem 0 1rem 1.5rem;
+    @media (width < 768px) {
+      float: none;
+      margin: 0 0 1rem;
+      width: 100%;
+    }
+  }
+  .image-wrapper .teaser-image {
+    aspect-ratio: 1;
+    height: auto;
+    object-fit: cover;
+    width: 200px;
+    @media (width < 768px) {
+      width: 100%;
+    }
+  }
 }
 
 body.blogindexpage #blog-teasers {

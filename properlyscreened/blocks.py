@@ -5,6 +5,7 @@ from django.utils.html import format_html, format_html_join
 from django.utils.safestring import mark_safe
 
 from wagtail.blocks import (
+    BooleanBlock,
     ChoiceBlock,
     ListBlock,
     # RawHTMLBlock,
@@ -53,6 +54,25 @@ class ImageBlock(StructBlock):
         template = 'properlyscreened/blocks/image_block.html'
 
 
+def is_promo_block():
+    """
+    The blog-only flag marking an image as a blog index teaser thumbnail.
+    """
+    return BooleanBlock(
+        required=False,
+        label='Use this image in blog index teasers',
+        # hook for the checkbox-left-of-label rule in wagtail_admin.css
+        form_classname='promo-checkbox',
+    )
+
+
+class PromoImageBlock(ImageBlock):
+    """
+    An ImageBlock that can be flagged for use as a blog index teaser thumbnail.
+    """
+    is_promo = is_promo_block()
+
+
 class MediaBlock(AbstractMediaChooserBlock):
     def render_basic(self, value, context=None):
         if not value:
@@ -87,7 +107,6 @@ class FleuronBlock(StaticBlock):
     """
     A fieldless ornament; renders the actual fleuron in the admin too.
     """
-
     def get_admin_text(self):
         # a SafeString makes the telepath adapter render it as HTML, not text
         return mark_safe(render_to_string('properlyscreened/blocks/fleuron.html'))
@@ -104,6 +123,17 @@ class SlidesBlock(StructBlock):
     class Meta:
         icon = 'image'
         template = 'properlyscreened/blocks/slides_block.html'
+
+
+class PromoSlideBlock(SlideBlock):
+    """
+    A SlideBlock that can be flagged for use as a blog index teaser thumbnail.
+    """
+    is_promo = is_promo_block()
+
+
+class PromoSlidesBlock(SlidesBlock):
+    slides = ListBlock(PromoSlideBlock())
 
 
 class LoadedStreamBlock(StreamBlock):
@@ -135,3 +165,11 @@ class LoadedStreamBlock(StreamBlock):
     # media = MediaBlock(icon='media')
     # raw_HTML = RawHTMLBlock(required=False)
     # danger = RawHTMLBlock(label='DANGER!', required=False)
+
+
+class BlogStreamBlock(LoadedStreamBlock):
+    """
+    The blog-only stream: its image and slide blocks carry the is_promo flag.
+    """
+    image = PromoImageBlock()
+    slides = PromoSlidesBlock()

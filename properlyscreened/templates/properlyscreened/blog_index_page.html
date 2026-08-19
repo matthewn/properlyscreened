@@ -14,6 +14,13 @@
             </a>
             <p class="date-published">{{ post.first_published_at|date:"F j, Y" }}</p>
             <div class="teaser-body">
+                {% if post.promo_image %}
+                <div class="image-wrapper">
+                    <a href="{{ post.url }}">
+                    {% srcset_image post.promo_image fill-{400x400,800x800} sizes="(max-width: 767px) calc(100vw - 3rem), 200px" class="teaser-image" loading="lazy" %}
+                    </a>
+                </div>
+                {% endif %}
                 <p>
                     {{ post.teaser|typefixes }}{% if post.is_truncated %}...{% endif %}
                     <div class="readmore"><a href="{{ post.url }}">read&nbsp;more &rarr;</a></div>

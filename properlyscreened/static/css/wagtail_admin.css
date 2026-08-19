@@ -16,3 +16,25 @@
     width: 20rem;
   }
 }
+
+/* put the is_promo checkbox to the left of its label, instead of Wagtail's
+   default label-above-input stacking. the label is a sibling of the field
+   wrapper, both inside the struct block's [data-contentpath] div. */
+[data-contentpath]:has(.promo-checkbox) {
+  align-items: center;
+  display: flex;
+  flex-direction: row-reverse;
+  gap: .5rem;
+  justify-content: flex-end;
+  .w-field__label {
+    margin-bottom: 0;
+  }
+  .w-field__wrapper {
+    flex: 0 0 auto;
+  }
+  /* the wrapper's empty errors/help divs ride above the input; nudge the
+     checkbox back down onto the label's baseline */
+  .promo-checkbox input {
+    margin-top: 10px;
+  }
+}

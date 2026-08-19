@@ -35,7 +35,7 @@ from wagtailautocomplete.edit_handlers import AutocompletePanel
 
 from wagtailmedia.models import Media, AbstractMedia
 
-from .blocks import LoadedStreamBlock
+from .blocks import BlogStreamBlock, LoadedStreamBlock
 
 
 def _sort_key(value):
@@ -611,8 +611,23 @@ class BlogPost(BasePage):
     subpage_types = []
 
     body = StreamField(
-        LoadedStreamBlock(),
+        BlogStreamBlock(),
     )
+
+    @property
+    def promo_image(self):
+        """
+        The image from the first image or slide flagged is_promo, if any.
+        """
+        for block in self.body:
+            if block.block_type == 'image':
+                if block.value.get('is_promo'):
+                    return block.value['image']
+            elif block.block_type == 'slides':
+                for slide in block.value['slides']:
+                    if slide.get('is_promo'):
+                        return slide['image']
+        return None
 
     content_panels = Page.content_panels + [
         FieldPanel('body'),
