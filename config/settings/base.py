@@ -178,6 +178,11 @@ WAGTAILMEDIA_MEDIA_MODEL = 'properlyscreened.CustomMedia'
 WAGTAIL_TIME_FORMAT = '%I:%M %p'
 WAGTAIL_DATETIME_FORMAT = '%Y-%m-%d %I:%M %p'
 
+# Wagtail's own Page/Collection managers don't subclass MP_NodeManager, so
+# treebeard warns about them on every management command. Nothing we can fix
+# here; drop this once Wagtail ships managers that satisfy the check.
+SILENCED_SYSTEM_CHECKS = ['treebeard.E001']
+
 # Search
 # https://docs.wagtail.org/en/stable/topics/search/backends.html
 WAGTAILSEARCH_BACKENDS = {
