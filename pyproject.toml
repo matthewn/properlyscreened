@@ -20,6 +20,7 @@ dependencies = [
 [dependency-groups]
 dev = [
     "django-browser-reload>=1.21.0",
+    "django-upgrade>=1.32.0",
     "pytest>=9.1.1",
     "pytest-django>=4.12.0",
 ]
