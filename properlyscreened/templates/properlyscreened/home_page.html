@@ -27,20 +27,7 @@
     <h2>Recent Reviews</h2>
     <div class="recent-reviews-grid">
         {% for review in review_teasers|slice:":9" %}
-        <a class="recent-review" href="{{ review.url }}">
-            {% if review.film.image %}
-            <div class="image-wrapper">
-                {% srcset_image review.film.image fill-{415x255,830x510} sizes="(min-width: 1200px) 384px, (min-width: 768px) 33vw, calc(100vw - 1.5rem)" class="recent-review-image" %}
-                {% include "properlyscreened/includes/film_ranking.html" with film=review.film %}
-            </div>
-            {% endif %}
-            <h3 class="complex-title">
-                <span class="title">{{ review.display_title|typefixes_minimal }}</span>
-                <span class="director">({{ review.film.director_short|typefixes_minimal }})</span>
-                <span class="atthe">at {{ review.theater.name|optional_the }} </span>
-                <span class="theater-name">{{ review.theater.name|typefixes_minimal }}</span>
-            </h3>
-        </a>
+        {% include "properlyscreened/includes/recent_review_card.html" with film=review.film title=review.display_title theater=review.theater url=review.url %}
         {% endfor %}
     </div>
     <div class="wrapper">

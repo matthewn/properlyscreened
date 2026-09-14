@@ -1,0 +1,17 @@
+{% load wagtailimages_tags text_tags typefixes %}
+<a class="recent-review"{% if url %} href="{{ url }}"{% endif %}>
+    {% if film.image %}
+    <div class="image-wrapper">
+        {% srcset_image film.image fill-{415x255,830x510} sizes="(min-width: 1200px) 384px, (min-width: 768px) 33vw, calc(100vw - 1.5rem)" class="recent-review-image" %}
+        {% include "properlyscreened/includes/film_ranking.html" with film=film %}
+    </div>
+    {% endif %}
+    <h3 class="complex-title">
+        <span class="title">{{ title|typefixes_minimal }}</span>
+        <span class="director">({{ film.director_short|typefixes_minimal }})</span>
+        {% if theater %}
+        <span class="atthe">at {{ theater.name|optional_the }} </span>
+        <span class="theater-name">{{ theater.name|typefixes_minimal }}</span>
+        {% endif %}
+    </h3>
+</a>

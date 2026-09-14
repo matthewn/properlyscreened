@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}{{ film.title }}{% endblock %}
+
+{# The Recent Reviews styles are all nested under body.homepage, so the
+   preview has to claim that class to pick them up. #}
+{% block body_class %}homepage{% endblock %}
+
+{% block extra_css %}
+<style>
+    body.homepage {
+        background-color: var(--white);
+        #recent-reviews {
+            margin: 0;
+            padding: 0;
+            .recent-reviews-grid {
+                grid-template-columns: 384px;
+                justify-content: center;
+            }
+        }
+    }
+</style>
+{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block content %}
+<main>
+    <section id="recent-reviews">
+        <div class="recent-reviews-grid">
+            {% include "properlyscreened/includes/recent_review_card.html" with film=film title=film.title url=url %}
+        </div>
+    </section>
+</main>
+{% endblock %}
+
+{% block footer %}{% endblock %}

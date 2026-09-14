@@ -25,7 +25,7 @@ from taggit.models import Tag, TaggedItemBase
 from wagtail.admin.panels import FieldPanel, FieldRowPanel, InlinePanel, TitleFieldPanel
 from wagtail.contrib.routable_page.models import RoutablePageMixin, path
 from wagtail.fields import RichTextField, StreamField
-from wagtail.models import Page, RevisionMixin
+from wagtail.models import Page, PreviewableMixin, RevisionMixin
 from wagtail.search import index
 from wagtail.images import get_image_model_string
 from wagtail.images.models import Image, AbstractImage, AbstractRendition
@@ -700,7 +700,7 @@ class NewsletterPage(BasePage):
 # ···························································
 
 # this snippet gets registered in wagtail_hooks.py
-class Film(index.Indexed, RevisionMixin, ClusterableModel):
+class Film(index.Indexed, PreviewableMixin, RevisionMixin, ClusterableModel):
     title = models.CharField(max_length=128)
     year = models.CharField(max_length=16, verbose_name='Year(s)')
     director = models.CharField(max_length=128, verbose_name='Director(s)')
@@ -744,6 +744,27 @@ class Film(index.Indexed, RevisionMixin, ClusterableModel):
     @property
     def revisions(self):
         return self._revisions
+
+    @property
+    def preview_sizes(self):
+        # A single size, narrow enough that Wagtail renders the preview iframe
+        # unscaled, so the card appears at its true home page dimensions.
+        return [{
+            'name': 'card',
+            'icon': 'desktop',
+            'device_width': 420,
+            'label': 'Preview',
+        }]
+
+    def get_preview_template(self, request, mode_name):
+        return 'properlyscreened/previews/film_preview.html'
+
+    def get_preview_context(self, request, mode_name):
+        review = self.reviews.live().order_by('-date_screened', '-id').first()
+        return {
+            'film': self,
+            'url': review.get_url(request) if review else None,
+        }
 
     @property
     def ranking(self):
